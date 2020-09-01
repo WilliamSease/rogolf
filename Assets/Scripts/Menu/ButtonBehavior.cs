@@ -7,30 +7,65 @@ using System.Diagnostics;
 
 public class ButtonBehavior : MonoBehaviour
 {
-    public Button buttonOne;
-    public InputField inField;
+    public Button button_1;
+    public Button button_2;
+    public Button button_3;
+    public Button button_4;
+    public Button button_5;
+    public Button button_6;
+    public Button button_7;
+    public Button button_8;
+    public Button button_9;
 
     // Start is called before the first frame update
     void Start()
     {
-        Button btn = buttonOne.GetComponent<Button>();
-        btn.onClick.AddListener(taskOne);
-
+        button_1.GetComponent<Button>().onClick.AddListener(task_1);
+        button_2.GetComponent<Button>().onClick.AddListener(task_2);
+        button_3.GetComponent<Button>().onClick.AddListener(task_3);
+        button_4.GetComponent<Button>().onClick.AddListener(task_4);
+        button_5.GetComponent<Button>().onClick.AddListener(task_5);
+        button_6.GetComponent<Button>().onClick.AddListener(task_6);
+        button_7.GetComponent<Button>().onClick.AddListener(task_7);
+        button_8.GetComponent<Button>().onClick.AddListener(task_8);
+        button_9.GetComponent<Button>().onClick.AddListener(task_9);
     }
 
-    void taskOne()
+    void task_1()
     {
-        PlayerPrefs.SetString("key", inField.text);
-        SceneManager.LoadScene("SampleScene");
+        UnityEngine.Debug.Log("Playing rogolf...");
     }
 
-    void taskTwo()
+    void task_2()
     {
-        UnityEngine.Debug.Log("Eat shit.");
+        UnityEngine.Debug.Log("Playing golf...");
     }
 
-    void taskThree()
+    void task_3()
     {
-        UnityEngine.Debug.Log("No.");
+    }
+
+    void task_4()
+    {
+    }
+
+    void task_5()
+    {
+    }
+
+    void task_6()
+    {
+    }
+
+    void task_7()
+    {
+    }
+
+    void task_8()
+    {
+    }
+
+    void task_9()
+    {
     }
 }
