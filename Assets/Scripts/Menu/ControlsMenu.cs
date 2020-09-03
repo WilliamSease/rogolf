@@ -23,6 +23,8 @@ public class ControlsMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (thisMenu.enabled)
+            thisMenu.enabled = false;
         button_1.GetComponent<Button>().onClick.AddListener(task_1);
         button_2.GetComponent<Button>().onClick.AddListener(task_2);
         button_3.GetComponent<Button>().onClick.AddListener(task_3);
@@ -32,12 +34,11 @@ public class ControlsMenu : MonoBehaviour
         button_7.GetComponent<Button>().onClick.AddListener(task_7);
         button_8.GetComponent<Button>().onClick.AddListener(task_8);
         button_9.GetComponent<Button>().onClick.AddListener(task_9);
-        thisMenu.enabled = false;
     }
 
     void task_1()
     {
-        UnityEngine.Debug.Log("Back to main...");
+        //UnityEngine.Debug.Log("Back to main...");
         thisMenu.enabled = false;
         mainMenu.enabled = true;
     }

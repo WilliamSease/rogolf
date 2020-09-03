@@ -5,10 +5,9 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Diagnostics;
 
-public class OptionsMenu : MonoBehaviour
+public class PauseMenu : MonoBehaviour
 {
     public Canvas thisMenu;
-    public Canvas mainMenu;
 
     public Button button_1;
     public Button button_2;
@@ -23,7 +22,7 @@ public class OptionsMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (thisMenu.enabled)
+        if (thisMenu.enabled) 
             thisMenu.enabled = false;
         button_1.GetComponent<Button>().onClick.AddListener(task_1);
         button_2.GetComponent<Button>().onClick.AddListener(task_2);
@@ -36,11 +35,17 @@ public class OptionsMenu : MonoBehaviour
         button_9.GetComponent<Button>().onClick.AddListener(task_9);
     }
 
+    void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            Time.timeScale = (Time.timeScale == 0) ? 1 : 0;
+            thisMenu.enabled = !thisMenu.enabled;
+        }
+    }
+
     void task_1()
     {
-        //UnityEngine.Debug.Log("Back to main...");
-        thisMenu.enabled = false;
-        mainMenu.enabled = true;
     }
 
     void task_2()
@@ -52,7 +57,7 @@ public class OptionsMenu : MonoBehaviour
     }
 
     void task_4()
-    {
+    {       
     }
 
     void task_5()
