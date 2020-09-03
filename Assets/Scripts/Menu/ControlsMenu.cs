@@ -5,11 +5,10 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Diagnostics;
 
-public class MainMenu : MonoBehaviour
+public class ControlsMenu : MonoBehaviour
 {
     public Canvas thisMenu;
-    public Canvas optionsMenu;
-    public Canvas controlsMenu;
+    public Canvas mainMenu;
 
     public Button button_1;
     public Button button_2;
@@ -21,13 +20,9 @@ public class MainMenu : MonoBehaviour
     public Button button_8;
     public Button button_9;
 
-    int activeCharacter = 0;
-    public Text characterSel;
-
     // Start is called before the first frame update
     void Start()
     {
-        loadState();
         button_1.GetComponent<Button>().onClick.AddListener(task_1);
         button_2.GetComponent<Button>().onClick.AddListener(task_2);
         button_3.GetComponent<Button>().onClick.AddListener(task_3);
@@ -37,52 +32,38 @@ public class MainMenu : MonoBehaviour
         button_7.GetComponent<Button>().onClick.AddListener(task_7);
         button_8.GetComponent<Button>().onClick.AddListener(task_8);
         button_9.GetComponent<Button>().onClick.AddListener(task_9);
+        thisMenu.enabled = false;
     }
 
     void task_1()
     {
-        UnityEngine.Debug.Log("Playing rogolf...");
-        saveState();
+        UnityEngine.Debug.Log("Back to main...");
+        thisMenu.enabled = false;
+        mainMenu.enabled = true;
     }
 
     void task_2()
     {
-        UnityEngine.Debug.Log("Playing golf...");
-        saveState();
     }
 
     void task_3()
     {
-        activeCharacter--;
-        if (activeCharacter < 0) activeCharacter = 0;
-        characterSel.text = "Placeholder Char " + activeCharacter; 
     }
 
     void task_4()
     {
-        activeCharacter++;
-        characterSel.text = "Placeholder Char " + activeCharacter;
     }
 
     void task_5()
     {
-        UnityEngine.Debug.Log("Kicking to options menu...");
-        saveState();
-        thisMenu.enabled = false;
-        optionsMenu.enabled = true;
     }
 
     void task_6()
     {
-        UnityEngine.Debug.Log("Kicking to controls menu...");
-        saveState();
-        thisMenu.enabled = false;
-        controlsMenu.enabled = true;
     }
 
     void task_7()
     {
-        Application.Quit();
     }
 
     void task_8()
@@ -91,14 +72,5 @@ public class MainMenu : MonoBehaviour
 
     void task_9()
     {
-    }
-
-    void loadState()
-    {
-        activeCharacter = PlayerPrefs.GetInt("activeCharacter");
-    }
-    void saveState()
-    {
-        PlayerPrefs.SetInt("activeCharacter", activeCharacter);
     }
 }
