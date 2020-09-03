@@ -5,6 +5,13 @@ public class Game : MonoBehaviour
     // GameObject objects
     public GameObject ball;
 
+    // GAME OBJECT (not GameObject)
+    //public Powerbar powerbar;
+
+    // Persistent game objects
+    private HoleBag holeBag;
+    private ItemBag itemBag;
+
     // Other game objects (that aren't game objects)
     public State state;
     public InputController inputController;
@@ -53,4 +60,9 @@ public class Game : MonoBehaviour
         this.state = state;
         this.state.OnStateEnter();
     }
+
+    public int GetStrokes() { return strokes; }
+
+    public void SetHoleBag(HoleBag holeBag) { this.holeBag = holeBag; }
+    public void SetItemBag(ItemBag itemBag) { this.itemBag = itemBag; }
 }

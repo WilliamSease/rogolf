@@ -27,43 +27,18 @@ public class PlayerAttributes
         this.spin = spin;
     }
 
-    public double getPower()
-    {
-        return power;
-    }
+    public double GetPower() { return power; }
+    public double GetControl() { return control; }
+    public double GetImpact() { return impact; }
+    public double GetSpin() { return spin; }
 
-    public double getControl()
-    {
-        return control;
-    }
+    public void SetPower(double power) { this.power = power; }
+    public void SetControl(double control) { this.control = control; }
+    public void SetImpact(double impact) { this.impact = impact; }
+    public void SetSpin(double spin) { this.spin = spin; }
 
-    public double getImpact()
-    {
-        return impact;
-    }
-
-    public double getSpin()
-    {
-        return spin;
-    }
-
-    public void setPower(double power)
-    {
-        this.power = power;
-    }
-
-    public void setControl(double control)
-    {
-        this.control = control;
-    }
-
-    public void setImpact(double impact)
-    {
-        this.impact = impact;
-    }
-
-    public void setSpin(double spin)
-    {
-        this.spin = spin;
-    }
+    public void IncreasePower(double increase) { this.power += increase; }
+    public void IncreaseContro(double increase) { this.control += increase; }
+    public void IncreaseImpact(double increase) { this.impact += increase; }
+    public void IncreaseSpin(double increase) { this.spin += increase; }
 }
