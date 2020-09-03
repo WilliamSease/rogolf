@@ -7,6 +7,10 @@ using System.Diagnostics;
 
 public class MainMenu : MonoBehaviour
 {
+    public Canvas thisMenu;
+    public Canvas optionsMenu;
+    public Canvas controlsMenu;
+
     public Button button_1;
     public Button button_2;
     public Button button_3;
@@ -33,6 +37,8 @@ public class MainMenu : MonoBehaviour
         button_7.GetComponent<Button>().onClick.AddListener(task_7);
         button_8.GetComponent<Button>().onClick.AddListener(task_8);
         button_9.GetComponent<Button>().onClick.AddListener(task_9);
+        optionsMenu.enabled = false;
+        controlsMenu.enabled = false;
     }
 
     void task_1()
@@ -51,7 +57,7 @@ public class MainMenu : MonoBehaviour
     {
         activeCharacter--;
         if (activeCharacter < 0) activeCharacter = 0;
-        characterSel.text = "Placeholder Char " + activeCharacter; 
+        characterSel.text = "Placeholder Char " + activeCharacter;
     }
 
     void task_4()
@@ -62,14 +68,18 @@ public class MainMenu : MonoBehaviour
 
     void task_5()
     {
-        UnityEngine.Debug.Log("Kicking to options menu...");
+        //UnityEngine.Debug.Log("Kicking to options menu...");
         saveState();
+        thisMenu.enabled = false;
+        optionsMenu.enabled = true;
     }
 
     void task_6()
     {
-        UnityEngine.Debug.Log("Kicking to controls menu...");
+        //UnityEngine.Debug.Log("Kicking to controls menu...");
         saveState();
+        thisMenu.enabled = false;
+        controlsMenu.enabled = true;
     }
 
     void task_7()
