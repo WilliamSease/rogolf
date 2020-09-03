@@ -33,6 +33,7 @@ public class PauseMenu : MonoBehaviour
         button_7.GetComponent<Button>().onClick.AddListener(task_7);
         button_8.GetComponent<Button>().onClick.AddListener(task_8);
         button_9.GetComponent<Button>().onClick.AddListener(task_9);
+        DontDestroyOnLoad(thisMenu);
     }
 
     void Update()
