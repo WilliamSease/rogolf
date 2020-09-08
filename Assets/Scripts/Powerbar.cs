@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Powerbar
 {
-    private const double RATE = 0.1;
+    private const double RATE = 100;
     private const double BAR_MIN = -0.12;
 
     Game game;
@@ -62,6 +62,9 @@ public class Powerbar
             }
         }
     }
+
+    public bool OutOfRange() { return current <= BAR_MIN; }
+    public bool ValidAccuracy() { return current <= -BAR_MIN; }
 
     public void SetPower() { power = current; }
     public void SetAccuracy() { accuracy = current; }

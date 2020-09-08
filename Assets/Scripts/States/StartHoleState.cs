@@ -25,6 +25,6 @@ public class StartHoleState : State
         game.ResetStrokes();
 
         // Advance state
-        game.SetState(new IdleState(game));
+        game.SetState(new PrepareState(game));
     }
 }

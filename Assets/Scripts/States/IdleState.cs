@@ -20,7 +20,9 @@ public class IdleState : State
     {
         //UnityEngine.Debug.Log(ball.GetComponent<Rigidbody>().velocity.magnitude);
         //if (ball.GetComponent<Rigidbody>().velocity.magnitude == 0)
-        ball.GetComponent<Rigidbody>().velocity = new Vector3(100, 100, 100);
+        //ball.GetComponent<Rigidbody>().velocity = new Vector3(100, 100, 100);
+        game.powerbar.Reset();
+        game.SetState(new PowerState(game));
     }
 
     public override void OnKeyLeftArrow()
