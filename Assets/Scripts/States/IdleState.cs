@@ -18,7 +18,7 @@ public class IdleState : State
 
     public override void OnKeySpace()
     {
-        UnityEngine.Debug.Log(ball.GetComponent<Rigidbody>().velocity.magnitude);
+        //UnityEngine.Debug.Log(ball.GetComponent<Rigidbody>().velocity.magnitude);
         //if (ball.GetComponent<Rigidbody>().velocity.magnitude == 0)
         ball.GetComponent<Rigidbody>().velocity = new Vector3(100, 100, 100);
     }

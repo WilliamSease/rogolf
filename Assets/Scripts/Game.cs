@@ -9,8 +9,8 @@ public class Game : MonoBehaviour
     //public Powerbar powerbar;
 
     // Persistent game objects
-    private HoleBag holeBag;
-    private ItemBag itemBag;
+    public HoleBag holeBag;
+    public ItemBag itemBag;
 
     // Other game objects (that aren't game objects)
     public State state;
@@ -25,10 +25,8 @@ public class Game : MonoBehaviour
     /// </summary>
     public void Start()
     {
-        this.state = new StartState(this);
+        this.state = new StartGameState(this);
         this.inputController = new InputController(this);
-
-        strokes = 0;
     }
 
     /// <summary>
@@ -37,7 +35,7 @@ public class Game : MonoBehaviour
     /// </summary>
     public void Update()
     {
-        UnityEngine.Debug.Log(ball.GetComponent<Rigidbody>().velocity);
+        //UnityEngine.Debug.Log(ball.GetComponent<Rigidbody>().velocity);
         inputController.Tick();
         state.Tick();
     }
@@ -62,6 +60,8 @@ public class Game : MonoBehaviour
     }
 
     public int GetStrokes() { return strokes; }
+    public void ResetStrokes() { strokes = 0; }
+    public void IncrementStrokes() { ++strokes; }
 
     public void SetHoleBag(HoleBag holeBag) { this.holeBag = holeBag; }
     public void SetItemBag(ItemBag itemBag) { this.itemBag = itemBag; }

@@ -937,6 +937,7 @@ MonoBehaviour:
   button_7: {fileID: 1808866430}
   button_8: {fileID: 0}
   button_9: {fileID: 0}
+  godObject: {fileID: 3687346591502329839, guid: c069ebe52bcb8f44286528b1efed4f51, type: 3}
   characterSel: {fileID: 1887070161}
 --- !u!1 &245379162
 GameObject:
@@ -2965,9 +2966,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tgt: {fileID: 969345837}
   prnt: {fileID: 1724520577}
-  perFrame: 0.1
-  translationMod: 1200
-  translationInc: 0.001
 --- !u!4 &1724520579
 Transform:
   m_ObjectHideFlags: 0

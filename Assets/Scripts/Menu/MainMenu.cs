@@ -21,6 +21,8 @@ public class MainMenu : MonoBehaviour
     public Button button_8;
     public Button button_9;
 
+    public GameObject godObject;
+
     int activeCharacter = 0;
     public Text characterSel;
 
@@ -45,6 +47,8 @@ public class MainMenu : MonoBehaviour
     {
         UnityEngine.Debug.Log("Playing rogolf...");
         saveState();
+        //StartGame.Start();
+        Instantiate(godObject);
     }
 
     void task_2()

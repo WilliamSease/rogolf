@@ -3,7 +3,21 @@ guid: beb3ad4586e859f4aac150aeed5db0e5
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - thisMenu: {instanceID: 0}
+  - optionsMenu: {instanceID: 0}
+  - controlsMenu: {instanceID: 0}
+  - button_1: {instanceID: 0}
+  - button_2: {instanceID: 0}
+  - button_3: {instanceID: 0}
+  - button_4: {instanceID: 0}
+  - button_5: {instanceID: 0}
+  - button_6: {instanceID: 0}
+  - button_7: {instanceID: 0}
+  - button_8: {instanceID: 0}
+  - button_9: {instanceID: 0}
+  - godObject: {fileID: 3687346591502329839, guid: c069ebe52bcb8f44286528b1efed4f51, type: 3}
+  - characterSel: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
