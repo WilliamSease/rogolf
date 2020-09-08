@@ -5,16 +5,16 @@ public class Game : MonoBehaviour
     // GameObject objects
     public GameObject ball;
 
-    // GAME OBJECT (not GameObject)
-    //public Powerbar powerbar;
+    // Other game objects (that aren't game objects)
+    public State state;
+    public InputController inputController;
 
     // Persistent game objects
     public HoleBag holeBag;
     public ItemBag itemBag;
 
-    // Other game objects (that aren't game objects)
-    public State state;
-    public InputController inputController;
+    // GAME OBJECT (not GameObject)
+    public Powerbar powerbar;
 
     // Game parameters
     private int strokes;
@@ -27,6 +27,8 @@ public class Game : MonoBehaviour
     {
         this.state = new StartGameState(this);
         this.inputController = new InputController(this);
+
+        this.powerbar = new Powerbar(this);
     }
 
     /// <summary>
