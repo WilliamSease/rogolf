@@ -18,8 +18,8 @@ public class BobBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        prnt.transform.Rotate(new Vector3(0.0f, .1f, 0f));
+        prnt.transform.Rotate(new Vector3(0.0f, .1f * Time.deltaTime * 1000, 0f));
         prnt.transform.Translate(new Vector3(0.0f, ((float)Math.Cos(pos))/1200f, 0f));
-        pos += .001;
+        pos += .001 * Time.deltaTime * 1000;
     }
 }

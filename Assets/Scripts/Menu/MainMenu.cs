@@ -54,6 +54,7 @@ public class MainMenu : MonoBehaviour
     void task_2()
     {
         UnityEngine.Debug.Log("Playing golf...");
+        //SceneManager.LoadScene("SampleScene");
         saveState();
     }
 
