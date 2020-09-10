@@ -2072,6 +2072,7 @@ MonoBehaviour:
   yardText: {fileID: 458806116}
   strokeText: {fileID: 837117799}
   arrowAnchor: {fileID: 659306322}
+  bonusText: {fileID: 1420895658}
 --- !u!1 &1577749883
 GameObject:
   m_ObjectHideFlags: 0

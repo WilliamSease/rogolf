@@ -36,6 +36,6 @@ public class HoleBag
     private void NewHoleList()
     {
         holeList = new List<string>();
-        holeList.Add("a01");
+        holeList.Add("sampleScene");
     }
 }
