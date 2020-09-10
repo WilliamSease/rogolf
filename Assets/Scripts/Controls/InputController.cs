@@ -14,39 +14,31 @@ public class InputController
     /// If it is being pressed, propogate key press as method call to game's state.
     /// 
     /// This is hard coded right now! Deal with it!
-    /// 
-    /// We will likely need to buffer input for many of the keys.
     /// </summary>
     public void Tick()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            //UnityEngine.Debug.Log("Space");
             game.state.OnKeySpace();
         }
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            //UnityEngine.Debug.Log("UpArrow");
             game.state.OnKeyUpArrow();
         }
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            //UnityEngine.Debug.Log("DownArrow");
             game.state.OnKeyDownArrow();
         }
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            //UnityEngine.Debug.Log("RightArrow");
             game.state.OnKeyRightArrow();
         }
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            //UnityEngine.Debug.Log("LeftArrow");
             game.state.OnKeyLeftArrow();
         }
-        if (Input.GetKey(KeyCode.Return)) // Enter key
+        if (Input.GetKeyDown(KeyCode.Return)) // Enter key
         {
-            //UnityEngine.Debug.Log("Return");
             game.state.OnKeyReturn();
         }
     }
