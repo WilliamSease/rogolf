@@ -11,7 +11,6 @@ public class StartHoleState : State
     {
         // Load scene
         SceneManager.LoadScene(game.holeBag.GetHole());
-
         // Modify scene
         //  Add materials to ground
 

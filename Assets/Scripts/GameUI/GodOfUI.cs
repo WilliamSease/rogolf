@@ -24,9 +24,6 @@ public class GodOfUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameMaster = GameObject.Find("GodObject(Clone)").GetComponent("GodObjectScript") as Game;
-        if (gameMaster == null) 
-            UnityEngine.Debug.Log("No God Object! None of this is going to work.");
     }
 
     // Update is called once per frame
@@ -35,18 +32,18 @@ public class GodOfUI : MonoBehaviour
         if (gameMaster == null) 
             return;
         //Powerbar update.
-        fillBar.fillAmount = floaty;
-        negBar.fillAmount = (floaty >= -.12f) ? -floaty : .12f;
+        //fillBar.fillAmount = floaty;
+        //negBar.fillAmount = (floaty >= -.12f) ? -floaty : .12f;
         //Golfbag update.
         //clubText.text = ;
         //Holeinfo update.
         //holeText.text = ;
         //parText.text = ;
         //yardText.text = ;
-        strokeText.text = gameMaster.GetStrokes().ToString();
+        //strokeText.text = gameMaster.GetStrokes().ToString();
         //Windinfo update.
-        arrowAnchor.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
+        //arrowAnchor.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
         //Strokecounter update.
-        //bonusText.text =;
+        //bonusText.text = ;
     }
 }
