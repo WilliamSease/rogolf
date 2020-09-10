@@ -30,6 +30,8 @@ public class MainMenu : MonoBehaviour
     void Start()
     {
         loadState();
+        optionsMenu.enabled = false;
+        controlsMenu.enabled = false;
         button_1.GetComponent<Button>().onClick.AddListener(task_1);
         button_2.GetComponent<Button>().onClick.AddListener(task_2);
         button_3.GetComponent<Button>().onClick.AddListener(task_3);
@@ -39,15 +41,12 @@ public class MainMenu : MonoBehaviour
         button_7.GetComponent<Button>().onClick.AddListener(task_7);
         button_8.GetComponent<Button>().onClick.AddListener(task_8);
         button_9.GetComponent<Button>().onClick.AddListener(task_9);
-        optionsMenu.enabled = false;
-        controlsMenu.enabled = false;
     }
 
     void task_1()
     {
         UnityEngine.Debug.Log("Playing rogolf...");
         saveState();
-        //StartGame.Start();
         Instantiate(godObject);
     }
 
