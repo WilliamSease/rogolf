@@ -14,6 +14,7 @@ public class Game : MonoBehaviour
     public ItemBag itemBag;
 
     // GAME OBJECT (not GameObject)
+    public Bag bag;
     public Powerbar powerbar;
 
     // Game parameters
@@ -28,6 +29,7 @@ public class Game : MonoBehaviour
         this.state = new StartGameState(this);
         this.inputController = new InputController(this);
 
+        this.bag = new Bag(this);
         this.powerbar = new Powerbar(this);
     }
 
