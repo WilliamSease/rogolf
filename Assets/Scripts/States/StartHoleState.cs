@@ -9,8 +9,20 @@ public class StartHoleState : State
 
     public override void Tick()
     {
+        // Get next hole
+        string nextHole = game.GetHoleBag().GetHole();
+
+        // Save persistent game data
+        game.Exit();
+
         // Load scene
-        SceneManager.LoadScene(game.holeBag.GetHole());
+        SceneManager.LoadScene(nextHole);
+
+        // Load persistent game data
+        GameObject godObject = GodObject.Create();
+        godObject.AddComponent<Game>();
+        game = godObject.GetComponent<Game>();
+
         // Modify scene
         //  Add materials to ground
 

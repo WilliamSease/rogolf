@@ -9,8 +9,8 @@ public class StartGameState : State
     public override void Tick()
     {
         // Initialize game data
-        game.holeBag = new HoleBag();
-        game.itemBag = new ItemBag();
+        game.SetHoleBag(new HoleBag());
+        game.SetItemBag(new ItemBag());
 
         // Advance state
         game.SetState(new StartHoleState(game));

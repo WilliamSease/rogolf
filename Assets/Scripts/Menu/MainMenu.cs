@@ -47,13 +47,16 @@ public class MainMenu : MonoBehaviour
     {
         UnityEngine.Debug.Log("Playing rogolf...");
         saveState();
-        Instantiate(godObject);
+
+        // Create new Game
+        Game.ResetGameData();
+        godObject = GodObject.Create();
+        godObject.AddComponent<Game>();
     }
 
     void task_2()
     {
         UnityEngine.Debug.Log("Playing golf...");
-        //SceneManager.LoadScene("SampleScene");
         saveState();
     }
 

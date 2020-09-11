@@ -1,13 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
+[System.Serializable]
 public class HoleBag
 {
+    public const string PREFIX = ".\\Assets\\Data\\";
+
+    public const string ROGOLF_HOLES = "rogolf_holes.txt";
+    public const string TEST_HOLES = "test_holes.txt";
+
+    private string holeListPath;
     private List<string> holeList;
 
     public HoleBag()
     {
+        holeListPath = TEST_HOLES;
         NewHoleList();
     }
 
@@ -36,6 +45,10 @@ public class HoleBag
     private void NewHoleList()
     {
         holeList = new List<string>();
-        holeList.Add("sampleScene");
+        var lines = File.ReadLines(PREFIX + holeListPath);
+        foreach (var line in lines)
+        {
+            holeList.Add(line);
+        }
     }
 }

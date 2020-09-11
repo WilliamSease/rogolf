@@ -1,8 +1,24 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml;
+using System.Xml.Serialization;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+[System.Serializable]
+public class GameData
+{
+    public HoleBag holeBag;
+    public ItemBag itemBag;
+}
 
 public class Game : MonoBehaviour
 {
+    private const string PLAYER_PREFS_KEY = "GameData";
+
     // GameObject objects
+    public GameObject godObject;
     public GameObject ball;
 
     // Other game objects (that aren't game objects)
@@ -10,8 +26,7 @@ public class Game : MonoBehaviour
     public InputController inputController;
 
     // Persistent game objects
-    public HoleBag holeBag;
-    public ItemBag itemBag;
+    public GameData gameData;
 
     // GAME OBJECT (not GameObject)
     public Bag bag;
@@ -26,11 +41,7 @@ public class Game : MonoBehaviour
     /// </summary>
     public void Start()
     {
-        this.state = new StartGameState(this);
-        this.inputController = new InputController(this);
-
-        this.bag = new Bag(this);
-        this.powerbar = new Powerbar(this);
+        LoadGameData();
     }
 
     /// <summary>
@@ -39,7 +50,8 @@ public class Game : MonoBehaviour
     /// </summary>
     public void Update()
     {
-        //UnityEngine.Debug.Log(ball.GetComponent<Rigidbody>().velocity);
+        //UnityEngine.Debug.Log(SceneManager.GetActiveScene().name);
+        UnityEngine.Debug.Log(state);
         inputController.Tick();
         state.Tick();
     }
@@ -53,7 +65,64 @@ public class Game : MonoBehaviour
     /// </summary>
     public void Exit()
     {
+        SaveGameData();
+        Destroy(this);
+    }
 
+    /// <summary>
+    /// Load game data from PlayerPrefs
+    /// </summary>
+    public void LoadGameData()
+    {
+        XmlSerializer serializer = new XmlSerializer(typeof(GameData));
+        string text = PlayerPrefs.GetString(PLAYER_PREFS_KEY);
+        // If gameData is empty, instantiate the game
+        if (string.IsNullOrEmpty(text))
+        {
+            gameData = new GameData();
+            state = new StartGameState(this);
+            Initialize();
+        }
+        // Else instantiate the next hole
+        else
+        {
+            using (var reader = new System.IO.StringReader(text))
+            {
+                gameData = serializer.Deserialize(reader) as GameData;
+            }
+            state = new StartHoleState(this);
+            Initialize();
+        }
+    }
+
+    /// <summary>
+    /// Save game data to PlayerPrefs
+    /// </summary>
+    public void SaveGameData()
+    {
+        XmlSerializer serializer = new XmlSerializer(typeof(GameData));
+        using (StringWriter sw = new StringWriter())
+        {
+            serializer.Serialize(sw, gameData);
+            PlayerPrefs.SetString(PLAYER_PREFS_KEY, sw.ToString());
+            //UnityEngine.Debug.Log(sw.ToString());
+        }
+    }
+
+    /// <summary>
+    /// Reset PlayerPrefs game data
+    /// </summary>
+    public static void ResetGameData()
+    {
+        PlayerPrefs.SetString(PLAYER_PREFS_KEY, "");
+    }
+
+    private void Initialize()
+    {
+        inputController = new InputController(this);
+
+        bag = new Bag(this);
+        powerbar = new Powerbar(this);
     }
 
     public void SetState(State state)
@@ -67,6 +136,8 @@ public class Game : MonoBehaviour
     public void ResetStrokes() { strokes = 0; }
     public void IncrementStrokes() { ++strokes; }
 
-    public void SetHoleBag(HoleBag holeBag) { this.holeBag = holeBag; }
-    public void SetItemBag(ItemBag itemBag) { this.itemBag = itemBag; }
+    public HoleBag GetHoleBag() { return gameData.holeBag; }
+    public ItemBag GetItemBag() { return gameData.itemBag; }
+    public void SetHoleBag(HoleBag holeBag) { gameData.holeBag = holeBag; }
+    public void SetItemBag(ItemBag itemBag) { gameData.itemBag = itemBag; }
 }
