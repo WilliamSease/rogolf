@@ -1,11 +1,43 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public static class GameController
+public class GameController : MonoBehaviour
 {
-    public static void StartGame(MainMenu mainMenu)
+    public const string NAME = "GameController";
+
+    void Start()
+    {
+        // We need to control the game for the whole game! Don't we?!?
+        DontDestroyOnLoad(this);
+    }
+
+    void Update() { }
+
+    public static GameController GetInstance()
+    {
+        GameObject gameObject = GameObject.Find(NAME);
+        if (gameObject != null)
+        {
+            return gameObject.GetComponent<GameController>();
+        }
+        else
+        {
+            throw new InvalidOperationException("GameController GameObject not found.");
+        }
+    }
+
+    /*
+    public static void StartGame()
+    {
+        GameController gameController = GetInstance();
+        gameController.InstanceStartGame();
+    }
+    */
+
+    public void StartGame()
     {
         GameDataManager.ResetGameData();
 
@@ -25,14 +57,26 @@ public static class GameController
         UnityEngine.Object.Destroy(godObject);
 
         // Load scene
-        SceneManager.LoadScene(nextHole);
-        mainMenu.NextHole(nextHole);
+        NextHole(nextHole);
     }
 
-    public static void NextHole()
+    public void NextHole(string nextHole)
     {
-        UnityEngine.Debug.Log(SceneManager.GetActiveScene().name); // TODO - debug
+        StartCoroutine(AsyncSceneLoad(nextHole));
+    }
 
+    IEnumerator AsyncSceneLoad(string targetScene)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(targetScene);
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+        AfterNextHole();
+    }
+
+    public static void AfterNextHole()
+    {
         // Load persistent game data
         GameObject godObject = GodObject.Create();
         godObject.AddComponent<Game>();

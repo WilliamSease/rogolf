@@ -21,8 +21,6 @@ public class MainMenu : MonoBehaviour
     public Button button_8;
     public Button button_9;
 
-    public GameObject godObject;
-
     int activeCharacter = 0;
     public Text characterSel;
 
@@ -47,22 +45,11 @@ public class MainMenu : MonoBehaviour
     {
         UnityEngine.Debug.Log("Playing rogolf...");
         saveState();
-        GameController.StartGame(this);
-    }
 
-    public void NextHole(string nextHole)
-    {
-        StartCoroutine(WaitForSceneLoad(nextHole));
-    }
-
-    IEnumerator WaitForSceneLoad(string targetScene)
-    {
-        while (SceneManager.GetActiveScene().name != targetScene)
-        {
-            UnityEngine.Debug.Log(SceneManager.GetActiveScene().name);
-            yield return null;
-        }
-        GameController.NextHole();
+        //GameController.StartGame();
+        GameObject gameObject = GameObject.Find(GameController.NAME);
+        GameController gameController = gameObject.GetComponent<GameController>();
+        gameController.StartGame();
     }
 
     void task_2()
