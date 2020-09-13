@@ -49,7 +49,7 @@ public class MainMenu : MonoBehaviour
         saveState();
 
         // Create new Game
-        Game.ResetGameData();
+        GameDataManager.ResetGameData();
         godObject = GodObject.Create();
         godObject.AddComponent<Game>();
     }

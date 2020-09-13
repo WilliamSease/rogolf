@@ -6,17 +6,8 @@ using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-[System.Serializable]
-public class GameData
-{
-    public HoleBag holeBag;
-    public ItemBag itemBag;
-}
-
 public class Game : MonoBehaviour
 {
-    private const string PLAYER_PREFS_KEY = "GameData";
-
     // GameObject objects
     public GameObject godObject;
     public GameObject ball;
@@ -26,7 +17,8 @@ public class Game : MonoBehaviour
     public InputController inputController;
 
     // Persistent game objects
-    public GameData gameData;
+    public HoleBag holeBag;
+    public ItemBag itemBag;
 
     // GAME OBJECT (not GameObject)
     public Bag bag;
@@ -59,7 +51,7 @@ public class Game : MonoBehaviour
     /// <summary>
     /// Some state will call this method when the hole is over.
     /// It needs to...
-    ///     1. Save any relevant data using PlayerPrefs
+    ///     1. Save any relevant data using binary files
     ///     2. Destroy anything we've instantiated
     ///     3. Move on to the next scene (and add a new GodObject to it???)
     /// </summary>
@@ -70,51 +62,29 @@ public class Game : MonoBehaviour
     }
 
     /// <summary>
-    /// Load game data from PlayerPrefs
-    /// </summary>
-    public void LoadGameData()
-    {
-        XmlSerializer serializer = new XmlSerializer(typeof(GameData));
-        string text = PlayerPrefs.GetString(PLAYER_PREFS_KEY);
-        // If gameData is empty, instantiate the game
-        if (string.IsNullOrEmpty(text))
-        {
-            gameData = new GameData();
-            state = new StartGameState(this);
-            Initialize();
-        }
-        // Else instantiate the next hole
-        else
-        {
-            using (var reader = new System.IO.StringReader(text))
-            {
-                gameData = serializer.Deserialize(reader) as GameData;
-            }
-            state = new StartHoleState(this);
-            Initialize();
-        }
-    }
-
-    /// <summary>
-    /// Save game data to PlayerPrefs
+    /// Save game data to binary file
     /// </summary>
     public void SaveGameData()
     {
-        XmlSerializer serializer = new XmlSerializer(typeof(GameData));
-        using (StringWriter sw = new StringWriter())
-        {
-            serializer.Serialize(sw, gameData);
-            PlayerPrefs.SetString(PLAYER_PREFS_KEY, sw.ToString());
-            //UnityEngine.Debug.Log(sw.ToString());
-        }
+        GameDataManager.SaveGameData(this);
     }
 
     /// <summary>
-    /// Reset PlayerPrefs game data
+    /// Load game data from binary file
     /// </summary>
-    public static void ResetGameData()
+    public void LoadGameData()
     {
-        PlayerPrefs.SetString(PLAYER_PREFS_KEY, "");
+        GameData gameData = GameDataManager.LoadGameData();
+        // If save file is not found
+        if (gameData == null)
+        {
+            GameDataManager.ResetGameData();
+        }
+        else
+        {
+            this.holeBag = gameData.holeBag;
+            this.itemBag = gameData.itemBag;
+        }
     }
 
     private void Initialize()
@@ -136,8 +106,8 @@ public class Game : MonoBehaviour
     public void ResetStrokes() { strokes = 0; }
     public void IncrementStrokes() { ++strokes; }
 
-    public HoleBag GetHoleBag() { return gameData.holeBag; }
-    public ItemBag GetItemBag() { return gameData.itemBag; }
-    public void SetHoleBag(HoleBag holeBag) { gameData.holeBag = holeBag; }
-    public void SetItemBag(ItemBag itemBag) { gameData.itemBag = itemBag; }
+    public HoleBag GetHoleBag() { return holeBag; }
+    public ItemBag GetItemBag() { return itemBag; }
+    public void SetHoleBag(HoleBag holeBag) { this.holeBag = holeBag; }
+    public void SetItemBag(ItemBag itemBag) { this.itemBag = itemBag; }
 }
