@@ -50,8 +50,8 @@ public class MainMenu : MonoBehaviour
 
         // Create new Game
         GameDataManager.ResetGameData();
-        godObject = GodObject.Create();
-        godObject.AddComponent<Game>();
+        //godObject = GodObject.Create();
+        //godObject.AddComponent<Game>();
     }
 
     void task_2()
