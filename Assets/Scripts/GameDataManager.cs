@@ -8,15 +8,19 @@ public static class GameDataManager
 {
     private const string GAME_DATA_SAVE_NAME = "gameData.sav";
 
-    public static void SaveGameData(Game game)
+    public static void SaveGameData(GameData data)
     {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream stream = new FileStream(Application.persistentDataPath + GAME_DATA_SAVE_NAME, FileMode.Create);
 
-        GameData data = new GameData(game);
-
         bf.Serialize(stream, data);
         stream.Close();
+    }
+
+    public static void SaveGameData(Game game)
+    {
+        GameData data = new GameData(game);
+        SaveGameData(data);
     }
 
     public static GameData LoadGameData()
@@ -40,7 +44,8 @@ public static class GameDataManager
 
     public static void ResetGameData()
     {
-        File.Delete(Application.persistentDataPath + GAME_DATA_SAVE_NAME);
+        GameData data = new GameData();
+        SaveGameData(data);
     }
 }
 
@@ -49,6 +54,12 @@ public class GameData
 {
     public HoleBag holeBag;
     public ItemBag itemBag;
+
+    public GameData()
+    {
+        this.holeBag = new HoleBag();
+        this.itemBag = new ItemBag();
+    }
 
     public GameData(Game game)
     {
