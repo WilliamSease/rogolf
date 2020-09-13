@@ -13,9 +13,11 @@ public class HoleBag
 
     private string holeListPath;
     private List<string> holeList;
+    private List<string> holesPlayed;
 
     public HoleBag()
     {
+        holesPlayed = new List<string>();
         holeListPath = TEST_HOLES;
         NewHoleList();
     }
@@ -33,6 +35,8 @@ public class HoleBag
             // Get random hole
             int index = 0;
             string hole = holeList[index];
+            // Add hole to played list
+            holesPlayed.Add(hole);
             // Remove hole from list
             holeList.RemoveAt(index);
             return hole;
@@ -50,5 +54,10 @@ public class HoleBag
         {
             holeList.Add(line);
         }
+    }
+
+    public int GetHoleCount()
+    {
+        return holesPlayed.Count;
     }
 }

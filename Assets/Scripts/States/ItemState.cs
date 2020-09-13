@@ -51,7 +51,9 @@ public class ItemState : State
         // Player must select item before confirming
         if (item != null)
         {
-            game.SetState(new StartHoleState(game));
+            // TODO - this is under construction
+            // I'm not sure if ItemState is even going to be a state anymore
+            game.SetState(new NoState(game));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml;
@@ -27,23 +28,26 @@ public class Game : MonoBehaviour
     // Game parameters
     private int strokes;
 
-    /// <summary>
-    /// Game Start function.
-    /// Initialize state and Instantiate anything we need,
-    /// </summary>
-    public void Start()
+    public void Init()
     {
         LoadGameData();
+        SetState(new PrepareState(this));
     }
+
+    /// <summary>
+    /// Game Start function.
+    /// Just call Init().
+    /// </summary>
+    void Start() { }
 
     /// <summary>
     /// Game Update function.
     /// Propogate Update to all relevant objects.
     /// </summary>
-    public void Update()
+    void Update()
     {
-        //UnityEngine.Debug.Log(SceneManager.GetActiveScene().name);
-        UnityEngine.Debug.Log(state);
+        UnityEngine.Debug.Log(state); // TODO - debug
+
         inputController.Tick();
         state.Tick();
     }
@@ -75,20 +79,15 @@ public class Game : MonoBehaviour
     public void LoadGameData()
     {
         GameData gameData = GameDataManager.LoadGameData();
-        // If save file is not found
-        if (gameData == null)
-        {
-            GameDataManager.ResetGameData();
-        }
-        else
-        {
-            this.holeBag = gameData.holeBag;
-            this.itemBag = gameData.itemBag;
-        }
+        this.holeBag = gameData.holeBag;
+        this.itemBag = gameData.itemBag;
+
+        Initialize();
     }
 
     private void Initialize()
     {
+        state = new NoState(this);
         inputController = new InputController(this);
 
         bag = new Bag(this);

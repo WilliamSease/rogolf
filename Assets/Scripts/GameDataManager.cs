@@ -38,14 +38,13 @@ public static class GameDataManager
         }
         else
         {
-            return null;
+            throw new InvalidOperationException("Can't LoadGameData when GameData is null");
         }
     }
 
     public static void ResetGameData()
     {
-        GameData data = new GameData();
-        SaveGameData(data);
+        File.Delete(Application.persistentDataPath + GAME_DATA_SAVE_NAME);
     }
 }
 

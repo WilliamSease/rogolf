@@ -47,11 +47,22 @@ public class MainMenu : MonoBehaviour
     {
         UnityEngine.Debug.Log("Playing rogolf...");
         saveState();
+        GameController.StartGame(this);
+    }
 
-        // Create new Game
-        GameDataManager.ResetGameData();
-        //godObject = GodObject.Create();
-        //godObject.AddComponent<Game>();
+    public void NextHole(string nextHole)
+    {
+        StartCoroutine(WaitForSceneLoad(nextHole));
+    }
+
+    IEnumerator WaitForSceneLoad(string targetScene)
+    {
+        while (SceneManager.GetActiveScene().name != targetScene)
+        {
+            UnityEngine.Debug.Log(SceneManager.GetActiveScene().name);
+            yield return null;
+        }
+        GameController.NextHole();
     }
 
     void task_2()
