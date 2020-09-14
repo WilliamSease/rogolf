@@ -29,14 +29,6 @@ public class GameController : MonoBehaviour
         }
     }
 
-    /*
-    public static void StartGame()
-    {
-        GameController gameController = GetInstance();
-        gameController.InstanceStartGame();
-    }
-    */
-
     public void StartGame()
     {
         GameDataManager.ResetGameData();
@@ -57,10 +49,10 @@ public class GameController : MonoBehaviour
         UnityEngine.Object.Destroy(godObject);
 
         // Load scene
-        NextHole(nextHole);
+        LoadScene(nextHole);
     }
 
-    public void NextHole(string nextHole)
+    public void LoadScene(string nextHole)
     {
         StartCoroutine(AsyncSceneLoad(nextHole));
     }
@@ -72,16 +64,18 @@ public class GameController : MonoBehaviour
         {
             yield return null;
         }
-        AfterNextHole();
+        NextHole();
     }
 
-    public static void AfterNextHole()
+    public static void NextHole()
     {
         // Load persistent game data
         GameObject godObject = GodObject.Create();
         godObject.AddComponent<Game>();
         Game game = godObject.GetComponent<Game>();
         game.Init();
+
+        UnityEngine.Debug.Log(game.state);
 
         // Modify scene
         //  Add materials to ground

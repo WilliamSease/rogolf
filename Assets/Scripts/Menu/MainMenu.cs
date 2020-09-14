@@ -46,7 +46,7 @@ public class MainMenu : MonoBehaviour
         UnityEngine.Debug.Log("Playing rogolf...");
         saveState();
 
-        //GameController.StartGame();
+        // Get GameController and start game
         GameObject gameObject = GameObject.Find(GameController.NAME);
         GameController gameController = gameObject.GetComponent<GameController>();
         gameController.StartGame();
