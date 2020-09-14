@@ -18,7 +18,7 @@ public class HoleBag
     public HoleBag()
     {
         holesPlayed = new List<string>();
-        holeListPath = TEST_HOLES;
+        holeListPath = ROGOLF_HOLES;
         NewHoleList();
     }
 

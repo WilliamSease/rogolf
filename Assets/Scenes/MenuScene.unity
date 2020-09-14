@@ -938,7 +938,6 @@ MonoBehaviour:
   button_8: {fileID: 0}
   button_9: {fileID: 0}
   characterSel: {fileID: 1887070161}
-  loading: 0
 --- !u!1 &245379162
 GameObject:
   m_ObjectHideFlags: 0
@@ -1944,6 +1943,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a45f55279a55a84cb8e050b24ee98d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 1405086373536391866, guid: 49d2d9d8dc595494fa97e46155efd2ff, type: 3}
+  ball: {fileID: 311251129746609182, guid: d3c72079bd870a74984e9c9ad242b167, type: 3}
 --- !u!1 &1065250552
 GameObject:
   m_ObjectHideFlags: 0

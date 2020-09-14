@@ -8,6 +8,9 @@ public class GameController : MonoBehaviour
 {
     public const string NAME = "GameController";
 
+    public GameObject camera;
+    public GameObject ball;
+
     void Start()
     {
         // We need to control the game for the whole game! Don't we?!?
@@ -67,7 +70,7 @@ public class GameController : MonoBehaviour
         NextHole();
     }
 
-    public static void NextHole()
+    public void NextHole()
     {
         // Load persistent game data
         GameObject godObject = GodObject.Create();
@@ -75,16 +78,27 @@ public class GameController : MonoBehaviour
         Game game = godObject.GetComponent<Game>();
         game.Init();
 
-        UnityEngine.Debug.Log(game.state);
-
-        // Modify scene
-        //  Add materials to ground
-
-        // Load prefabs
+        /* Modify Scene */
         //  Add lighting
+        // TODO - we're just using stock lighting for now
+
         //  Add ball
-        //  Add camera?
-        //  Add tees, hole, flag, etc
+        Instantiate(ball);
+
+        // Add camera and controls
+        Instantiate(camera);
+        MouseOrbitImproved orbitalControls = camera.GetComponent<MouseOrbitImproved>();
+        orbitalControls.target = ball.transform;
+
+        // Get children of blender scene
+        GameObject terrain = GameObject.Find(SceneManager.GetActiveScene().name);
+        Transform[] allChildren = terrain.GetComponentsInChildren<Transform>();
+        foreach (Transform child in allChildren)
+        {
+            // TODO - modify materials of ground
+            // TODO - swap in prefabs for tees, hole, trees
+            UnityEngine.Debug.Log(child.gameObject);
+        }
 
         // Reset per-hole data
         //game.ResetStrokes();

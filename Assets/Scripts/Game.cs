@@ -46,7 +46,7 @@ public class Game : MonoBehaviour
     /// </summary>
     void Update()
     {
-        UnityEngine.Debug.Log(state); // TODO - debug
+        //UnityEngine.Debug.Log(state); // TODO - debug
 
         inputController.Tick();
         state.Tick();
