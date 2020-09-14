@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class GodOfUI : MonoBehaviour
 {
-    Game gameMaster;
     //Powerbar elements.
     public Image fillBar;
     public Image negBar;
@@ -29,11 +28,9 @@ public class GodOfUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameMaster == null) 
-            return;
         //Powerbar update.
-        //fillBar.fillAmount = floaty;
-        //negBar.fillAmount = (floaty >= -.12f) ? -floaty : .12f;
+        fillBar.fillAmount = floaty;
+        negBar.fillAmount = (floaty >= -.12f) ? -floaty : .12f;
         //Golfbag update.
         //clubText.text = ;
         //Holeinfo update.
@@ -42,7 +39,7 @@ public class GodOfUI : MonoBehaviour
         //yardText.text = ;
         //strokeText.text = gameMaster.GetStrokes().ToString();
         //Windinfo update.
-        //arrowAnchor.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
+        arrowAnchor.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
         //Strokecounter update.
         //bonusText.text = ;
     }
