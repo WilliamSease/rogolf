@@ -110,7 +110,15 @@ public class GameController : MonoBehaviour
 
         // Modify blender scene
         GameObject terrain = GameObject.Find(holeName);
-        Transform[] allChildren = terrain.GetComponentsInChildren<Transform>();
+        Transform[] allChildren;
+        try
+        {
+            allChildren = terrain.GetComponentsInChildren<Transform>();
+        }
+        catch (NullReferenceException e)
+        {
+            throw new InvalidOperationException("Terrain not found on scene " + holeName + ". Is the .blend file missing in the project?");
+        }
 
         // Create props lists to process after ground colliders have been created
         List<GameObject> pinList = new List<GameObject>();
