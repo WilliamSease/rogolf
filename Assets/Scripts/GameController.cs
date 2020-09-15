@@ -11,6 +11,12 @@ public class GameController : MonoBehaviour
     public GameObject camera;
     public GameObject ball;
 
+    public Material green;
+    public Material fairway;
+    public Material rough;
+    public Material bunker;
+    public Material water;
+
     void Start()
     {
         // We need to control the game for the whole game! Don't we?!?
@@ -32,6 +38,11 @@ public class GameController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Called from the main menu.
+    /// Resets old game data, and initializes new data.
+    /// Starts the game loop by loading the first hole.
+    /// </summary>
     public void StartGame()
     {
         GameDataManager.ResetGameData();
@@ -54,12 +65,17 @@ public class GameController : MonoBehaviour
         // Load scene
         LoadScene(nextHole);
     }
-
+    
     public void LoadScene(string nextHole)
     {
         StartCoroutine(AsyncSceneLoad(nextHole));
     }
 
+    /// <summary>
+    /// Loads the scene asynchronously, then preps the new scene by calling NextHole()
+    /// </summary>
+    /// <param name="targetScene">Name of the new scene to load</param>
+    /// <returns></returns>
     IEnumerator AsyncSceneLoad(string targetScene)
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(targetScene);
@@ -90,14 +106,47 @@ public class GameController : MonoBehaviour
         MouseOrbitImproved orbitalControls = camera.GetComponent<MouseOrbitImproved>();
         orbitalControls.target = ball.transform;
 
-        // Get children of blender scene
-        GameObject terrain = GameObject.Find(SceneManager.GetActiveScene().name);
+        string holeName = SceneManager.GetActiveScene().name;
+
+        // Modify blender scene
+        GameObject terrain = GameObject.Find(holeName);
         Transform[] allChildren = terrain.GetComponentsInChildren<Transform>();
         foreach (Transform child in allChildren)
         {
-            // TODO - modify materials of ground
-            // TODO - swap in prefabs for tees, hole, trees
-            UnityEngine.Debug.Log(child.gameObject);
+            string childName = child.gameObject.name;
+            // Skip iteration if component is the parent
+            if (childName == holeName) continue;
+            // TODO - load correct prefabs here
+            else if (childName.StartsWith("Pin")) continue;
+            else if (childName.StartsWith("Tee")) continue;
+            else if (childName.StartsWith("Tree")) continue;
+            else
+            {
+                // Modify materials of ground
+                Renderer renderer = child.gameObject.GetComponent<Renderer>();
+                char type = childName[0];
+                switch (type)
+                {
+                    case 'B':
+                        renderer.material = bunker;
+                        break;
+                    case 'F':
+                        renderer.material = fairway;
+                        break;
+                    case 'G':
+                        renderer.material = green;
+                        break;
+                    case 'R':
+                        renderer.material = rough;
+                        break;
+                    case 'W':
+                        renderer.material = water;
+                        break;
+                    default:
+                        UnityEngine.Debug.Log("Candidate material not found for mesh " + childName);
+                        break;
+                }
+            }
         }
 
         // Reset per-hole data
