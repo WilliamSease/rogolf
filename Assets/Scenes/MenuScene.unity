@@ -1945,6 +1945,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 1405086373536391866, guid: 49d2d9d8dc595494fa97e46155efd2ff, type: 3}
   ball: {fileID: 311251129746609182, guid: d3c72079bd870a74984e9c9ad242b167, type: 3}
+  green: {fileID: 2100000, guid: 05ec4a61155dc0a4f9019e2297edeab4, type: 2}
+  fairway: {fileID: 2100000, guid: 5c3f3456d57da6a46b9adfa9a140a92b, type: 2}
+  rough: {fileID: 2100000, guid: fe5b5fbcd375f5a42b3ea1ea669b6c16, type: 2}
+  bunker: {fileID: 2100000, guid: 9b3a3d503029cb14c8c7198da9212dde, type: 2}
+  water: {fileID: 2100000, guid: 09f527dcba7241e4eae743bf0dc28f10, type: 2}
 --- !u!1 &1065250552
 GameObject:
   m_ObjectHideFlags: 0

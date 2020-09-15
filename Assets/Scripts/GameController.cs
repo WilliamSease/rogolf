@@ -111,19 +111,42 @@ public class GameController : MonoBehaviour
         // Modify blender scene
         GameObject terrain = GameObject.Find(holeName);
         Transform[] allChildren = terrain.GetComponentsInChildren<Transform>();
+
+        // Create props lists to process after ground colliders have been created
+        List<GameObject> pinList = new List<GameObject>();
+        List<GameObject> teeList = new List<GameObject>();
+        List<GameObject> treeList = new List<GameObject>();
+
         foreach (Transform child in allChildren)
         {
-            string childName = child.gameObject.name;
+            GameObject childObject = child.gameObject;
+            string childName = childObject.name;
             // Skip iteration if component is the parent
             if (childName == holeName) continue;
-            // TODO - load correct prefabs here
-            else if (childName.StartsWith("Pin")) continue;
-            else if (childName.StartsWith("Tee")) continue;
-            else if (childName.StartsWith("Tree")) continue;
+            // Else if prop, add to approprate prop list
+            else if (childName.StartsWith("Pin"))
+            {
+                pinList.Add(childObject);
+                continue;
+            }
+            else if (childName.StartsWith("Tee"))
+            {
+                teeList.Add(childObject);
+                continue;
+            }
+            else if (childName.StartsWith("Tree"))
+            {
+                treeList.Add(childObject);
+                continue;
+            }
+            // Else a ground mesh
             else
             {
+                // Add mesh collier
+                childObject.AddComponent<MeshCollider>();
+
                 // Modify materials of ground
-                Renderer renderer = child.gameObject.GetComponent<Renderer>();
+                Renderer renderer = childObject.GetComponent<Renderer>();
                 char type = childName[0];
                 switch (type)
                 {
@@ -149,7 +172,55 @@ public class GameController : MonoBehaviour
             }
         }
 
+        // Add props from prop list
+        foreach (GameObject pin in pinList)
+        {
+            AddProp(pin);
+        }
+        foreach (GameObject tee in teeList)
+        {
+            AddProp(tee);
+        }
+        foreach (GameObject tree in treeList)
+        {
+            AddProp(tree);
+        }
+
         // Reset per-hole data
         //game.ResetStrokes();
+    }
+
+    public void AddProp(GameObject gameObject)
+    {
+        try
+        {
+            RaycastHit hit = RaycastVertical(gameObject);
+            gameObject.transform.position = hit.point;
+            Destroy(gameObject);
+        }
+        catch (InvalidOperationException e)
+        {
+            UnityEngine.Debug.Log(e);
+        }
+    }
+
+    public RaycastHit RaycastVertical(GameObject gameObject)
+    {
+        RaycastHit hit;
+        // Check down
+        if (Physics.Raycast(new Ray(gameObject.transform.position, Vector3.down), out hit))
+        {
+            return hit;
+        }
+        // Check up
+        else if (Physics.Raycast(new Ray(gameObject.transform.position, Vector3.up), out hit))
+        {
+            return hit;
+        }
+        // Exception if not found
+        else
+        {
+            throw new InvalidOperationException("RaycastHit not found for " + gameObject.name);
+        }
     }
 }
