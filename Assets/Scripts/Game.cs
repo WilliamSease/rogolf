@@ -50,6 +50,8 @@ public class Game : MonoBehaviour
 
         inputController.Tick();
         state.Tick();
+        GodOfUI ui = (GodOfUI)GameObject.Find("UICanvas").GetComponent<GodOfUI>();
+        ui.gameRef = this;
     }
 
     /// <summary>
@@ -109,4 +111,6 @@ public class Game : MonoBehaviour
     public ItemBag GetItemBag() { return itemBag; }
     public void SetHoleBag(HoleBag holeBag) { this.holeBag = holeBag; }
     public void SetItemBag(ItemBag itemBag) { this.itemBag = itemBag; }
+
+    public Powerbar GetPowerbar() { return powerbar; }
 }

@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class GodOfUI : MonoBehaviour
 {
+    public Game gameRef;
+    public GameController gc;
     //Powerbar elements.
     public Image fillBar;
     public Image negBar;
@@ -21,6 +23,7 @@ public class GodOfUI : MonoBehaviour
     //Bonusinfo elements.
     public Text bonusText;
     // Start is called before the first frame update
+    
     void Start()
     {
     }
@@ -28,7 +31,9 @@ public class GodOfUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gameRef == null) return;
         //Powerbar update.
+        floaty = (float) gameRef.GetPowerbar().GetCurrent();
         fillBar.fillAmount = floaty;
         negBar.fillAmount = (floaty >= -.12f) ? -floaty : .12f;
         //Golfbag update.
@@ -37,10 +42,10 @@ public class GodOfUI : MonoBehaviour
         //holeText.text = ;
         //parText.text = ;
         //yardText.text = ;
-        //strokeText.text = gameMaster.GetStrokes().ToString();
+        strokeText.text = gameRef.GetStrokes().ToString();
         //Windinfo update.
         arrowAnchor.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
-        //Strokecounter update.
+        //BonusText update.
         //bonusText.text = ;
     }
 }

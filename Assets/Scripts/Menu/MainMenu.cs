@@ -43,7 +43,6 @@ public class MainMenu : MonoBehaviour
 
     void task_1()
     {
-        UnityEngine.Debug.Log("Playing rogolf...");
         saveState();
 
         // Get GameController and start game
@@ -54,7 +53,6 @@ public class MainMenu : MonoBehaviour
 
     void task_2()
     {
-        UnityEngine.Debug.Log("Playing golf...");
         saveState();
     }
 

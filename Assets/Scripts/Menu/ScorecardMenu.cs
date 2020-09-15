@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Diagnostics;
 
-public class PauseMenu : MonoBehaviour
+public class ScorecardMenu : MonoBehaviour
 {
     public Canvas thisMenu;
 
@@ -19,11 +19,12 @@ public class PauseMenu : MonoBehaviour
     public Button button_8;
     public Button button_9;
 
+    int activeCharacter = 0;
+    public Text characterSel;
+
     // Start is called before the first frame update
     void Start()
     {
-        if (thisMenu.enabled) 
-            thisMenu.enabled = false;
         button_1.GetComponent<Button>().onClick.AddListener(task_1);
         button_2.GetComponent<Button>().onClick.AddListener(task_2);
         button_3.GetComponent<Button>().onClick.AddListener(task_3);
@@ -33,15 +34,6 @@ public class PauseMenu : MonoBehaviour
         button_7.GetComponent<Button>().onClick.AddListener(task_7);
         button_8.GetComponent<Button>().onClick.AddListener(task_8);
         button_9.GetComponent<Button>().onClick.AddListener(task_9);
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.Escape))
-        {
-            Time.timeScale = (Time.timeScale == 0) ? 1 : 0;
-            thisMenu.enabled = !thisMenu.enabled;
-        }
     }
 
     void task_1()
@@ -57,7 +49,7 @@ public class PauseMenu : MonoBehaviour
     }
 
     void task_4()
-    {       
+    {
     }
 
     void task_5()
@@ -66,6 +58,7 @@ public class PauseMenu : MonoBehaviour
 
     void task_6()
     {
+
     }
 
     void task_7()

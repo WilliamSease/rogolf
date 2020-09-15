@@ -17,9 +17,12 @@ public class GameController : MonoBehaviour
     public Material bunker;
     public Material water;
 
+    public Canvas gameUI;
+
     void Start()
     {
         // We need to control the game for the whole game! Don't we?!?
+        gameUI.enabled = false;
         DontDestroyOnLoad(this);
     }
 
@@ -45,6 +48,7 @@ public class GameController : MonoBehaviour
     /// </summary>
     public void StartGame()
     {
+        gameUI.enabled = true;
         GameDataManager.ResetGameData();
 
         GameObject godObject = GodObject.Create();
