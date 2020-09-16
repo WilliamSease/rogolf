@@ -4,26 +4,35 @@ using System.Collections;
 [AddComponentMenu("Camera-Control/Mouse Orbit with zoom")]
 public class MouseOrbitImproved : MonoBehaviour
 {
-
     public Vector3 targetPosition;
-    public float distance = 50f; //was 5
-    public float xSpeed = 120.0f;
-    public float ySpeed = 120.0f;
-
-    public float yMinLimit = -20f;
-    public float yMaxLimit = 80f;
-
-    public float distanceMin = .5f;
-    public float distanceMax = 50f; // was 15
+    public float distance;
+    public float xSpeed;
+    public float ySpeed;
+    public float rotationSenitivity;
+    public float scrollSensitivity;
+    public float yMinLimit;
+    public float yMaxLimit;
+    public float distanceMin;
+    public float distanceMax;
 
     private Rigidbody rigidbody;
 
     float x = 0.0f;
     float y = 0.0f;
 
-    // Use this for initialization
     void Start()
     {
+        // Apply default parameters
+        distance = 100f;
+        xSpeed = 25.0f;
+        ySpeed = 250.0f;
+        rotationSenitivity = 0.005f;
+        scrollSensitivity = 25;
+        yMinLimit = -20f;
+        yMaxLimit = 9999.9f;
+        distanceMin = 2f;
+        distanceMax = 1000f;
+
         Vector3 angles = transform.eulerAngles;
         x = angles.y;
         y = angles.x;
@@ -41,14 +50,14 @@ public class MouseOrbitImproved : MonoBehaviour
     {
         if (targetPosition != null)
         {
-            x += Input.GetAxis("Mouse X") * xSpeed * distance * 0.02f;
-            y -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;
+            x += Input.GetAxis("Mouse X") * xSpeed * distance * rotationSenitivity;
+            y -= Input.GetAxis("Mouse Y") * ySpeed * rotationSenitivity;
 
             y = ClampAngle(y, yMinLimit, yMaxLimit);
 
             Quaternion rotation = Quaternion.Euler(y, x, 0);
 
-            distance = Mathf.Clamp(distance - Input.GetAxis("Mouse ScrollWheel") * 5, distanceMin, distanceMax);
+            distance = Mathf.Clamp(distance - Input.GetAxis("Mouse ScrollWheel") * scrollSensitivity, distanceMin, distanceMax);
 
             /*
             RaycastHit hit;
