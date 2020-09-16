@@ -143,22 +143,18 @@ public class GameController : MonoBehaviour
             else if (childName.StartsWith("Pin"))
             {
                 pinList.Add(childObject);
-                continue;
             }
             else if (childName.StartsWith("TeeF"))
             {
                 teeFrontTemp = childObject;
-                continue;
             }
             else if (childName.StartsWith("TeeB"))
             {
                 teeBackTemp = childObject;
-                continue;
             }
             else if (childName.StartsWith("Tree"))
             {
                 treeList.Add(childObject);
-                continue;
             }
             // Else a ground mesh
             else
@@ -204,7 +200,6 @@ public class GameController : MonoBehaviour
         {
             AddProp(tree, null);
         }
-        UnityEngine.Debug.Log("end");
 
         // Reset per-hole data
         //game.ResetStrokes();
@@ -224,7 +219,6 @@ public class GameController : MonoBehaviour
             Destroy(gameObject);
             if (prop != null)
             {
-                UnityEngine.Debug.Log("here");
                 prop = Instantiate(prop);
                 prop.transform.position = hit.point;
             }
