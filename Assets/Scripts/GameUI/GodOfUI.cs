@@ -36,7 +36,7 @@ public class GodOfUI : MonoBehaviour
         floaty = (float) gameRef.GetPowerbar().GetCurrent();
         fillBar.fillAmount = floaty;
         negBar.fillAmount = (floaty >= -.12f) ? -floaty : .12f;
-        //Golfbag update.
+        clubText.text = gameRef.GetBag().GetClub().GetName();
         //clubText.text = ;
         //Holeinfo update.
         //holeText.text = ;

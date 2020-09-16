@@ -21,7 +21,7 @@ public class Bag
         this.bagList.Add(new Club("SW", 10, 1));
         this.bagList.Add(new Club("P", 10, 0));
 
-        this.current = bagList.Count - 1;
+        this.current = 0;
     }
 
     public void IncrementBag()

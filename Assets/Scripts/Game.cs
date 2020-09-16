@@ -22,6 +22,8 @@ public class Game : MonoBehaviour
     // Persistent game objects
     public HoleBag holeBag;
     public ItemBag itemBag;
+    public PlayerAttributes playerAttributes;
+    public TerrainAttributes terrainAttributes;
 
     // GAME OBJECT (not GameObject)
     public Bag bag;
@@ -119,9 +121,14 @@ public class Game : MonoBehaviour
 
     public HoleBag GetHoleBag() { return holeBag; }
     public ItemBag GetItemBag() { return itemBag; }
+    public PlayerAttributes GetPlayerAttributes() { return playerAttributes; }
+    public TerrainAttributes GetTerrainAttributes() { return terrainAttributes; }
     public void SetHoleBag(HoleBag holeBag) { this.holeBag = holeBag; }
     public void SetItemBag(ItemBag itemBag) { this.itemBag = itemBag; }
+    public void SetPlayerAttributes(PlayerAttributes playerAttributes) { this.playerAttributes = playerAttributes; }
+    public void SetTerrainAttributes(TerrainAttributes terrainAttributes) { this.terrainAttributes = terrainAttributes; }
 
+    public Bag GetBag() { return bag; }
     public Ball GetBall() { return ball; }
     public Powerbar GetPowerbar() { return powerbar; }
 }

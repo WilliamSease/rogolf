@@ -24,39 +24,9 @@ public class IdleState : State
         game.SetState(new PowerState(game));
     }
 
-    public override void OnKeyLeftArrow()
-    {
-        Vector3 p = ball.GetPosition();
-        ball.SetPosition(p.x, p.y, p.z + INCREMENT);
-    }
+    public override void OnKeyUpArrow() { game.GetBag().DecrementBag(); }
+    public override void OnKeyDownArrow() { game.GetBag().IncrementBag(); }
+    public override void OnKeyW() { game.GetBag().DecrementBag(); }
+    public override void OnKeyS() { game.GetBag().IncrementBag(); }
 
-    public override void OnKeyRightArrow()
-    {
-        Vector3 p = ball.GetPosition();
-        ball.SetPosition(p.x, p.y, p.z - INCREMENT);
-    }
-
-    public override void OnKeyUpArrow()
-    {
-        Vector3 p = ball.GetPosition();
-        ball.SetPosition(p.x + INCREMENT, p.y, p.z);
-    }
-
-    public override void OnKeyDownArrow()
-    {
-        Vector3 p = ball.GetPosition();
-        ball.SetPosition(p.x - INCREMENT, p.y, p.z);
-    }
-
-    public override void OnKeyW()
-    {
-        Vector3 p = ball.GetPosition();
-        ball.SetPosition(p.x, p.y + INCREMENT, p.z);
-    }
-
-    public override void OnKeyS()
-    {
-        Vector3 p = ball.GetPosition();
-        ball.SetPosition(p.x, p.y - INCREMENT, p.z);
-    }
 }
