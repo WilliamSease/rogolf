@@ -219,7 +219,6 @@ public class GameController : MonoBehaviour
     // Vector3 is a non-nullable type; we need the '?' operator to be able to null it.
     public Vector3? AddProp(GameObject gameObject, GameObject prop)
     {
-        if (prop == null) { return null; }   // TODO - remove after creating all prop models
         if (gameObject == null)
         {
             UnityEngine.Debug.Log(prop.name + "does not exist in .blender file");
@@ -235,7 +234,7 @@ public class GameController : MonoBehaviour
                 prop.transform.position = hit.point;
                 return hit.point;
             }
-            return null;
+            else { return null; }
         }
         catch (InvalidOperationException e)
         {

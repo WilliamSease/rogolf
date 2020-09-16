@@ -4,19 +4,17 @@ using UnityEngine;
 
 public class IdleState : State
 {
-    //private GameObject ball;
+    private const float INCREMENT = 2; // TODO - debug for moving camera
+
     private Ball ball;
 
     public IdleState(Game game) : base(game)
     {
-        //this.ballObject = game.ballObject;
         this.ball = game.ball;
     }
 
     public override void Tick()
     {
-        Vector3 position = ball.GetPosition();
-        //UnityEngine.Debug.Log(position.x + "\t" + position.y + "\t" + position.z);
         // TODO do gamey stuff here
     }
 
@@ -29,36 +27,36 @@ public class IdleState : State
     public override void OnKeyLeftArrow()
     {
         Vector3 p = ball.GetPosition();
-        ball.SetPosition(p.x, p.y - 10, p.z);
+        ball.SetPosition(p.x, p.y, p.z + INCREMENT);
     }
 
     public override void OnKeyRightArrow()
     {
         Vector3 p = ball.GetPosition();
-        ball.SetPosition(p.x, p.y + 10, p.z);
+        ball.SetPosition(p.x, p.y, p.z - INCREMENT);
     }
 
     public override void OnKeyUpArrow()
     {
         Vector3 p = ball.GetPosition();
-        ball.SetPosition(p.x + 10, p.y, p.z);
+        ball.SetPosition(p.x + INCREMENT, p.y, p.z);
     }
 
     public override void OnKeyDownArrow()
     {
         Vector3 p = ball.GetPosition();
-        ball.SetPosition(p.x - 10, p.y, p.z);
+        ball.SetPosition(p.x - INCREMENT, p.y, p.z);
     }
 
     public override void OnKeyW()
     {
         Vector3 p = ball.GetPosition();
-        ball.SetPosition(p.x, p.y, p.z + 10);
+        ball.SetPosition(p.x, p.y + INCREMENT, p.z);
     }
 
     public override void OnKeyS()
     {
         Vector3 p = ball.GetPosition();
-        ball.SetPosition(p.x, p.y, p.z - 10);
+        ball.SetPosition(p.x, p.y - INCREMENT, p.z);
     }
 }
