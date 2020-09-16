@@ -122,5 +122,6 @@ public class Game : MonoBehaviour
     public void SetHoleBag(HoleBag holeBag) { this.holeBag = holeBag; }
     public void SetItemBag(ItemBag itemBag) { this.itemBag = itemBag; }
 
+    public Ball GetBall() { return ball; }
     public Powerbar GetPowerbar() { return powerbar; }
 }

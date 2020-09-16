@@ -194,24 +194,36 @@ public class GameController : MonoBehaviour
         {
             AddProp(pin, null);
         }
-        AddProp(teeFrontTemp, teeFront);
-        AddProp(teeBackTemp, teeBack);
         foreach (GameObject tree in treeList)
         {
             AddProp(tree, null);
         }
 
+        // Add tee props and get tee position
+        Vector3? teeFrontPosition = AddProp(teeFrontTemp, teeFront);
+        Vector3? teeBackPosition = AddProp(teeBackTemp, teeBack);
+        Vector3 nullTeePosition = new Vector3(Single.NaN, Single.NaN, Single.NaN);
+        Vector3 teePos = teeFrontPosition ?? nullTeePosition; // TODO - we're just using the front for now
+        if (teePos == nullTeePosition)
+        {
+            throw new InvalidOperationException("Tee not found. Is there no Tee object in the .blender file, or is the Raycast not working?");
+        }
+
+        // Set ball
+        game.GetBall().SetPosition(teePos);
+
         // Reset per-hole data
         //game.ResetStrokes();
     }
-
-    public void AddProp(GameObject gameObject, GameObject prop)
+    
+    // Vector3 is a non-nullable type; we need the '?' operator to be able to null it.
+    public Vector3? AddProp(GameObject gameObject, GameObject prop)
     {
-        if (prop == null) { return; }   // TODO - remove after creating all prop models
+        if (prop == null) { return null; }   // TODO - remove after creating all prop models
         if (gameObject == null)
         {
             UnityEngine.Debug.Log(prop.name + "does not exist in .blender file");
-            return;
+            return null;
         }
         try
         {
@@ -221,11 +233,14 @@ public class GameController : MonoBehaviour
             {
                 prop = Instantiate(prop);
                 prop.transform.position = hit.point;
+                return hit.point;
             }
+            return null;
         }
         catch (InvalidOperationException e)
         {
             UnityEngine.Debug.Log(e);
+            return null;
         }
     }
 

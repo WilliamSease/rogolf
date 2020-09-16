@@ -123,6 +123,7 @@ public class Ball
     public void SetDeltaTime(float time) { this.time = time /= rate; }
     public void SetRate(float rate) { this.rate = rate; }
     public void SetInaccuracyRate(float innacuracyRate) { this.inaccuracyRate = inaccuracyRate; }
+    public void SetPosition(Vector3 v) { position = new Vector3(v.x, v.y, v.z); }
     public void SetPosition(float x, float y, float z) { position = new Vector3(x, y, z); } 
     public void SetLastPosition() { lastPosition = new Vector3(position.x, position.y, position.z); }
 
