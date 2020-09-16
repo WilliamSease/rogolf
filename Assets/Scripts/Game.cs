@@ -11,7 +11,9 @@ public class Game : MonoBehaviour
 {
     // GameObject objects
     public GameObject godObject;
-    public GameObject ball;
+    public GameObject ballObject;
+
+    public MouseOrbitImproved orbitalControls;
 
     // Other game objects (that aren't game objects)
     public State state;
@@ -24,6 +26,7 @@ public class Game : MonoBehaviour
     // GAME OBJECT (not GameObject)
     public Bag bag;
     public Powerbar powerbar;
+    public Ball ball;
 
     // Game parameters
     private int strokes;
@@ -50,6 +53,12 @@ public class Game : MonoBehaviour
 
         inputController.Tick();
         state.Tick();
+
+        // Update ball GameObject and controls
+        ballObject.transform.localPosition = ball.GetPosition();
+        orbitalControls.targetPosition = ball.GetPosition();
+
+        // Send Game reference to other objects
         GodOfUI ui = (GodOfUI)GameObject.Find("UICanvas").GetComponent<GodOfUI>();
         ui.gameRef = this;
     }
@@ -94,6 +103,7 @@ public class Game : MonoBehaviour
 
         bag = new Bag(this);
         powerbar = new Powerbar(this);
+        ball = new Ball(this);
     }
 
     public void SetState(State state)

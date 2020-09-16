@@ -10,6 +10,8 @@ public class GameController : MonoBehaviour
 
     public GameObject camera;
     public GameObject ball;
+    public GameObject teeFront;
+    public GameObject teeBack;
 
     public Material green;
     public Material fairway;
@@ -103,12 +105,13 @@ public class GameController : MonoBehaviour
         // TODO - we're just using stock lighting for now
 
         //  Add ball
-        Instantiate(ball);
+        ball = Instantiate(ball);
+        game.ballObject = ball;
 
         // Add camera and controls
-        Instantiate(camera);
+        camera = Instantiate(camera);
         MouseOrbitImproved orbitalControls = camera.GetComponent<MouseOrbitImproved>();
-        orbitalControls.target = ball.transform;
+        game.orbitalControls = orbitalControls;
 
         string holeName = SceneManager.GetActiveScene().name;
 
@@ -126,7 +129,8 @@ public class GameController : MonoBehaviour
 
         // Create props lists to process after ground colliders have been created
         List<GameObject> pinList = new List<GameObject>();
-        List<GameObject> teeList = new List<GameObject>();
+        GameObject teeFrontTemp = null;
+        GameObject teeBackTemp = null;
         List<GameObject> treeList = new List<GameObject>();
 
         foreach (Transform child in allChildren)
@@ -134,16 +138,21 @@ public class GameController : MonoBehaviour
             GameObject childObject = child.gameObject;
             string childName = childObject.name;
             // Skip iteration if component is the parent
-            if (childName == holeName) continue;
+            if (childName == holeName || childName == NAME) continue;
             // Else if prop, add to approprate prop list
             else if (childName.StartsWith("Pin"))
             {
                 pinList.Add(childObject);
                 continue;
             }
-            else if (childName.StartsWith("Tee"))
+            else if (childName.StartsWith("TeeF"))
             {
-                teeList.Add(childObject);
+                teeFrontTemp = childObject;
+                continue;
+            }
+            else if (childName.StartsWith("TeeB"))
+            {
+                teeBackTemp = childObject;
                 continue;
             }
             else if (childName.StartsWith("Tree"))
@@ -187,28 +196,38 @@ public class GameController : MonoBehaviour
         // Add props from prop list
         foreach (GameObject pin in pinList)
         {
-            AddProp(pin);
+            AddProp(pin, null);
         }
-        foreach (GameObject tee in teeList)
-        {
-            AddProp(tee);
-        }
+        AddProp(teeFrontTemp, teeFront);
+        AddProp(teeBackTemp, teeBack);
         foreach (GameObject tree in treeList)
         {
-            AddProp(tree);
+            AddProp(tree, null);
         }
+        UnityEngine.Debug.Log("end");
 
         // Reset per-hole data
         //game.ResetStrokes();
     }
 
-    public void AddProp(GameObject gameObject)
+    public void AddProp(GameObject gameObject, GameObject prop)
     {
+        if (prop == null) { return; }   // TODO - remove after creating all prop models
+        if (gameObject == null)
+        {
+            UnityEngine.Debug.Log(prop.name + "does not exist in .blender file");
+            return;
+        }
         try
         {
             RaycastHit hit = RaycastVertical(gameObject);
-            gameObject.transform.position = hit.point;
             Destroy(gameObject);
+            if (prop != null)
+            {
+                UnityEngine.Debug.Log("here");
+                prop = Instantiate(prop);
+                prop.transform.position = hit.point;
+            }
         }
         catch (InvalidOperationException e)
         {

@@ -5,7 +5,7 @@ using System.Collections;
 public class MouseOrbitImproved : MonoBehaviour
 {
 
-    public Transform target;
+    public Vector3 targetPosition;
     public float distance = 50f; //was 5
     public float xSpeed = 120.0f;
     public float ySpeed = 120.0f;
@@ -39,7 +39,7 @@ public class MouseOrbitImproved : MonoBehaviour
 
     void LateUpdate()
     {
-        if (target)
+        if (targetPosition != null)
         {
             x += Input.GetAxis("Mouse X") * xSpeed * distance * 0.02f;
             y -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;
@@ -52,14 +52,14 @@ public class MouseOrbitImproved : MonoBehaviour
 
             /*
             RaycastHit hit;
-            if (Physics.Linecast(target.position, transform.position, out hit))
+            if (Physics.Linecast(targetPosition, transform.position, out hit))
             {
                 distance -= hit.distance;
             }
             */
 
             Vector3 negDistance = new Vector3(0.0f, 0.0f, -distance);
-            Vector3 position = rotation * negDistance + target.position;
+            Vector3 position = rotation * negDistance + targetPosition;
 
             transform.rotation = rotation;
             transform.position = position;
