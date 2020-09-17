@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class GodOfUI : MonoBehaviour
 {
-    public Canvas thisCanvas;
     public Game gameRef;
     public GameController gc;
     //Powerbar elements.
@@ -25,6 +24,8 @@ public class GodOfUI : MonoBehaviour
     //WindInfo elements.
     public GameObject arrowParent;
     public GameObject arrowTarget;
+    private float windSpeed;
+    private float windOrient;
     //Bonusinfo elements.
     public Text bonusText;
     // Start is called before the first frame update
@@ -54,7 +55,10 @@ public class GodOfUI : MonoBehaviour
         yardText.text = holeInfo.GetYardsRounded().ToString() + "y";
         strokeText.text = gameRef.GetStrokes().ToString();
         //Windinfo update.
-        arrowParent.transform.Rotate(new Vector3(.1f, .1f, .1f));
+        GameObject cam = gc.camera;
+        arrowParent.transform.rotation = Quaternion.Euler(new Vector3((cam.transform.localRotation.x+1)*180, 
+                                                                      (cam.transform.localRotation.y+1)*180, 
+                                                                      (cam.transform.localRotation.z+1)*180));
         //BonusText update.
         //bonusText.text = ;
     }
