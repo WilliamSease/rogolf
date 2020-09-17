@@ -186,11 +186,33 @@ public class GameController : MonoBehaviour
             }
         }
 
-        // Add props from prop list
-        foreach (GameObject pin in pinList)
+        // Sentinel position to check for errors
+        Vector3 nullPosition = new Vector3(Single.NaN, Single.NaN, Single.NaN);
+
+        // Get pin index and add prop
+        int pinIndex = UnityEngine.Random.Range(0, pinList.Count-1);
+        for (int i = 0; i < pinList.Count; i++)
         {
-            AddProp(pin, null);
+            GameObject pin = pinList[i];
+            if (i == pinIndex)
+            {
+                // TODO - actually pass in the pin prefab instead of null
+                Vector3? maybeHolePosition = AddProp(pin, null);
+                Vector3 holePosition = maybeHolePosition ?? nullPosition;
+                if (holePosition == nullPosition)
+                {
+                    throw new InvalidOperationException("Pin" + pinIndex + " not found. Is there no corresponding Pin object in the .blender file, or is the Raycast not working?");
+                }
+                // Set hole position in game
+                //game.GetHoleInfo().SetHolePosition();
+            }
+            else
+            {
+                AddProp(pin, null);
+            }
         }
+
+        // Add trees
         foreach (GameObject tree in treeList)
         {
             AddProp(tree, null);
@@ -199,9 +221,8 @@ public class GameController : MonoBehaviour
         // Add tee props and get tee position
         Vector3? teeFrontPosition = AddProp(teeFrontTemp, teeFront);
         Vector3? teeBackPosition = AddProp(teeBackTemp, teeBack);
-        Vector3 nullTeePosition = new Vector3(Single.NaN, Single.NaN, Single.NaN);
-        Vector3 teePos = teeFrontPosition ?? nullTeePosition; // TODO - we're just using the front for now
-        if (teePos == nullTeePosition)
+        Vector3 teePos = teeFrontPosition ?? nullPosition; // TODO - we're just using the front for now
+        if (teePos == nullPosition)
         {
             throw new InvalidOperationException("Tee not found. Is there no Tee object in the .blender file, or is the Raycast not working?");
         }
@@ -229,9 +250,8 @@ public class GameController : MonoBehaviour
             {
                 prop = Instantiate(prop);
                 prop.transform.position = hit.point;
-                return hit.point;
             }
-            else { return null; }
+            return hit.point;
         }
         catch (InvalidOperationException e)
         {

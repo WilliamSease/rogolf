@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Powerbar
 {
-    private const double RATE = 100;
+    private const double RATE = 1;
     private const double BAR_MIN = -0.12;
 
     Game game;

@@ -52,8 +52,6 @@ public class Game : MonoBehaviour
     /// </summary>
     void Update()
     {
-        //UnityEngine.Debug.Log(state); // TODO - debug
-
         inputController.Tick();
         state.Tick();
 
@@ -125,6 +123,7 @@ public class Game : MonoBehaviour
     public void SetState(State state)
     {
         this.state.OnStateExit();
+        UnityEngine.Debug.Log(state);
         this.state = state;
         this.state.OnStateEnter();
     }
