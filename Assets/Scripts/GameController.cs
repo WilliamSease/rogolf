@@ -56,10 +56,7 @@ public class GameController : MonoBehaviour
         GameObject godObject = GodObject.Create();
         godObject.AddComponent<Game>();
         Game game = godObject.GetComponent<Game>();
-
-        // Initialize game data
-        game.SetHoleBag(new HoleBag());
-        game.SetItemBag(new ItemBag());
+        game.CreateGameData();
 
         // Get next hole
         string nextHole = game.GetHoleBag().GetHole();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class WaterTerrain : TerrainType
 {
     private static double FRICTION = 0.98;

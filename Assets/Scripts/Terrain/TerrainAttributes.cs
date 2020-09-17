@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TerrainAttributes : MonoBehaviour
+[System.Serializable]
+public class TerrainAttributes
 {
     private TerrainType tee;
     private TerrainType green;

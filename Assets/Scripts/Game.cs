@@ -35,6 +35,7 @@ public class Game : MonoBehaviour
 
     public void Init()
     {
+        this.state = new NoState(this);
         LoadGameData();
         SetState(new PrepareState(this));
     }
@@ -91,9 +92,27 @@ public class Game : MonoBehaviour
     /// </summary>
     public void LoadGameData()
     {
+        CreateGameData();
+        return;
+        /*
         GameData gameData = GameDataManager.LoadGameData();
         this.holeBag = gameData.holeBag;
         this.itemBag = gameData.itemBag;
+        this.playerAttributes = gameData.playerAttributes;
+        this.terrainAttributes = gameData.terrainAttributes;
+
+        Initialize();
+        */
+    }
+
+    public void CreateGameData()
+    {
+        this.state = new NoState(this);
+
+        this.holeBag = new HoleBag();
+        this.itemBag = new ItemBag();
+        this.playerAttributes = new PlayerAttributes();
+        this.terrainAttributes = new TerrainAttributes();
 
         Initialize();
     }

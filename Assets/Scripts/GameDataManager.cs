@@ -53,16 +53,22 @@ public class GameData
 {
     public HoleBag holeBag;
     public ItemBag itemBag;
+    public PlayerAttributes playerAttributes;
+    public TerrainAttributes terrainAttributes;
 
     public GameData()
     {
         this.holeBag = new HoleBag();
         this.itemBag = new ItemBag();
+        this.playerAttributes = new PlayerAttributes();
+        this.terrainAttributes = new TerrainAttributes();
     }
 
     public GameData(Game game)
     {
-        this.holeBag = game.holeBag;
-        this.itemBag = game.itemBag;
+        this.holeBag = game.GetHoleBag();
+        this.itemBag = game.GetItemBag();
+        this.playerAttributes = game.GetPlayerAttributes();
+        this.terrainAttributes = game.GetTerrainAttributes();
     }
 }

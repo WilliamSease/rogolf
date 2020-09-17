@@ -25,8 +25,12 @@ public class IdleState : State
     }
 
     public override void OnKeyUpArrow() { game.GetBag().DecrementBag(); }
-    public override void OnKeyDownArrow() { game.GetBag().IncrementBag(); }
     public override void OnKeyW() { game.GetBag().DecrementBag(); }
+    public override void OnKeyDownArrow() { game.GetBag().IncrementBag(); }
     public override void OnKeyS() { game.GetBag().IncrementBag(); }
 
+    public override void OnKeyLeftArrow() { game.GetBall().DecrementAngle(); }
+    public override void OnKeyA() { game.GetBall().DecrementAngle(); }
+    public override void OnKeyRightArrow() { game.GetBall().IncrementAngle(); }
+    public override void OnKeyD() { game.GetBall().IncrementAngle(); }
 }
