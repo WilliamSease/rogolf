@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TeeEnum;
 using UnityEngine;
@@ -10,9 +11,9 @@ namespace TeeEnum
 
 public class HoleInfo
 {
-    private const float PAR_3_MAX_YARDS = 228.6f;
-    private const float PAR_4_MAX_YARDS = 429.8f;
-    private const float PAR_5_MAX_YARDS = 630.9f;
+    private const float PAR_3_MAX_LENGTH = 228.6f;
+    private const float PAR_4_MAX_LENGTH = 429.8f;
+    private const float PAR_5_MAX_LENGTH = 630.9f;
 
     private int holeNumber;
     private int par;
@@ -21,8 +22,8 @@ public class HoleInfo
     private Vector3 backTeePosition;
     private Vector3 holePosition;
 
-    private float yardsFront;
-    private float yardsBack;
+    private float lengthFront;
+    private float lengthBack;
 
     public HoleInfo(int holeNumber, Tee tee, Vector3 frontTeePosition, Vector3 backTeePosition, Vector3 holePosition, int par)
     {
@@ -31,7 +32,7 @@ public class HoleInfo
         this.backTeePosition = backTeePosition;
         this.tee = tee;
 
-        CalculateHoleYards();
+        CalculateHoleLength();
         this.par = par;
     }
 
@@ -42,26 +43,26 @@ public class HoleInfo
         this.backTeePosition = backTeePosition;
         this.tee = tee;
 
-        CalculateHoleYards();
+        CalculateHoleLength();
         CalculatePar();
     }
 
-    public void CalculateHoleYards()
+    public void CalculateHoleLength()
     {
-        // Calculate hole yards 'as the crow flies'
+        // Calculate hole length 'as the crow flies'
         Vector3 frontTeePositionNoHeight = new Vector3(frontTeePosition.x, 0, frontTeePosition.z);
         Vector3 backTeePositionNoHeight = new Vector3(backTeePosition.x, 0, backTeePosition.z);
         Vector3 holePositionNoHeight = new Vector3(holePosition.x, 0, holePosition.z);
-        this.yardsFront = Vector3.Distance(frontTeePositionNoHeight, holePositionNoHeight);
-        this.yardsBack = Vector3.Distance(backTeePositionNoHeight, holePositionNoHeight);
+        this.lengthFront = Vector3.Distance(frontTeePositionNoHeight, holePositionNoHeight);
+        this.lengthBack = Vector3.Distance(backTeePositionNoHeight, holePositionNoHeight);
     }
 
     public void CalculatePar()
     {
-        float yards = GetYards();
-        if (yards < PAR_3_MAX_YARDS) { par = 3; }
-        else if (yards < PAR_4_MAX_YARDS) { par = 4; }
-        else if (yards < PAR_5_MAX_YARDS) { par = 5; }
+        float length = GetLength();
+        if (length < PAR_3_MAX_LENGTH) { par = 3; }
+        else if (length < PAR_4_MAX_LENGTH) { par = 4; }
+        else if (length < PAR_5_MAX_LENGTH) { par = 5; }
         else { par = 6; }
     }
 
@@ -72,8 +73,8 @@ public class HoleInfo
     public Vector3 GetBackTeePosition() { return backTeePosition; }
     public Vector3 GetHolePosition() { return holePosition; }
 
-    public float GetYardsFront() { return yardsFront; }
-    public float GetYardsBack() { return yardsBack; }
+    public float GetLengthFront() { return lengthFront; }
+    public float GetLengthBack() { return lengthBack; }
 
     public Vector3 GetTeePosition()
     {
@@ -81,8 +82,12 @@ public class HoleInfo
         else { return backTeePosition; }
     }
 
-    public float GetYards() {
-        if (tee == Tee.FRONT) return yardsFront;
-        else return yardsBack;
+    public float GetLength() {
+        if (tee == Tee.FRONT) return lengthFront;
+        else return lengthBack;
     }
+    public float GetYardsRounded() { return Mathf.Round(ToYards(GetLength())); }
+
+    private float ToYards(float m) { return m * 1.09361f; }
+
 }
