@@ -14,6 +14,9 @@ public class GameController : MonoBehaviour
     public GameObject teeFront;
     public GameObject teeBack;
     public GameObject pin;
+    public GameObject treeS;
+    public GameObject treeM;
+    public GameObject treeL;
 
     public Material green;
     public Material fairway;
@@ -132,7 +135,9 @@ public class GameController : MonoBehaviour
         List<GameObject> pinList = new List<GameObject>();
         GameObject teeFrontTemp = null;
         GameObject teeBackTemp = null;
-        List<GameObject> treeList = new List<GameObject>();
+        List<GameObject> treeSList = new List<GameObject>();
+        List<GameObject> treeMList = new List<GameObject>();
+        List<GameObject> treeLList = new List<GameObject>();
 
         foreach (Transform child in allChildren)
         {
@@ -153,9 +158,17 @@ public class GameController : MonoBehaviour
             {
                 teeBackTemp = childObject;
             }
-            else if (childName.StartsWith("Tree"))
+            else if (childName.StartsWith("TreeS"))
             {
-                treeList.Add(childObject);
+                treeSList.Add(childObject);
+            }
+            else if (childName.StartsWith("TreeM"))
+            {
+                treeMList.Add(childObject);
+            }
+            else if (childName.StartsWith("TreeL"))
+            {
+                treeLList.Add(childObject);
             }
             // Else a ground mesh
             else
@@ -215,10 +228,9 @@ public class GameController : MonoBehaviour
         }
 
         // Add trees
-        foreach (GameObject tree in treeList)
-        {
-            AddProp(tree, null);
-        }
+        foreach (GameObject tree in treeSList) { AddProp(tree, treeS); }
+        foreach (GameObject tree in treeMList) { AddProp(tree, treeM); }
+        foreach (GameObject tree in treeLList) { AddProp(tree, treeL); }
 
         // Add tee props and get tee position
         Vector3? maybeTeeFrontPosition = AddProp(teeFrontTemp, teeFront);

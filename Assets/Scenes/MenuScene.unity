@@ -2671,6 +2671,9 @@ MonoBehaviour:
   teeFront: {fileID: 919132149155446097, guid: 126c34efa7e16cb4b8d87b072dfe5bd8, type: 3}
   teeBack: {fileID: 919132149155446097, guid: 38921b04dfa8fb240a6e45b226327cc3, type: 3}
   pin: {fileID: 919132149155446097, guid: 476f84c584fb09e40aff2c8fea82c70b, type: 3}
+  treeS: {fileID: 919132149155446097, guid: 94958c479257d514db9f86c31618fc9e, type: 3}
+  treeM: {fileID: 919132149155446097, guid: 321562f1542eddf4f9202d3d0974ab21, type: 3}
+  treeL: {fileID: 919132149155446097, guid: 774aa74bea233ed41ad01e7323a77371, type: 3}
   green: {fileID: 2100000, guid: 05ec4a61155dc0a4f9019e2297edeab4, type: 2}
   fairway: {fileID: 2100000, guid: 5c3f3456d57da6a46b9adfa9a140a92b, type: 2}
   rough: {fileID: 2100000, guid: fe5b5fbcd375f5a42b3ea1ea669b6c16, type: 2}
