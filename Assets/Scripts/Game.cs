@@ -92,9 +92,6 @@ public class Game : MonoBehaviour
     /// </summary>
     public void LoadGameData()
     {
-        CreateGameData();
-        return;
-        /*
         GameData gameData = GameDataManager.LoadGameData();
         this.holeBag = gameData.holeBag;
         this.itemBag = gameData.itemBag;
@@ -102,7 +99,6 @@ public class Game : MonoBehaviour
         this.terrainAttributes = gameData.terrainAttributes;
 
         Initialize();
-        */
     }
 
     public void CreateGameData()
@@ -119,7 +115,6 @@ public class Game : MonoBehaviour
 
     private void Initialize()
     {
-        state = new NoState(this);
         inputController = new InputController(this);
 
         bag = new Bag(this);
