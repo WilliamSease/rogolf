@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour
     public GameObject ball;
     public GameObject teeFront;
     public GameObject teeBack;
+    public GameObject pin;
 
     public Material green;
     public Material fairway;
@@ -197,11 +198,10 @@ public class GameController : MonoBehaviour
         Vector3 holePosition = nullPosition;
         for (int i = 0; i < pinList.Count; i++)
         {
-            GameObject pin = pinList[i];
+            GameObject pinTemp = pinList[i];
             if (i == pinIndex)
             {
-                // TODO - actually pass in the pin prefab instead of null
-                Vector3? maybeHolePosition = AddProp(pin, null);
+                Vector3? maybeHolePosition = AddProp(pinTemp, pin);
                 holePosition = maybeHolePosition ?? nullPosition;
                 if (holePosition == nullPosition)
                 {
@@ -210,7 +210,7 @@ public class GameController : MonoBehaviour
             }
             else
             {
-                AddProp(pin, null);
+                AddProp(pinTemp, null);
             }
         }
 
