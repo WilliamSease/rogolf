@@ -26,6 +26,7 @@ public class Game : MonoBehaviour
     public TerrainAttributes terrainAttributes;
 
     // GAME OBJECT (not GameObject)
+    public HoleInfo holeInfo;
     public Bag bag;
     public Powerbar powerbar;
     public Ball ball;
@@ -37,7 +38,6 @@ public class Game : MonoBehaviour
     {
         this.state = new NoState(this);
         LoadGameData();
-        SetState(new PrepareState(this));
     }
 
     /// <summary>
@@ -140,7 +140,9 @@ public class Game : MonoBehaviour
     public void SetItemBag(ItemBag itemBag) { this.itemBag = itemBag; }
     public void SetPlayerAttributes(PlayerAttributes playerAttributes) { this.playerAttributes = playerAttributes; }
     public void SetTerrainAttributes(TerrainAttributes terrainAttributes) { this.terrainAttributes = terrainAttributes; }
+    public void SetHoleInfo(HoleInfo holeInfo) { this.holeInfo = holeInfo; }
 
+    public HoleInfo GetHoleInfo() { return holeInfo; }
     public Bag GetBag() { return bag; }
     public Ball GetBall() { return ball; }
     public Powerbar GetPowerbar() { return powerbar; }

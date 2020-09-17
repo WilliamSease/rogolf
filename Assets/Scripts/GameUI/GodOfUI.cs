@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -39,13 +40,16 @@ public class GodOfUI : MonoBehaviour
         //Bag update
         clubText.text = gameRef.GetBag().GetClub().GetName();
         //Holeinfo update.
-        //holeText.text = ;
-        //parText.text = ;
-        //yardText.text = ;
+        HoleInfo holeInfo = gameRef.GetHoleInfo();
+        holeText.text = holeInfo.GetHoleNumber().ToString();
+        parText.text = "Par " + holeInfo.GetPar().ToString();
+        yardText.text = Math.Round(ToYards(holeInfo.GetYards())).ToString() + " yards";
         strokeText.text = gameRef.GetStrokes().ToString();
         //Windinfo update.
         arrowAnchor.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
         //BonusText update.
         //bonusText.text = ;
     }
+
+    public float ToYards(float m) { return m * 1.09361f; }
 }

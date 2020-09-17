@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TeeEnum;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -191,6 +192,7 @@ public class GameController : MonoBehaviour
 
         // Get pin index and add prop
         int pinIndex = UnityEngine.Random.Range(0, pinList.Count-1);
+        Vector3 holePosition = nullPosition;
         for (int i = 0; i < pinList.Count; i++)
         {
             GameObject pin = pinList[i];
@@ -198,13 +200,11 @@ public class GameController : MonoBehaviour
             {
                 // TODO - actually pass in the pin prefab instead of null
                 Vector3? maybeHolePosition = AddProp(pin, null);
-                Vector3 holePosition = maybeHolePosition ?? nullPosition;
+                holePosition = maybeHolePosition ?? nullPosition;
                 if (holePosition == nullPosition)
                 {
                     throw new InvalidOperationException("Pin" + pinIndex + " not found. Is there no corresponding Pin object in the .blender file, or is the Raycast not working?");
                 }
-                // Set hole position in game
-                //game.GetHoleInfo().SetHolePosition();
             }
             else
             {
@@ -219,19 +219,31 @@ public class GameController : MonoBehaviour
         }
 
         // Add tee props and get tee position
-        Vector3? teeFrontPosition = AddProp(teeFrontTemp, teeFront);
-        Vector3? teeBackPosition = AddProp(teeBackTemp, teeBack);
-        Vector3 teePos = teeFrontPosition ?? nullPosition; // TODO - we're just using the front for now
-        if (teePos == nullPosition)
+        Vector3? maybeTeeFrontPosition = AddProp(teeFrontTemp, teeFront);
+        Vector3? maybeTeeBackPosition = AddProp(teeBackTemp, teeBack);
+        Vector3 teeFrontPosition = maybeTeeFrontPosition ?? nullPosition;
+        Vector3 teeBackPosition = maybeTeeBackPosition ?? nullPosition;
+        // Verify tees
+        if (teeFrontPosition == nullPosition)
         {
-            throw new InvalidOperationException("Tee not found. Is there no Tee object in the .blender file, or is the Raycast not working?");
+            throw new InvalidOperationException("Front tee not found. Is there no TeeFront object in the .blender file, or is the Raycast not working?");
+        }
+        if (teeBackPosition == nullPosition)
+        {
+            throw new InvalidOperationException("Back tee not found. Is there no TeeBack object in the .blender file, or is the Raycast not working?");
         }
 
+        // Set HoleInfo
+        game.SetHoleInfo(new HoleInfo(game.GetHoleBag().GetHoleCount(), Tee.FRONT, teeFrontPosition, teeBackPosition, holePosition));
+
         // Set ball
-        game.GetBall().SetPosition(teePos);
+        game.GetBall().SetPosition(game.GetHoleInfo().GetTeePosition());
 
         // Reset per-hole data
         //game.ResetStrokes();
+
+        // Set state
+        game.SetState(new PrepareState(game));
     }
     
     // Vector3 is a non-nullable type; we need the '?' operator to be able to null it.
