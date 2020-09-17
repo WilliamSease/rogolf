@@ -43,7 +43,7 @@ public class GodOfUI : MonoBehaviour
         HoleInfo holeInfo = gameRef.GetHoleInfo();
         holeText.text = holeInfo.GetHoleNumber().ToString();
         parText.text = "Par " + holeInfo.GetPar().ToString();
-        yardText.text = Math.Round(ToYards(holeInfo.GetYards())).ToString() + " yards";
+        yardText.text = Math.Round(ToYards(holeInfo.GetYards())).ToString() + "y";
         strokeText.text = gameRef.GetStrokes().ToString();
         //Windinfo update.
         arrowAnchor.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
