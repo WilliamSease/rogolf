@@ -11,7 +11,9 @@ public class GodOfUI : MonoBehaviour
     //Powerbar elements.
     public Image fillBar;
     public Image negBar;
-    public float floaty;
+    public Slider marker;
+    private float current;
+    private float power;
     //Golfbag elements.
     public Text clubText;
     //Holeinfo elements.
@@ -34,9 +36,12 @@ public class GodOfUI : MonoBehaviour
     {
         if (gameRef == null) return;
         //Powerbar update.
-        floaty = (float) gameRef.GetPowerbar().GetCurrent();
-        fillBar.fillAmount = floaty;
-        negBar.fillAmount = (floaty >= -.12f) ? -floaty : .12f;
+        current = (float) gameRef.GetPowerbar().GetCurrent();
+        power = (float) gameRef.GetPowerbar().GetPower();
+        fillBar.fillAmount = current;
+        negBar.fillAmount = (current >= -.12f) ? -current : .12f;
+        marker.value = (power == 0) ? current : power;
+
         //Bag update
         clubText.text = gameRef.GetBag().GetClub().GetName();
         //Holeinfo update.

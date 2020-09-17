@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
     public Material rough;
     public Material bunker;
     public Material water;
+    public Material skyboxMaterial;
 
     public Canvas gameUI;
 
@@ -101,6 +102,7 @@ public class GameController : MonoBehaviour
         /* Modify Scene */
         //  Add lighting
         // TODO - we're just using stock lighting for now
+        RenderSettings.skybox = skyboxMaterial;
 
         //  Add ball
         ball = Instantiate(ball);
