@@ -28,9 +28,10 @@ public class HoleInfo
     public HoleInfo(int holeNumber, Tee tee, Vector3 frontTeePosition, Vector3 backTeePosition, Vector3 holePosition, int par)
     {
         this.holeNumber = holeNumber;
+        this.tee = tee;
         this.frontTeePosition = frontTeePosition;
         this.backTeePosition = backTeePosition;
-        this.tee = tee;
+        this.holePosition = holePosition;
 
         CalculateHoleLength();
         this.par = par;
@@ -39,9 +40,10 @@ public class HoleInfo
     public HoleInfo(int holeNumber, Tee tee, Vector3 frontTeePosition, Vector3 backTeePosition, Vector3 holePosition)
     {
         this.holeNumber = holeNumber;
+        this.tee = tee;
         this.frontTeePosition = frontTeePosition;
         this.backTeePosition = backTeePosition;
-        this.tee = tee;
+        this.holePosition = holePosition;
 
         CalculateHoleLength();
         CalculatePar();
@@ -90,4 +92,9 @@ public class HoleInfo
 
     private float ToYards(float m) { return m * 1.09361f; }
 
+    public string ToString()
+    {
+        return String.Format("HoleInfo (click for more info)\nH : {0}\nP : {1}\nT : {2}\nFP: {3}\nBP: {4}\nHP: {5}\nFL: {6}\nBL: {7}\n", 
+            holeNumber, par, tee, frontTeePosition, backTeePosition, holePosition, lengthFront, lengthBack);
+    }
 }
