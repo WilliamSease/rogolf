@@ -294,11 +294,6 @@ public class GameController : MonoBehaviour
         {
             return hit;
         }
-        // Check up
-        else if (Physics.Raycast(new Ray(gameObject.transform.position, Vector3.up), out hit))
-        {
-            return hit;
-        }
         // Exception if not found
         else
         {

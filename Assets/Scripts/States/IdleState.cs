@@ -4,19 +4,9 @@ using UnityEngine;
 
 public class IdleState : State
 {
-    private const float INCREMENT = 2; // TODO - debug for moving camera
+    public IdleState(Game game) : base(game) { }
 
-    private Ball ball;
-
-    public IdleState(Game game) : base(game)
-    {
-        this.ball = game.ball;
-    }
-
-    public override void Tick()
-    {
-        // TODO do gamey stuff here
-    }
+    public override void Tick() { }
 
     public override void OnKeySpace()
     {
@@ -29,8 +19,8 @@ public class IdleState : State
     public override void OnKeyDownArrow() { game.GetBag().IncrementBag(); }
     public override void OnKeyS() { game.GetBag().IncrementBag(); }
 
-    public override void OnKeyLeftArrow() { game.GetBall().DecrementAngle(); }
-    public override void OnKeyA() { game.GetBall().DecrementAngle(); }
-    public override void OnKeyRightArrow() { game.GetBall().IncrementAngle(); }
-    public override void OnKeyD() { game.GetBall().IncrementAngle(); }
+    public override void OnKeyLeftArrow() { game.GetBall().IncrementAngle(); }
+    public override void OnKeyA() { game.GetBall().IncrementAngle(); }
+    public override void OnKeyRightArrow() { game.GetBall().DecrementAngle(); }
+    public override void OnKeyD() { game.GetBall().DecrementAngle(); }
 }

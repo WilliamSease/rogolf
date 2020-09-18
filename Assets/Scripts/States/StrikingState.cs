@@ -8,8 +8,10 @@ public class StrikingState : State
 
     public override void Tick()
     {
-        // TODO - strike ball
-        // TODO - update wind?
+        Club currentClub = game.GetBag().GetClub();
+        // TODO factor in accuracy during striking
+        float power = currentClub.GetPower() * (float)game.GetPowerbar().GetPower();
+        game.GetBall().Strike(power, currentClub.GetLoft(), 0);
         game.IncrementStrokes();
         game.SetState(new RunningState(game));
     }

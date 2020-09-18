@@ -8,11 +8,9 @@ public class RunningState : State
 
     public override void Tick()
     {
-        // TODO - update wind?
-        // TODO - if (game.ball.IsMoving())
-        if (false)
+        if (game.ball.IsMoving())
         {
-            // TODO - game.ball.Tick();
+            game.ball.Tick();
             // TODO - game.currentYards.Tick();
         }
         else

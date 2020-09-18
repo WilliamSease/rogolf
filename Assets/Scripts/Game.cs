@@ -56,8 +56,9 @@ public class Game : MonoBehaviour
         state.Tick();
 
         // Update ball GameObject and controls
-        ballObject.transform.localPosition = ball.GetPosition();
-        orbitalControls.targetPosition = ball.GetPosition();
+        Vector3 ballPosition = ball.GetPosition();
+        ballObject.transform.localPosition = ballPosition;
+        orbitalControls.targetPosition = ballPosition;
 
         // Send Game reference to other objects
         GodOfUI ui = (GodOfUI)GameObject.Find("UICanvas").GetComponent<GodOfUI>();

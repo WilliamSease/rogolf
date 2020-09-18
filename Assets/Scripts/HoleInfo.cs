@@ -80,7 +80,8 @@ public class HoleInfo
 
     public Vector3 GetTeePosition()
     {
-        if (tee == Tee.FRONT) { return frontTeePosition; }
+        // TODO - remove this added height? Still working around it
+        if (tee == Tee.FRONT) { return new Vector3(frontTeePosition.x, frontTeePosition.y+0.1f, frontTeePosition.z); }
         else { return backTeePosition; }
     }
 
@@ -92,7 +93,7 @@ public class HoleInfo
 
     private float ToYards(float m) { return m * 1.09361f; }
 
-    public string ToString()
+    public override string ToString()
     {
         return String.Format("HoleInfo (click for more info)\nH : {0}\nP : {1}\nT : {2}\nFP: {3}\nBP: {4}\nHP: {5}\nFL: {6}\nBL: {7}\n", 
             holeNumber, par, tee, frontTeePosition, backTeePosition, holePosition, lengthFront, lengthBack);

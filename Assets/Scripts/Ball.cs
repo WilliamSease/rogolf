@@ -5,46 +5,54 @@ using UnityEngine;
 
 public class Ball
 {
-    private const double ANGLE_INCREMENT = 1/32;
+    private const float ANGLE_INCREMENT = 1/32f;
+    private const float SPIN_RATE = 3f;
+    private const float SPIN_DECAY = 0.5f;
 
     private Game game;
-    private float time;
+    private float deltaTime;
+    private float noHeightTime;
 
     private Vector3 position;
     private Vector3 velocity;
     private Vector3 fnet;
-    private double angle;
-    private double dtheta;
+    private float angle;
+    private float dtheta;
     private Vector3 spin;
+    private float height;
     private Vector3 lastPosition;
 
     private float rate;
     private float inaccuracyRate;
     private float mass;
     private Vector3 gravity;
-    private double friction;
-    private double bounce;
-    private double radius;
-    private double c;
-    private double rho;
-    private double A;
+    private float friction;
+    private float bounce;
+    private float radius;
+    private float c;
+    private float rho;
+    private float A;
 
     public Ball(Game game)
     {
         this.game = game;
-        time = 0;
+        deltaTime = 0;
+        noHeightTime = 0;
 
         // Initialize default parameters
-        rate = 750f;
+        rate = 5/4f;
         inaccuracyRate = 1/128f;
         mass = 0.25f;
         gravity = new Vector3(0, -9.8f, 0);
-        friction = 1;
-        bounce = -0.5;
-        radius = 0.0625;
-        c = 0.5;
-        rho = 1.2;
-        A = Math.PI * Math.Pow(radius, 2);
+        friction = 1.0f;
+        bounce = -0.5f;
+        radius = 0.0625f;
+        c = 0.5f;
+        rho = 1.2f;
+        A = Mathf.PI * Mathf.Pow(radius, 2);
+
+        dtheta = 0;
+        height = 0;
 
         Reset(new Vector3(0,0,0));
     }
@@ -52,9 +60,9 @@ public class Ball
     public void Reset(Vector3 v)
     {
         position = new Vector3(v.x, v.y, v.z);
-        // TODO - setLastPosition
+        SetLastPosition();
         velocity = new Vector3(0,0,0);
-        // TODO - fnet = gravity.multiply(mass)
+        fnet = gravity * mass;
 
         angle = 0;
         dtheta = 0;
@@ -62,35 +70,52 @@ public class Ball
         spin = new Vector3(0,0,0);
     }
 
-    public void Strike(Club club, double dtheta)
+    /// <summary>
+    /// Strikes the ball given power, loft, and inaccuracy angle.
+    /// Calculate attributes and ball lie before you call this.
+    /// </summary>
+    public void Strike(float power, float loft, float dtheta)
     {
-        // TODO - set last position
-        // TODO - set velocity
-        // TODO - set wind resistance
-        // TODO - set spin
-        // TODO - set innacuracy
+        SetLastPosition();
+
+        // Set velocity
+        float horizontal = power * Mathf.Cos(loft);
+        float vertical = power * Mathf.Sin(loft);
+        Vector3 angleVector = VectorUtil.FromPolar(horizontal * mass, angle);
+        velocity = angleVector;
+        velocity.y = vertical;
+
+        // Set wind resistance
+        fnet = gravity * mass;
+        // Set spin
+        Club c = game.GetBag().GetClub();
+        Vector2 clubVector = VectorUtil.FromPolar(c.GetPower(), c.GetLoft());
+        spin = VectorUtil.FromPolar(-clubVector.y / clubVector.x * SPIN_RATE, angle);
+        // Set innacuracy
+        this.dtheta = dtheta * inaccuracyRate; 
     }
 
     public void Tick()
     {
-        SetDeltaTime(Time.deltaTime);
+        //UnityEngine.Debug.Log(position + "\t" + velocity + "\t" + height + "\t" + noHeightTime); // TODO - debug
+        
+        SetDeltaTime();
         if (IsMoving())
         {
             // Update position
-            position += velocity * (time / mass);
+            position += velocity * (deltaTime / mass);
             // Apply inaccuracy
-            // TODO
+            VectorUtil.Rotate(velocity, dtheta);
             // Apply wind
-            // TODO
+            //velocity += 
             // Update wind resistance
-            // TODO
+            fnet = (gravity * mass) - ((velocity * (0.5f*c*rho*A * Mathf.Pow(velocity.magnitude / mass, 2))) / velocity.magnitude);
             // Update velocity
-            // TODO
+            velocity += fnet * deltaTime;
 
-            // Calculate bounce
-            // TODO
-            // Calculate friction
-            // TODO
+            SetHeight();
+            CalculateBounce();
+            CalculateFriction();
         }
         else
         {
@@ -98,12 +123,57 @@ public class Ball
         }
     }
 
+    private void CalculateBounce()
+    {
+        if (height <= 0)
+        {
+            position.y -= velocity.y;
+            velocity.y *= bounce * 0.25f;
+
+            // Calculate spin
+            //velocity += spin;
+            spin *= SPIN_DECAY;
+        }
+    }
+
+    private void CalculateFriction()
+    {
+        if (!InAir())
+        {
+            //position.y -= height;
+            velocity *= friction * 0.95f;
+        }
+    }
+
+    private void SetHeight()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(new Ray(position, Vector3.down), out hit))
+        {
+            noHeightTime = 0;
+            height = position.y - hit.point.y;
+        }
+        else
+        {
+            if (noHeightTime < 2)
+            {
+                noHeightTime += deltaTime;
+                height = Single.NegativeInfinity;
+            }
+            else
+            {
+                throw new InvalidOperationException("Ball height not found");
+            }
+        }
+    }
+
     public void IncrementAngle()
     {
+        UnityEngine.Debug.Log(ANGLE_INCREMENT);
         angle += ANGLE_INCREMENT;
-        if (angle >= Math.PI * 2)
+        if (angle >= Mathf.PI * 2.0f)
         {
-            angle -= Math.PI * 2;
+            angle -= Mathf.PI * 2.0f;
         }
     }
 
@@ -112,15 +182,18 @@ public class Ball
         angle -= ANGLE_INCREMENT;
         if (angle <= 0)
         {
-            angle += Math.PI * 2;
+            angle += Mathf.PI * 2.0f;
         }
     }
 
-    public bool InAir() { return false; } // TODO change this
+    public bool InAir() { return height > 0.001; }
     public bool InMotion() { return velocity.magnitude > 0.25; }
     public bool IsMoving() { return InAir() || InMotion(); }
 
-    public void SetDeltaTime(float time) { this.time = time /= rate; }
+    public bool InHole() { return position == game.GetHoleInfo().GetHolePosition(); }
+    public bool InWater() { return false; } // TODO
+
+    public void SetDeltaTime() { this.deltaTime = Time.deltaTime * rate; }
     public void SetRate(float rate) { this.rate = rate; }
     public void SetInaccuracyRate(float innacuracyRate) { this.inaccuracyRate = inaccuracyRate; }
     public void SetPosition(Vector3 v) { position = new Vector3(v.x, v.y, v.z); }

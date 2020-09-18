@@ -8,19 +8,16 @@ public class EvaluateState : State
 
     public override void Tick()
     {
-        // TODO - if (game.ball.InHole())
-        if (true)
+        if (game.ball.InHole())
         {
             // TODO - go to next hole
             game.SetState(new PostHoleState(game));
         }
-        // TODO - else if (game.ball.InWater())
-        else if (true)
+        else if (game.ball.InWater())
         {
             game.IncrementStrokes();
             // TODO - reset the ball
         }
-        // TODO - update wind?
         game.SetState(new PrepareState(game));
     }
 }

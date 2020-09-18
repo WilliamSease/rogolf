@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,7 +33,9 @@ public class PostHoleState : State
         if (timeRemaining <= 0)
         {
             Reset();
-            game.SetState(new ScorecardState(game));
+            //game.SetState(new ScorecardState(game));
+            // Go to scorecard
+            throw new InvalidOperationException("Hole over. Go to scorecard");
         }
     }
 }

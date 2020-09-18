@@ -5,10 +5,10 @@ using UnityEngine;
 public class Club
 {
     private string name;
-    private double power;
-    private double loft;
+    private float power;
+    private float loft;
 
-    public Club(string name, double power, double loft)
+    public Club(string name, float power, float loft)
     {
         this.name = name;
         this.power = power;
@@ -16,9 +16,9 @@ public class Club
     }
 
     public string GetName() { return name; }
-    public double GetPower() { return power; }
-    public double GetLoft() { return loft; }
+    public float GetPower() { return power; }
+    public float GetLoft() { return loft; }
 
-    public void SetPower(double power) { this.power = power; }
-    public void SetLoft(double loft) { this.loft = loft; }
+    public void SetPower(float power) { this.power = power; }
+    public void SetLoft(float loft) { this.loft = loft; }
 }

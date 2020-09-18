@@ -16,10 +16,10 @@ public class Bag
 
         // Add default clubs
         // name, power, shot loft (radians)
-        this.bagList.Add(new Club("1W", 10, 0.25));
-        this.bagList.Add(new Club("5I", 10, 0.6));
-        this.bagList.Add(new Club("SW", 10, 1));
-        this.bagList.Add(new Club("P", 10, 0));
+        this.bagList.Add(new Club("1W", 320f, 0.2f));
+        this.bagList.Add(new Club("5I", 140f, 0.3f));
+        this.bagList.Add(new Club("SW", 50f, 0.4f));
+        this.bagList.Add(new Club("P", 30f, 0.125f));
 
         this.current = 0;
     }
