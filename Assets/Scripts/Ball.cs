@@ -8,6 +8,7 @@ public class Ball
     private const float ANGLE_INCREMENT = 1/32f;
     private const float SPIN_RATE = 3f;
     private const float SPIN_DECAY = 0.5f;
+    private const float NO_HEIGHT_TIME_OUT = 5f;
 
     private Game game;
     private float deltaTime;
@@ -20,6 +21,7 @@ public class Ball
     private float dtheta;
     private Vector3 spin;
     private float height;
+    private Vector3 terrainNormal;
     private Vector3 lastPosition;
 
     private float rate;
@@ -40,12 +42,12 @@ public class Ball
         noHeightTime = 0;
 
         // Initialize default parameters
-        rate = 5/4f;
+        rate = 4/3f;
         inaccuracyRate = 1/128f;
         mass = 0.25f;
         gravity = new Vector3(0, -9.8f, 0);
         friction = 1.0f;
-        bounce = -0.5f;
+        bounce = 0.3f;
         radius = 0.0625f;
         c = 0.5f;
         rho = 1.2f;
@@ -53,6 +55,7 @@ public class Ball
 
         dtheta = 0;
         height = 0;
+        terrainNormal = new Vector3(Single.NaN, Single.NaN, Single.NaN);
 
         Reset(new Vector3(0,0,0));
     }
@@ -102,17 +105,7 @@ public class Ball
         SetDeltaTime();
         if (IsMoving())
         {
-            // Update position
-            position += velocity * (deltaTime / mass);
-            // Apply inaccuracy
-            VectorUtil.Rotate(velocity, dtheta);
-            // Apply wind
-            //velocity += 
-            // Update wind resistance
-            fnet = (gravity * mass) - ((velocity * (0.5f*c*rho*A * Mathf.Pow(velocity.magnitude / mass, 2))) / velocity.magnitude);
-            // Update velocity
-            velocity += fnet * deltaTime;
-
+            UpdatePhysicsVectors();
             SetHeight();
             CalculateBounce();
             CalculateFriction();
@@ -123,12 +116,50 @@ public class Ball
         }
     }
 
+    private void UpdatePhysicsVectors()
+    {
+        // Update position
+        position += velocity * (deltaTime / mass);
+        // Apply inaccuracy
+        VectorUtil.Rotate(velocity, dtheta);
+        // Apply wind
+        //velocity += 
+        // Update wind resistance
+        fnet = (gravity * mass) - ((velocity * (0.5f*c*rho*A * Mathf.Pow(velocity.magnitude / mass, 2))) / velocity.magnitude);
+        // Update velocity
+        velocity += fnet * deltaTime;
+    }
+
+    private void SetHeight()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(new Ray(position, Vector3.down), out hit))
+        {
+            noHeightTime = 0;
+            height = position.y - hit.point.y;
+            terrainNormal = hit.normal;
+        }
+        else
+        {
+            if (noHeightTime < NO_HEIGHT_TIME_OUT)
+            {
+                noHeightTime += deltaTime;
+                height = Single.PositiveInfinity;
+            }
+            else
+            {
+                throw new InvalidOperationException("Ball height not found");
+            }
+        }
+    }
+
     private void CalculateBounce()
     {
-        if (height <= 0)
+        if (height == Single.PositiveInfinity)
         {
             position.y -= velocity.y;
-            velocity.y *= bounce * 0.25f;
+            velocity = Vector3.Reflect(velocity, terrainNormal);
+            velocity.y *= bounce; // TODO - this prob isn't right
 
             // Calculate spin
             //velocity += spin;
@@ -142,28 +173,6 @@ public class Ball
         {
             //position.y -= height;
             velocity *= friction * 0.95f;
-        }
-    }
-
-    private void SetHeight()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(new Ray(position, Vector3.down), out hit))
-        {
-            noHeightTime = 0;
-            height = position.y - hit.point.y;
-        }
-        else
-        {
-            if (noHeightTime < 2)
-            {
-                noHeightTime += deltaTime;
-                height = Single.NegativeInfinity;
-            }
-            else
-            {
-                throw new InvalidOperationException("Ball height not found");
-            }
         }
     }
 
@@ -195,7 +204,7 @@ public class Ball
 
     public void SetDeltaTime() { this.deltaTime = Time.deltaTime * rate; }
     public void SetRate(float rate) { this.rate = rate; }
-    public void SetInaccuracyRate(float innacuracyRate) { this.inaccuracyRate = inaccuracyRate; }
+    public void SetInaccuracyRate(float inaccuracyRate) { this.inaccuracyRate = inaccuracyRate; }
     public void SetPosition(Vector3 v) { position = new Vector3(v.x, v.y, v.z); }
     public void SetPosition(float x, float y, float z) { position = new Vector3(x, y, z); } 
     public void SetLastPosition() { lastPosition = new Vector3(position.x, position.y, position.z); }

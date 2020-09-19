@@ -27,9 +27,9 @@ public class Game : MonoBehaviour
 
     // GAME OBJECT (not GameObject)
     public HoleInfo holeInfo;
+    public Ball ball;
     public Bag bag;
     public Powerbar powerbar;
-    public Ball ball;
 
     // Game parameters
     private int strokes;
@@ -116,9 +116,9 @@ public class Game : MonoBehaviour
     {
         inputController = new InputController(this);
 
+        ball = new Ball(this);
         bag = new Bag(this);
         powerbar = new Powerbar(this);
-        ball = new Ball(this);
     }
 
     public void SetState(State state)
@@ -144,7 +144,7 @@ public class Game : MonoBehaviour
     public void SetHoleInfo(HoleInfo holeInfo) { this.holeInfo = holeInfo; }
 
     public HoleInfo GetHoleInfo() { return holeInfo; }
-    public Bag GetBag() { return bag; }
     public Ball GetBall() { return ball; }
+    public Bag GetBag() { return bag; }
     public Powerbar GetPowerbar() { return powerbar; }
 }

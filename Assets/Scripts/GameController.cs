@@ -126,7 +126,7 @@ public class GameController : MonoBehaviour
         {
             allChildren = terrain.GetComponentsInChildren<Transform>();
         }
-        catch (NullReferenceException e)
+        catch (NullReferenceException)
         {
             throw new InvalidOperationException("Terrain not found on scene " + holeName + ". Is the .blend file missing in the project?");
         }
