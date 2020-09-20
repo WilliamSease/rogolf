@@ -73,17 +73,18 @@ public class Ball
         spin = new Vector3(0,0,0);
     }
 
-    /// <summary>
-    /// Strikes the ball given power, loft, and inaccuracy angle.
-    /// Calculate attributes and ball lie before you call this.
-    /// </summary>
-    public void Strike(float power, float loft, float dtheta)
+    public void Reset() { Reset(new Vector3(0,0,0)); }
+
+    public void Strike(Club club, float power, float accuracy)
     {
+        float clubPower = club.GetPower() * power;
+        float clubLoft = club.GetLoft();
+
         SetLastPosition();
 
         // Set velocity
-        float horizontal = power * Mathf.Cos(loft);
-        float vertical = power * Mathf.Sin(loft);
+        float horizontal = clubPower * Mathf.Cos(clubLoft);
+        float vertical = clubPower * Mathf.Sin(clubLoft);
         Vector3 angleVector = VectorUtil.FromPolar(horizontal * mass, angle);
         velocity = angleVector;
         velocity.y = vertical;
@@ -91,11 +92,29 @@ public class Ball
         // Set wind resistance
         fnet = gravity * mass;
         // Set spin
-        Club c = game.GetBag().GetClub();
-        Vector2 clubVector = VectorUtil.FromPolar(c.GetPower(), c.GetLoft());
+        Vector2 clubVector = VectorUtil.FromPolar(club.GetPower(), club.GetLoft());
         spin = VectorUtil.FromPolar(-clubVector.y / clubVector.x * SPIN_RATE, angle);
         // Set inaccuracy
         this.dtheta = dtheta * inaccuracyRate; 
+    }
+
+    public void SimulateDistance(Club club)
+    {
+        Reset();
+        Strike(club, 1f, 0f);
+        while (true)
+        {
+            deltaTime = 0.03f;
+            if (IsMoving())
+            {
+                UpdatePhysicsVectors();
+                height = position.y;
+                CalculateBounce();
+                CalculateFriction();
+            }
+            else { break; }
+        }
+        club.SetDistance(position.magnitude);
     }
 
     public void Tick()

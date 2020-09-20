@@ -256,7 +256,7 @@ public class GameController : MonoBehaviour
         game.SetHoleInfo(new HoleInfo(game.GetHoleBag().GetHoleCount(), Tee.FRONT, teeFrontPosition, teeBackPosition, holePosition));
 
         // Set ball
-        game.GetBall().SetPosition(game.GetHoleInfo().GetTeePosition());
+        game.GetBall().Reset(game.GetHoleInfo().GetTeePosition());
 
         // Reset per-hole data
         //game.ResetStrokes();

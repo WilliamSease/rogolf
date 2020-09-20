@@ -21,6 +21,12 @@ public class Bag
         this.bagList.Add(new Club("SW", 50f, 0.4f));
         this.bagList.Add(new Club("P", 30f, 0.125f));
 
+        // Calculate distances
+        foreach (Club club in bagList)
+        {
+            game.GetBall().SimulateDistance(club);
+        }
+
         this.current = 0;
     }
 
