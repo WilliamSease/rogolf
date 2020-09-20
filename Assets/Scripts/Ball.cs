@@ -47,7 +47,7 @@ public class Ball
         mass = 0.25f;
         gravity = new Vector3(0, -9.8f, 0);
         friction = 1.0f;
-        bounce = 0.3f;
+        bounce = 0.5f;
         radius = 0.0625f;
         c = 0.5f;
         rho = 1.2f;
@@ -94,7 +94,7 @@ public class Ball
         Club c = game.GetBag().GetClub();
         Vector2 clubVector = VectorUtil.FromPolar(c.GetPower(), c.GetLoft());
         spin = VectorUtil.FromPolar(-clubVector.y / clubVector.x * SPIN_RATE, angle);
-        // Set innacuracy
+        // Set inaccuracy
         this.dtheta = dtheta * inaccuracyRate; 
     }
 
@@ -133,7 +133,14 @@ public class Ball
     private void SetHeight()
     {
         RaycastHit hit;
+        Vector3 positionHigh = new Vector3(position.x, position.y + 1000, position.z);
         if (Physics.Raycast(new Ray(position, Vector3.down), out hit))
+        {
+            noHeightTime = 0;
+            height = position.y - hit.point.y;
+            terrainNormal = hit.normal;
+        }
+        else if (Physics.Raycast(new Ray(positionHigh, Vector3.down), out hit))
         {
             noHeightTime = 0;
             height = position.y - hit.point.y;
@@ -155,11 +162,11 @@ public class Ball
 
     private void CalculateBounce()
     {
-        if (height == Single.PositiveInfinity)
+        if (height <= 0)
         {
-            position.y -= velocity.y;
+            position.y -= height;
             velocity = Vector3.Reflect(velocity, terrainNormal);
-            velocity.y *= bounce; // TODO - this prob isn't right
+            velocity.y *= bounce;
 
             // Calculate spin
             //velocity += spin;

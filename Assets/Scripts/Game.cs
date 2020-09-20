@@ -9,6 +9,8 @@ using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour
 {
+    private const float BALL_HEIGHT = 0.1f;
+
     // GameObject objects
     public GameObject godObject;
     public GameObject ballObject;
@@ -57,6 +59,7 @@ public class Game : MonoBehaviour
 
         // Update ball GameObject and controls
         Vector3 ballPosition = ball.GetPosition();
+        ballPosition.y += BALL_HEIGHT;
         ballObject.transform.localPosition = ballPosition;
         orbitalControls.targetPosition = ballPosition;
 
