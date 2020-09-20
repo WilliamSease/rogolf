@@ -27,6 +27,9 @@ public class GameController : MonoBehaviour
 
     public Canvas gameUI;
 
+    public Material normalMap;
+    private bool greenNormalMap;
+
     void Start()
     {
         // We need to control the game for the whole game! Don't we?!?
@@ -104,6 +107,8 @@ public class GameController : MonoBehaviour
         game.Init();
 
         /* Modify Scene */
+        greenNormalMap = false;
+
         //  Add lighting
         // TODO - we're just using stock lighting for now
         RenderSettings.skybox = skyboxMaterial;
@@ -145,7 +150,7 @@ public class GameController : MonoBehaviour
             string childName = childObject.name;
             // Skip iteration if component is the parent
             if (childName == holeName || childName == NAME) continue;
-            // Else if prop, add to approprate prop list
+            // Else if prop, add to appropriate prop list
             else if (childName.StartsWith("Pin"))
             {
                 pinList.Add(childObject);
@@ -261,7 +266,7 @@ public class GameController : MonoBehaviour
     }
     
     // Vector3 is a non-nullable type; we need the '?' operator to be able to null it.
-    public Vector3? AddProp(GameObject gameObject, GameObject prop)
+    private Vector3? AddProp(GameObject gameObject, GameObject prop)
     {
         if (gameObject == null)
         {
@@ -286,7 +291,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public RaycastHit RaycastVertical(GameObject gameObject)
+    private RaycastHit RaycastVertical(GameObject gameObject)
     {
         RaycastHit hit;
         // Check down
@@ -299,5 +304,32 @@ public class GameController : MonoBehaviour
         {
             throw new InvalidOperationException("RaycastHit not found for " + gameObject.name);
         }
+    }
+
+    public void ToggleGreenNormalMap()
+    {
+        string holeName = SceneManager.GetActiveScene().name;
+        GameObject terrain = GameObject.Find(holeName);
+        Transform[] allChildren = terrain.GetComponentsInChildren<Transform>();
+
+        foreach (Transform child in allChildren)
+        {
+            GameObject childObject = child.gameObject;
+            string childName = childObject.name;
+            if (childName.StartsWith("G"))
+            {
+                Renderer renderer = childObject.GetComponent<Renderer>();
+                if (greenNormalMap)
+                {
+                    renderer.material = green;
+                }
+                else
+                {
+                    renderer.material = normalMap;
+                }
+            }
+        }
+
+        greenNormalMap = !greenNormalMap;
     }
 }

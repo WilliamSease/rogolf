@@ -2681,6 +2681,7 @@ MonoBehaviour:
   water: {fileID: 2100000, guid: 09f527dcba7241e4eae743bf0dc28f10, type: 2}
   skyboxMaterial: {fileID: 2100000, guid: e7ce0b35c000acb4c8742050f1e6e148, type: 2}
   gameUI: {fileID: 1551951892}
+  normalMap: {fileID: 2100000, guid: ca495a4d8c2e9d740ace3e4d9ccc6eab, type: 2}
 --- !u!114 &1044974695
 MonoBehaviour:
   m_ObjectHideFlags: 0

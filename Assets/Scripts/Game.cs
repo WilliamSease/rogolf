@@ -132,6 +132,11 @@ public class Game : MonoBehaviour
         this.state.OnStateEnter();
     }
 
+    public GameController GetGameController()
+    {
+        return (GameController) GameObject.Find(GameController.NAME).GetComponent<GameController>();
+    }
+
     public int GetStrokes() { return strokes; }
     public void ResetStrokes() { strokes = 0; }
     public void IncrementStrokes() { ++strokes; }

@@ -23,4 +23,9 @@ public class IdleState : State
     public override void OnKeyA() { game.GetBall().IncrementAngle(); }
     public override void OnKeyRightArrow() { game.GetBall().DecrementAngle(); }
     public override void OnKeyD() { game.GetBall().DecrementAngle(); }
+
+    public override void OnKeyE() {
+        GameController gc = game.GetGameController();
+        gc.ToggleGreenNormalMap();
+    }
 }

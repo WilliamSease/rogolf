@@ -53,6 +53,14 @@ public class InputController
         {
             game.state.OnKeyD();
         }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            game.state.OnKeyQ();
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            game.state.OnKeyE();
+        }
         if (Input.GetKeyDown(KeyCode.Return)) // Enter key
         {
             game.state.OnKeyReturn();
