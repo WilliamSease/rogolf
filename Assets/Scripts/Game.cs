@@ -10,10 +10,13 @@ using UnityEngine.SceneManagement;
 public class Game : MonoBehaviour
 {
     private const float BALL_HEIGHT = 0.1f;
+    private const float CURSOR_HEIGHT = 25f/8f;
 
     // GameObject objects
     public GameObject godObject;
+    public GameObject cameraObject;
     public GameObject ballObject;
+    public GameObject cursorObject;
 
     public MouseOrbitImproved orbitalControls;
 
@@ -30,6 +33,7 @@ public class Game : MonoBehaviour
     // GAME OBJECT (not GameObject)
     public HoleInfo holeInfo;
     public Ball ball;
+    public Cursor cursor;
     public Bag bag;
     public Powerbar powerbar;
 
@@ -57,11 +61,19 @@ public class Game : MonoBehaviour
         inputController.Tick();
         state.Tick();
 
-        // Update ball GameObject and controls
+        // Update ball GameObject, cursor, and controls
         Vector3 ballPosition = ball.GetPosition();
         ballPosition.y += BALL_HEIGHT;
         ballObject.transform.localPosition = ballPosition;
+
+        Vector3 cursorPosition = cursor.GetPosition();
+        cursorPosition.y += CURSOR_HEIGHT;
+        cursorObject.transform.localPosition = cursorPosition;
+        cursorObject.transform.LookAt(Camera.main.transform.position, Vector3.up);
+
         orbitalControls.targetPosition = ballPosition;
+
+        UnityEngine.Debug.Log(ball.GetPosition() + "\t" + cursor.GetPosition()); // TODO - debug
 
         // Send Game reference to other objects
         GodOfUI ui = (GodOfUI)GameObject.Find("UICanvas").GetComponent<GodOfUI>();
@@ -120,6 +132,7 @@ public class Game : MonoBehaviour
         inputController = new InputController(this);
 
         ball = new Ball(this);
+        cursor = new Cursor(this);
         bag = new Bag(this);
         powerbar = new Powerbar(this);
     }
@@ -153,6 +166,7 @@ public class Game : MonoBehaviour
 
     public HoleInfo GetHoleInfo() { return holeInfo; }
     public Ball GetBall() { return ball; }
+    public Cursor GetCursor() { return cursor; }
     public Bag GetBag() { return bag; }
     public Powerbar GetPowerbar() { return powerbar; }
 }

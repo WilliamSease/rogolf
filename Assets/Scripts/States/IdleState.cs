@@ -6,11 +6,13 @@ public class IdleState : State
 {
     public IdleState(Game game) : base(game) { }
 
-    public override void Tick() { }
+    public override void Tick() {
+        game.GetCursor().Tick();
+    }
 
     public override void OnKeySpace()
     {
-        game.powerbar.Reset();
+        game.GetPowerbar().Reset();
         game.SetState(new PowerState(game));
     }
 

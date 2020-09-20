@@ -11,6 +11,8 @@ public class GameController : MonoBehaviour
 
     public GameObject camera;
     public GameObject ball;
+    public GameObject cursor;
+
     public GameObject teeFront;
     public GameObject teeBack;
     public GameObject pin;
@@ -116,9 +118,12 @@ public class GameController : MonoBehaviour
         //  Add ball
         ball = Instantiate(ball);
         game.ballObject = ball;
+        cursor = Instantiate(cursor);
+        game.cursorObject = cursor;
 
         // Add camera and controls
         camera = Instantiate(camera);
+        game.cameraObject = camera;
         MouseOrbitImproved orbitalControls = camera.GetComponent<MouseOrbitImproved>();
         game.orbitalControls = orbitalControls;
 
