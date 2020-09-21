@@ -204,7 +204,6 @@ public class Ball
 
     public void IncrementAngle()
     {
-        UnityEngine.Debug.Log(ANGLE_INCREMENT);
         angle += ANGLE_INCREMENT;
         if (angle >= Mathf.PI * 2.0f)
         {

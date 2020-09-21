@@ -20,9 +20,21 @@ public class Cursor
         p.x += distance * Mathf.Cos(angle);
         p.z += distance * Mathf.Sin(angle);
         position = p;
+        SetHeight();
 
         // Set graphics
         game.GetGameController().TickCursor();
+    }
+
+    private void SetHeight()
+    {
+        RaycastHit hit;
+        Vector3 positionHigh = new Vector3(position.x, position.y + 1000, position.z);
+        if (Physics.Raycast(new Ray(positionHigh, Vector3.down), out hit))
+        {
+            position.y = hit.point.y;
+        }
+        // Else don't do anything -- cursor is already at ball height
     }
 
     public Vector3 GetPosition() { return new Vector3(position.x, position.y, position.z); }

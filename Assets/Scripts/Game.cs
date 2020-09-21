@@ -17,7 +17,8 @@ namespace TargetEnum
 public class Game : MonoBehaviour
 {
     private const float BALL_HEIGHT = 0.1f;
-    private const float CURSOR_HEIGHT = 25f/8f;
+    private const float CURSOR_HEIGHT = 1f;
+    private const float CURSOR_SEGMENT_HEIGHT = 1.5f;
 
     public GameController gc;
 
@@ -82,17 +83,14 @@ public class Game : MonoBehaviour
         cursorPosition.y += CURSOR_HEIGHT;
         for (int i = 0; i < cursorList.Count; i++)
         {
-            Vector3 tempPos = new Vector3(cursorPosition.x, cursorPosition.y + (i * 2), cursorPosition.z);
+            Vector3 tempPos = new Vector3(cursorPosition.x, cursorPosition.y + (i * CURSOR_SEGMENT_HEIGHT), cursorPosition.z);
             cursorList[i].transform.localPosition = tempPos;
         }
-        //cursorObject.transform.LookAt(Camera.main.transform.position, Vector3.up);
 
         // Update camera target position
         if (target == Target.BALL) orbitalControls.targetPosition = ballPosition;
         else orbitalControls.targetPosition = cursorPosition;
-
-        UnityEngine.Debug.Log(ball.GetPosition() + "\t" + cursor.GetPosition()); // TODO - debug
-
+        
         // Send Game reference to other objects
         GodOfUI ui = (GodOfUI)GameObject.Find("UICanvas").GetComponent<GodOfUI>();
         ui.gameRef = this;
