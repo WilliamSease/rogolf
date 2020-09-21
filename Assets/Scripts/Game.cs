@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml;
@@ -18,11 +19,13 @@ public class Game : MonoBehaviour
     private const float BALL_HEIGHT = 0.1f;
     private const float CURSOR_HEIGHT = 25f/8f;
 
+    public GameController gc;
+
     // GameObject objects
     public GameObject godObject;
     public GameObject cameraObject;
     public GameObject ballObject;
-    public GameObject cursorObject;
+    public List<GameObject> cursorList;
 
     private Target target;
     public MouseOrbitImproved orbitalControls;
@@ -50,6 +53,7 @@ public class Game : MonoBehaviour
     public void Init()
     {
         this.state = new NoState(this);
+        gc = (GameController) GameObject.Find(GameController.NAME).GetComponent<GameController>();
         LoadGameData();
     }
 
@@ -76,8 +80,12 @@ public class Game : MonoBehaviour
         // Update cursor GameObject
         Vector3 cursorPosition = cursor.GetPosition();
         cursorPosition.y += CURSOR_HEIGHT;
-        cursorObject.transform.localPosition = cursorPosition;
-        cursorObject.transform.LookAt(Camera.main.transform.position, Vector3.up);
+        for (int i = 0; i < cursorList.Count; i++)
+        {
+            Vector3 tempPos = new Vector3(cursorPosition.x, cursorPosition.y + (i * 2), cursorPosition.z);
+            cursorList[i].transform.localPosition = tempPos;
+        }
+        //cursorObject.transform.LookAt(Camera.main.transform.position, Vector3.up);
 
         // Update camera target position
         if (target == Target.BALL) orbitalControls.targetPosition = ballPosition;
@@ -161,10 +169,7 @@ public class Game : MonoBehaviour
         else target = Target.BALL;
     }
 
-    public GameController GetGameController()
-    {
-        return (GameController) GameObject.Find(GameController.NAME).GetComponent<GameController>();
-    }
+    public GameController GetGameController() { return gc; }
 
     public int GetStrokes() { return strokes; }
     public void ResetStrokes() { strokes = 0; }

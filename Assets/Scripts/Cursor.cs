@@ -20,6 +20,9 @@ public class Cursor
         p.x += distance * Mathf.Cos(angle);
         p.z += distance * Mathf.Sin(angle);
         position = p;
+
+        // Set graphics
+        game.GetGameController().TickCursor();
     }
 
     public Vector3 GetPosition() { return new Vector3(position.x, position.y, position.z); }

@@ -11,7 +11,14 @@ public class GameController : MonoBehaviour
 
     public GameObject camera;
     public GameObject ball;
+
     public GameObject cursor;
+    public List<GameObject> cursorList;
+    public Material cursorOn;
+    public Material cursorOff;
+    public const float CURSOR_RATE = 0.1f;
+    public float cursorDeltaTime;
+    public int cursorIndex;
 
     public GameObject teeFront;
     public GameObject teeBack;
@@ -118,8 +125,18 @@ public class GameController : MonoBehaviour
         //  Add ball
         ball = Instantiate(ball);
         game.ballObject = ball;
-        cursor = Instantiate(cursor);
-        game.cursorObject = cursor;
+
+        // Add cursor
+        cursorList.Add(Instantiate(cursor));
+        cursorList.Add(Instantiate(cursor));
+        cursorList.Add(Instantiate(cursor));
+        foreach (GameObject c in cursorList)
+        {
+            c.GetComponent<Renderer>().material = cursorOff;
+        }
+        game.cursorList = cursorList;
+        cursorDeltaTime = 0;
+        cursorIndex = 0;
 
         // Add camera and controls
         camera = Instantiate(camera);
@@ -308,6 +325,20 @@ public class GameController : MonoBehaviour
         else
         {
             throw new InvalidOperationException("RaycastHit not found for " + gameObject.name);
+        }
+    }
+
+    public void TickCursor()
+    {
+        cursorDeltaTime += Time.deltaTime;
+        if (cursorDeltaTime >= CURSOR_RATE)
+        {
+            cursorList[cursorIndex].GetComponent<Renderer>().material = cursorOff;
+            cursorIndex--;
+            if (cursorIndex < 0) cursorIndex = cursorList.Count - 1;
+            cursorList[cursorIndex].GetComponent<Renderer>().material = cursorOn;
+
+            cursorDeltaTime -= CURSOR_RATE;
         }
     }
 
