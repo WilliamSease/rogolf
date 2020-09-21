@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TargetEnum;
 using UnityEngine;
 
 public class IdleState : State
@@ -12,8 +13,15 @@ public class IdleState : State
 
     public override void OnKeySpace()
     {
-        game.GetPowerbar().Reset();
-        game.SetState(new PowerState(game));
+        if (game.GetTarget() == Target.BALL)
+        {
+            game.GetPowerbar().Reset();
+            game.SetState(new PowerState(game));
+        }
+        else
+        {
+            game.ToggleTarget();
+        }
     }
 
     public override void OnKeyUpArrow() { game.GetBag().DecrementBag(); }
@@ -30,4 +38,6 @@ public class IdleState : State
         GameController gc = game.GetGameController();
         gc.ToggleGreenNormalMap();
     }
+
+    public override void OnKeyQ() { game.ToggleTarget(); }
 }

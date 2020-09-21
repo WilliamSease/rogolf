@@ -4,8 +4,14 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml;
 using System.Xml.Serialization;
+using TargetEnum;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
+namespace TargetEnum
+{
+    public enum Target { BALL, CURSOR }
+}
 
 public class Game : MonoBehaviour
 {
@@ -18,6 +24,7 @@ public class Game : MonoBehaviour
     public GameObject ballObject;
     public GameObject cursorObject;
 
+    private Target target;
     public MouseOrbitImproved orbitalControls;
 
     // Other game objects (that aren't game objects)
@@ -61,17 +68,20 @@ public class Game : MonoBehaviour
         inputController.Tick();
         state.Tick();
 
-        // Update ball GameObject, cursor, and controls
+        // Update ball GameObject
         Vector3 ballPosition = ball.GetPosition();
         ballPosition.y += BALL_HEIGHT;
         ballObject.transform.localPosition = ballPosition;
 
+        // Update cursor GameObject
         Vector3 cursorPosition = cursor.GetPosition();
         cursorPosition.y += CURSOR_HEIGHT;
         cursorObject.transform.localPosition = cursorPosition;
         cursorObject.transform.LookAt(Camera.main.transform.position, Vector3.up);
 
-        orbitalControls.targetPosition = ballPosition;
+        // Update camera target position
+        if (target == Target.BALL) orbitalControls.targetPosition = ballPosition;
+        else orbitalControls.targetPosition = cursorPosition;
 
         UnityEngine.Debug.Log(ball.GetPosition() + "\t" + cursor.GetPosition()); // TODO - debug
 
@@ -130,6 +140,7 @@ public class Game : MonoBehaviour
     private void Initialize()
     {
         inputController = new InputController(this);
+        target = Target.BALL;
 
         ball = new Ball(this);
         cursor = new Cursor(this);
@@ -143,6 +154,11 @@ public class Game : MonoBehaviour
         UnityEngine.Debug.Log(state);
         this.state = state;
         this.state.OnStateEnter();
+    }
+
+    public void ToggleTarget() {
+        if (target == Target.BALL) target = Target.CURSOR;
+        else target = Target.BALL;
     }
 
     public GameController GetGameController()
@@ -164,6 +180,7 @@ public class Game : MonoBehaviour
     public void SetTerrainAttributes(TerrainAttributes terrainAttributes) { this.terrainAttributes = terrainAttributes; }
     public void SetHoleInfo(HoleInfo holeInfo) { this.holeInfo = holeInfo; }
 
+    public Target GetTarget() { return target; }
     public HoleInfo GetHoleInfo() { return holeInfo; }
     public Ball GetBall() { return ball; }
     public Cursor GetCursor() { return cursor; }
