@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour
 
     public GameObject camera;
     public GameObject ball;
+	public GameObject freeFocus;
 
     public GameObject cursor;
     public List<GameObject> cursorList;
@@ -125,6 +126,9 @@ public class GameController : MonoBehaviour
         //  Add ball
         ball = Instantiate(ball);
         game.ballObject = ball;
+		
+		// Add freeFocus
+		game.freeFocus = freeFocus;
 
         // Add cursor
         cursorList.Add(Instantiate(cursor));
@@ -279,6 +283,10 @@ public class GameController : MonoBehaviour
 
         // Set ball
         game.GetBall().Reset(game.GetHoleInfo().GetTeePosition());
+		
+		// Set freeFocus object
+		freeFocus.transform.position = game.GetBall().GetPosition();
+
 
         // Reset per-hole data
         //game.ResetStrokes();

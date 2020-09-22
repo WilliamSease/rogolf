@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
 
 namespace TargetEnum
 {
-    public enum Target { BALL, CURSOR }
+    public enum Target { BALL, CURSOR, FREE }
 }
 
 public class Game : MonoBehaviour
@@ -44,6 +44,7 @@ public class Game : MonoBehaviour
     // GAME OBJECT (not GameObject)
     public HoleInfo holeInfo;
     public Ball ball;
+	public GameObject freeFocus;
     public Cursor cursor;
     public Bag bag;
     public Powerbar powerbar;
@@ -89,7 +90,8 @@ public class Game : MonoBehaviour
 
         // Update camera target position
         if (target == Target.BALL) orbitalControls.targetPosition = ballPosition;
-        else orbitalControls.targetPosition = cursorPosition;
+        if (target == Target.CURSOR) orbitalControls.targetPosition = cursorPosition;
+		if (target == Target.FREE) orbitalControls.targetPosition = freeFocus.transform.position;
         
         // Send Game reference to other objects
         GodOfUI ui = (GodOfUI)GameObject.Find("UICanvas").GetComponent<GodOfUI>();
@@ -164,6 +166,7 @@ public class Game : MonoBehaviour
 
     public void ToggleTarget() {
         if (target == Target.BALL) target = Target.CURSOR;
+		else if (target == Target.CURSOR) target = Target.FREE;
         else target = Target.BALL;
     }
 
@@ -186,6 +189,7 @@ public class Game : MonoBehaviour
     public Target GetTarget() { return target; }
     public HoleInfo GetHoleInfo() { return holeInfo; }
     public Ball GetBall() { return ball; }
+	public GameObject getFreeFocus() { return freeFocus; }
     public Cursor GetCursor() { return cursor; }
     public Bag GetBag() { return bag; }
     public Powerbar GetPowerbar() { return powerbar; }

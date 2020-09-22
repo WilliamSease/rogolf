@@ -26,15 +26,19 @@ public class IdleState : State
         }
     }
 
-    public override void OnKeyUpArrow() { game.GetBag().DecrementBag(); }
     public override void OnKeyW() { game.GetBag().DecrementBag(); }
-    public override void OnKeyDownArrow() { game.GetBag().IncrementBag(); }
     public override void OnKeyS() { game.GetBag().IncrementBag(); }
 
-    public override void OnKeyLeftArrow() { game.GetBall().IncrementAngle(); }
     public override void OnKeyA() { game.GetBall().IncrementAngle(); }
-    public override void OnKeyRightArrow() { game.GetBall().DecrementAngle(); }
     public override void OnKeyD() { game.GetBall().DecrementAngle(); }
+
+	public override void OnKeyUpArrow() { game.getFreeFocus().transform.Translate(Vector3.forward); }
+	public override void OnKeyDownArrow() { game.getFreeFocus().transform.Translate(Vector3.back); }
+	public override void OnKeyLeftArrow() { game.getFreeFocus().transform.Translate(Vector3.left); }
+	public override void OnKeyRightArrow() { game.getFreeFocus().transform.Translate(Vector3.right); }
+
+
+
 
     public override void OnKeyE() { game.GetGameController().ToggleGreenNormalMap(); }
 

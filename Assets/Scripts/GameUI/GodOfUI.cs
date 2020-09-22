@@ -69,9 +69,9 @@ public class GodOfUI : MonoBehaviour
 		//ToggleText update.
 		camToggleText.text = Char.ToUpper(gameRef.target.ToString()[0]) + gameRef.target.ToString().ToLower().Substring(1);
 		if (gc.greenNormalMap)	
-			normalToggleText.text = "Show Normals";
+			normalToggleText.text = "Angles";
 		else
-			normalToggleText.text = "Hide Normals";
+			normalToggleText.text = "Normal";
 		
     }
 }
