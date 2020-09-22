@@ -17,13 +17,13 @@ public class TerrainAttributes
     private TerrainType water;
 
     public TerrainAttributes() {
-        // friction, bounce, lie rate, lie range
-        tee = new TerrainType(0.95f, 0.3f, 0.99f, 0.02f);
-        green = new TerrainType(0.98f, 0.3f, 0.99f, 0.02f);
+        //                     friction,bounce,lieRate,lieRange
+        tee = new TerrainType(    0.95f, 0.3f, 0.99f, 0.02f);
+        green = new TerrainType(  0.98f, 0.3f, 0.99f, 0.02f);
         fairway = new TerrainType(0.98f, 0.3f, 0.99f, 0.02f);
-        rough = new TerrainType(0.90f, 0.3f, 0.80f, 0.16f);
-        bunker = new TerrainType(0.50f, 0.1f, 0.70f, 0.20f);
-        water = new TerrainType(0.10f, 0.0f, 0.20f, 0.10f); 
+        rough = new TerrainType(  0.90f, 0.3f, 0.80f, 0.16f);
+        bunker = new TerrainType( 0.50f, 0.1f, 0.70f, 0.20f);
+        water = new TerrainType(  0.10f, 0.0f, 0.20f, 0.10f); 
     }
 
     /// <summary>
