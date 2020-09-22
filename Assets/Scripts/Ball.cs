@@ -202,6 +202,12 @@ public class Ball
         }
     }
 
+    public void AngleToHole()
+    {
+        Vector3 holePosition = game.GetHoleInfo().GetHolePosition();
+        angle = Mathf.Atan2(holePosition.z - position.z, holePosition.x - position.x);
+    }
+
     public void IncrementAngle()
     {
         angle += ANGLE_INCREMENT;
@@ -221,7 +227,7 @@ public class Ball
     }
 
     public bool InAir() { return height > 0.001; }
-    public bool InMotion() { return velocity.magnitude > 0.25; }
+    public bool InMotion() { return velocity.magnitude > 0.25; } // This is wrong because it isn't adjusted for deltaTime
     public bool IsMoving() { return InAir() || InMotion(); }
 
     public bool InHole() { return position == game.GetHoleInfo().GetHolePosition(); }
