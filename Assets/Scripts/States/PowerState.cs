@@ -11,6 +11,7 @@ public class PowerState : State
         if (game.powerbar.OutOfRange())
         {
             game.powerbar.Reset();
+            game.GetCursor().Enable();
             game.SetState(new IdleState(game));
         }
         else
