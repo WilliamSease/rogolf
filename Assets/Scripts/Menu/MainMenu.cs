@@ -37,8 +37,8 @@ public class MainMenu : MonoBehaviour
         button_5.GetComponent<Button>().onClick.AddListener(task_5);
         button_6.GetComponent<Button>().onClick.AddListener(task_6);
         button_7.GetComponent<Button>().onClick.AddListener(task_7);
-        button_8.GetComponent<Button>().onClick.AddListener(task_8);
-        button_9.GetComponent<Button>().onClick.AddListener(task_9);
+        /*button_8.GetComponent<Button>().onClick.AddListener(task_8);
+        button_9.GetComponent<Button>().onClick.AddListener(task_9);*/
     }
 
     void task_1()

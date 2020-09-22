@@ -24,7 +24,7 @@ public class PauseMenu : MonoBehaviour
     {
         if (thisMenu.enabled) 
             thisMenu.enabled = false;
-        button_1.GetComponent<Button>().onClick.AddListener(task_1);
+        /*button_1.GetComponent<Button>().onClick.AddListener(task_1);
         button_2.GetComponent<Button>().onClick.AddListener(task_2);
         button_3.GetComponent<Button>().onClick.AddListener(task_3);
         button_4.GetComponent<Button>().onClick.AddListener(task_4);
@@ -32,7 +32,7 @@ public class PauseMenu : MonoBehaviour
         button_6.GetComponent<Button>().onClick.AddListener(task_6);
         button_7.GetComponent<Button>().onClick.AddListener(task_7);
         button_8.GetComponent<Button>().onClick.AddListener(task_8);
-        button_9.GetComponent<Button>().onClick.AddListener(task_9);
+        button_9.GetComponent<Button>().onClick.AddListener(task_9*/
     }
 
     void Update()

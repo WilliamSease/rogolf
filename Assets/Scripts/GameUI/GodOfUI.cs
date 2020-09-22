@@ -36,6 +36,7 @@ public class GodOfUI : MonoBehaviour
     void Start()
     {
         arrowTarget.transform.parent = arrowParent.transform;
+		//devConsole.enabled = false;
     }
 
     // Update is called once per frame
