@@ -5,10 +5,10 @@ using UnityEngine;
 [System.Serializable]
 public class BunkerTerrain : TerrainType
 {
-    private static double FRICTION = 0.98;
-    private static double BOUNCE = 0.3;
-    private static double LIE_RATE = 0.99;
-    private static double LIE_RANGE = 0.02;
+    private static float FRICTION = 0.5f;
+    private static float BOUNCE = 0.1f;
+    private static float LIE_RATE = 0.70f;
+    private static float LIE_RANGE = 0.20f;
 
     public BunkerTerrain() : base(FRICTION, BOUNCE, LIE_RATE, LIE_RANGE) { }
 }
