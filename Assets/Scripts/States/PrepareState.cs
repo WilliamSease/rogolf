@@ -9,6 +9,7 @@ public class PrepareState : State
     public override void Tick()
     {
         // TODO - do stuff before each shot
+        game.GetCursor().Enable();
         game.GetBall().AngleToHole();
         // TODO - update the wind value
         game.SetState(new IdleState(game));
