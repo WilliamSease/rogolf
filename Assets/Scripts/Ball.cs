@@ -276,12 +276,12 @@ public class Ball
 
     private float GetBounce(bool debug)
     {
-        return debug ? TeeTerrain.BOUNCE : game.GetTerrainAttributes().GetBounce(terrainHit);
+        return debug ? TerrainAttributes.SIMULATED_BOUNCE : game.GetTerrainAttributes().GetBounce(terrainHit);
     }
 
     private float GetFriction(bool debug)
     {
-        return debug ? TeeTerrain.FRICTION : game.GetTerrainAttributes().GetFriction(terrainHit);
+        return debug ? TerrainAttributes.SIMULATED_FRICTION : game.GetTerrainAttributes().GetFriction(terrainHit);
     }
 
     public void AngleToHole()

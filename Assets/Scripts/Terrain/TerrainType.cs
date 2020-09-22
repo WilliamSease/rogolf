@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public abstract class TerrainType
+public class TerrainType
 {
     /// <summary>
     /// Friction coefficient from [0, 1].
@@ -21,7 +21,7 @@ public abstract class TerrainType
     private float lieRate;
 
     /// <summary>
-    /// TOTAL vaiability in lie.
+    /// TOTAL variability in lie.
     /// For example, a lie rate of 0.8 and a lie range of 0.1 produces lies from [0.75, 0.85].
     /// </summary>
     private float lieRange;
