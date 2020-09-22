@@ -11,6 +11,7 @@ public class PrepareState : State
         // TODO - do stuff before each shot
         game.GetCursor().Enable();
         game.GetBall().AngleToHole();
+		game.getFreeFocus().transform.position = game.GetBall().GetPosition();
         // TODO - update the wind value
         game.SetState(new IdleState(game));
     }
