@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using UnityEngine;
 
 public class Ball
@@ -22,6 +24,7 @@ public class Ball
     private Vector3 spin;
     private float height;
     private Vector3 terrainNormal;
+    private bool hasBounced;
     private Vector3 lastPosition;
 
     private float rate;
@@ -98,23 +101,91 @@ public class Ball
         this.dtheta = dtheta * inaccuracyRate; 
     }
 
-    public void SimulateDistance(Club club)
+    public Tuple<float,float,string> SimulateDistance(Club club, bool debug = false)
     {
+        hasBounced = false;
+        float carry = 0;
+        bool set = false;
+
+        StringBuilder outputString = new StringBuilder();
+        float maxHeight = 0;
+        if (debug)
+        {
+            outputString.Append(club.GetPower() + "," + club.GetLoft() + "\nx,y\n");
+            maxHeight = 0;
+        }
+
         Reset();
         Strike(club, 1f, 0f);
+        terrainNormal = new Vector3(0,1,0);
         while (true)
         {
             deltaTime = 0.03f;
             if (IsMoving())
             {
+                if (debug)
+                {
+                    outputString.Append(position.x + "," + position.y  + "\n");
+                    maxHeight = Math.Max(maxHeight, position.y);
+                }
                 UpdatePhysicsVectors();
                 height = position.y;
                 CalculateBounce();
                 CalculateFriction();
+                if (!set && hasBounced)
+                {
+                    carry = position.magnitude;
+                    set = true;
+                }
             }
             else { break; }
         }
         club.SetDistance(position.magnitude);
+
+        return new Tuple<float,float,string>(carry, maxHeight, outputString.ToString());
+    }
+
+    /// <summary>
+    /// Debug method for brute-forcing the correct trajectory.
+    /// </summary>
+    public void FindTrajectory(Club club, float distanceTarget, float maxHeightTarget)
+    {
+        Tuple<float,float,string> result;
+        float distance = Single.NaN;
+        float maxHeight = Single.NaN;
+        string outputString = "";
+        for (int i = 0; i < 1000; i++)
+        {
+            result = SimulateDistance(club, true);
+            distance = result.Item1;
+            maxHeight = result.Item2;
+            outputString = result.Item3;
+
+            if (distance == distanceTarget)
+            {
+                if (maxHeight == maxHeightTarget)
+                {
+                    break;
+                }
+                else
+                {
+                    club.SetLoft(club.GetLoft() + 0.001f*Math.Sign(maxHeightTarget - maxHeight));
+                }
+            }
+            else
+            {
+                if (maxHeight == maxHeightTarget)
+                {
+                    club.SetPower(club.GetPower() + 1f*Math.Sign(distanceTarget - distance));
+                }
+                else
+                {
+                    club.SetPower(club.GetPower() + 1f*Math.Sign(distanceTarget - distance));
+                    club.SetLoft(club.GetLoft() + 0.001f*Math.Sign(maxHeightTarget - maxHeight));
+                }
+            }
+        }
+        System.IO.File.WriteAllText(club.GetName() + ".csv", distance + "," + maxHeight + "\n" + outputString.ToString());
     }
 
     public void Tick()
@@ -190,6 +261,8 @@ public class Ball
             // Calculate spin
             //velocity += spin;
             spin *= SPIN_DECAY;
+
+            hasBounced = true;
         }
     }
 
