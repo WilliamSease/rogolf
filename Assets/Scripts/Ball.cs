@@ -24,6 +24,7 @@ public class Ball
     private Vector3 spin;
     private float height;
     private Vector3 terrainNormal;
+    private RaycastHit terrainHit;
     private bool hasBounced;
     private Vector3 lastPosition;
 
@@ -31,8 +32,6 @@ public class Ball
     private float inaccuracyRate;
     private float mass;
     private Vector3 gravity;
-    private float friction;
-    private float bounce;
     private float radius;
     private float c;
     private float rho;
@@ -49,8 +48,6 @@ public class Ball
         inaccuracyRate = 1/128f;
         mass = 0.25f;
         gravity = new Vector3(0, -9.8f, 0);
-        friction = 1.0f;
-        bounce = 0.5f;
         radius = 0.0625f;
         c = 0.5f;
         rho = 1.2f;
@@ -130,8 +127,8 @@ public class Ball
                 }
                 UpdatePhysicsVectors();
                 height = position.y;
-                CalculateBounce();
-                CalculateFriction();
+                CalculateBounce(true);
+                CalculateFriction(true);
                 if (!set && hasBounced)
                 {
                     carry = position.magnitude;
@@ -229,12 +226,14 @@ public class Ball
             noHeightTime = 0;
             height = position.y - hit.point.y;
             terrainNormal = hit.normal;
+            terrainHit = hit;
         }
         else if (Physics.Raycast(new Ray(positionHigh, Vector3.down), out hit))
         {
             noHeightTime = 0;
             height = position.y - hit.point.y;
             terrainNormal = hit.normal;
+            terrainHit = hit;
         }
         else
         {
@@ -250,13 +249,13 @@ public class Ball
         }
     }
 
-    private void CalculateBounce()
+    private void CalculateBounce(bool debug = false)
     {
         if (height <= 0)
         {
             position.y -= height;
             velocity = Vector3.Reflect(velocity, terrainNormal);
-            velocity.y *= bounce;
+            velocity.y *= GetBounce(debug);
 
             // Calculate spin
             //velocity += spin;
@@ -266,13 +265,23 @@ public class Ball
         }
     }
 
-    private void CalculateFriction()
+    private void CalculateFriction(bool debug = false)
     {
         if (!InAir())
         {
             //position.y -= height;
-            velocity *= friction * 0.95f;
+            velocity *= GetFriction(debug);
         }
+    }
+
+    private float GetBounce(bool debug)
+    {
+        return debug ? TeeTerrain.BOUNCE : game.GetTerrainAttributes().GetBounce(terrainHit);
+    }
+
+    private float GetFriction(bool debug)
+    {
+        return debug ? TeeTerrain.FRICTION : game.GetTerrainAttributes().GetFriction(terrainHit);
     }
 
     public void AngleToHole()

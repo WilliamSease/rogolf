@@ -5,10 +5,10 @@ using UnityEngine;
 [System.Serializable]
 public class GreenTerrain : TerrainType
 {
-    private static double FRICTION = 0.98;
-    private static double BOUNCE = 0.3;
-    private static double LIE_RATE = 0.99;
-    private static double LIE_RANGE = 0.02;
+    private static float FRICTION = 0.98f;
+    private static float BOUNCE = 0.3f;
+    private static float LIE_RATE = 0.99f;
+    private static float LIE_RANGE = 0.02f;
 
     public GreenTerrain() : base(FRICTION, BOUNCE, LIE_RATE, LIE_RANGE) { }
 }
