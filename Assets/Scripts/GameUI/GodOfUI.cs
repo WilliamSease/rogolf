@@ -28,6 +28,9 @@ public class GodOfUI : MonoBehaviour
     private float windOrient;
     //Bonusinfo elements.
     public Text bonusText;
+	//CamToggleText
+	public Text camToggleText;
+	public Text normalToggleText;
     // Start is called before the first frame update
     
     void Start()
@@ -56,10 +59,19 @@ public class GodOfUI : MonoBehaviour
         strokeText.text = gameRef.GetStrokes().ToString();
         //Windinfo update.
         GameObject cam = gc.camera;
-        arrowParent.transform.rotation = Quaternion.Euler(new Vector3((cam.transform.localRotation.x+1)*180, 
-                                                                      (cam.transform.localRotation.y+1)*180, 
-                                                                      (cam.transform.localRotation.z+1)*180));
+		Vector3 camAngles = cam.transform.rotation.eulerAngles;
+		camAngles[1] = -camAngles[1];
+		camAngles[0] = 0;
+		camAngles[2] = 0;
+        arrowParent.transform.eulerAngles = camAngles;
         //BonusText update.
         //bonusText.text = ;
+		//ToggleText update.
+		camToggleText.text = Char.ToUpper(gameRef.target.ToString()[0]) + gameRef.target.ToString().ToLower().Substring(1);
+		if (gc.greenNormalMap)	
+			normalToggleText.text = "Show Normals";
+		else
+			normalToggleText.text = "Hide Normals";
+		
     }
 }

@@ -37,7 +37,7 @@ public class GameController : MonoBehaviour
     public Canvas gameUI;
 
     public Material normalMap;
-    private bool greenNormalMap;
+    public bool greenNormalMap;
 
     void Start()
     {

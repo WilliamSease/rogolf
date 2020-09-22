@@ -29,7 +29,7 @@ public class MouseOrbitImproved : MonoBehaviour
         rotationSenitivity = 0.005f;
         scrollSensitivity = 25;
         yMinLimit = -20f;
-        yMaxLimit = 9999.9f;
+        yMaxLimit = 30f;
         distanceMin = 2f;
         distanceMax = 1000f;
 

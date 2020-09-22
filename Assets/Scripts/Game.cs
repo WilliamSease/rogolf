@@ -28,7 +28,7 @@ public class Game : MonoBehaviour
     public GameObject ballObject;
     public List<GameObject> cursorList;
 
-    private Target target;
+    public Target target;
     public MouseOrbitImproved orbitalControls;
 
     // Other game objects (that aren't game objects)
