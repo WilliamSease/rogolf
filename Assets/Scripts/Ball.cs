@@ -314,6 +314,7 @@ public class Ball
 
     public bool InHole() { return position == game.GetHoleInfo().GetHolePosition(); }
     public bool InWater() { return false; } // TODO
+    public bool OnGreen() { return game.GetTerrainAttributes().OnGreen(terrainHit); }
 
     public void SetDeltaTime() { this.deltaTime = Time.deltaTime * rate; }
     public void SetRate(float rate) { this.rate = rate; }
