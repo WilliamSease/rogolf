@@ -58,6 +58,21 @@ public class Bag
         this.current = 0;
     }
 
+    public void SelectBestClub()
+    {
+        float distanceToHole = VectorUtil.MapDistance(game.GetBall().GetPosition(), game.GetHoleInfo().GetHolePosition());
+        for (int i = bagList.Count - 1; i >= 0; i--)
+        {
+            if (distanceToHole < bagList[i].GetDistance())
+            {
+                current = i;
+                return;
+            }
+        }
+        // Set to driver if further than other clubs
+        current = 0;
+    }
+
     public void IncrementBag()
     {
         current++;
