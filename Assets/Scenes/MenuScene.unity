@@ -7052,6 +7052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca1d7c2d260b34945b0272926f70566c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gc: {fileID: 1044974694}
   thisCanvas: {fileID: 1710650474}
   bodyText:
   - {fileID: 1305769726}
@@ -7079,6 +7080,10 @@ MonoBehaviour:
   splash:
   - Rogolf 2020 William Sease & Matthew Swanson
   - Try "Help"
+  helpMessage:
+  - 'Help: Displays this message'
+  - 'Scene [string]: Attempt to load a scene (unstable)'
+  - 'Status: Display interesting things.'
 --- !u!1 &1720957039
 GameObject:
   m_ObjectHideFlags: 0

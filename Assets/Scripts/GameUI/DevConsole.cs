@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
+using UnityEngine.SceneManagement;
 
 public class DevConsole : MonoBehaviour
 {
+	public GameController gc;
+	
 	public Canvas thisCanvas;
 	public Text[] bodyText = new Text[20];
 	public InputField inputField;
@@ -16,20 +19,24 @@ public class DevConsole : MonoBehaviour
 		"Rogolf 2020 William Sease & Matthew Swanson",
 		"Try \"Help\"",
 	};
+	public string[] helpMessage =
+	{
+		"Help: Displays this message",
+		"Scene [string]: Attempt to load a scene (unstable)",
+		"Status: Display interesting things.",
+	};
     // Start is called before the first frame update
     void Start()
     {
         for(int i = 0; i < 19; i++)
-			bodyText[i].text = "";
-		for(int i = 0; i < splash.Length; i++)
-			bodyText[bodyText.Length - splash.Length + i].text = splash[i];
+			Pump("");
+		PumpArr(splash);
 		thisCanvas.enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-		inputField.text = inputField.text.Replace("`", string.Empty);
         if (Input.GetKeyDown(KeyCode.BackQuote))
 			thisCanvas.enabled = !thisCanvas.enabled;
 		if(!thisCanvas.enabled)
@@ -39,11 +46,12 @@ public class DevConsole : MonoBehaviour
 			memory = 20;
 			return;
 		}
+		inputField.text = inputField.text.Replace("`", string.Empty);
 		inputField.Select();
 		inputField.ActivateInputField();
 		if (Input.GetKeyDown(KeyCode.Return))
 		{
-			execute(inputText.text);
+			Execute(inputText.text);
 			inputField.text = "";
 		}
 		if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -58,22 +66,55 @@ public class DevConsole : MonoBehaviour
 		}
     }
 	
-	void pump(string str)
+	void Pump(string str)
 	{
 		for(int i = 0; i < 19; i++)
 			bodyText[i].text = bodyText[i+1].text;
 		bodyText[19].text = str;
 	}
 	
-	void execute(string str)
+	void PumpArr(string[] arr)
 	{
-		string[] arr = Regex.Split(str.ToLower(), " ");
 		for(int i = 0; i < arr.Length; i++)
-			UnityEngine.Debug.Log(arr[i]);
+			Pump(arr[i]);
 	}
 	
-	public void Scene()
+	void Reply(string str)
 	{
-		pump("Holy shit!");
+		Pump("System: " + str);
+	}
+	
+	void Execute(string str)
+	{
+		Pump(str);
+		string[] arr = Regex.Split(str.ToLower(), " ");
+		if (arr.Length == 0) return;
+		switch(arr[0])
+		{
+			case "help":
+				PumpArr(helpMessage);
+			break;
+			case "scene":
+				Scene(arr[1]);
+			break;
+			case "status":
+				Status();
+			break;
+			default:
+				Reply("'" + arr[0] + "' dosen't appear to be a command");
+			break;
+		}
+	}
+	
+	public void Scene(string str)
+	{
+		Reply("Attempting Scene Load...");
+		gc.LoadScene(str);
+	}
+	
+	public void Status()
+	{
+		Reply("***STATUS***");
+		Pump("Memory Usage: " + System.GC.GetTotalMemory(true) + "Bytes");
 	}
 }
