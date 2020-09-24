@@ -28,6 +28,7 @@ public class Ball
     private RaycastHit terrainHit;
     private bool hasBounced;
     private Vector3 lastPosition;
+    private Vector3 holePosition;
 
     private float rate;
     private float inaccuracyRate;
@@ -58,23 +59,23 @@ public class Ball
         height = 0;
         terrainNormal = new Vector3(Single.NaN, Single.NaN, Single.NaN);
 
-        Reset(new Vector3(0,0,0));
+        Reset(Vector3.zero);
     }
 
     public void Reset(Vector3 v)
     {
         position = new Vector3(v.x, v.y, v.z);
         SetLastPosition();
-        velocity = new Vector3(0,0,0);
+        velocity = Vector3.zero;
         fnet = gravity * mass;
 
         angle = 0;
         dtheta = 0;
 
-        spin = new Vector3(0,0,0);
+        spin = Vector3.zero;
     }
 
-    public void Reset() { Reset(new Vector3(0,0,0)); }
+    public void Reset() { Reset(Vector3.zero); }
 
     public void Strike(Club club, float power, float accuracy)
     {
@@ -122,6 +123,8 @@ public class Ball
         // Overwrite wind vector
         wind = Vector3.zero;
         terrainNormal = Vector3.up;
+        // Set holePosition to be unreachable
+        holePosition = Vector3.down;
         while (true)
         {
             deltaTime = 0.03f;
@@ -291,7 +294,6 @@ public class Ball
 
     public void AngleToHole()
     {
-        Vector3 holePosition = game.GetHoleInfo().GetHolePosition();
         angle = Mathf.Atan2(holePosition.z - position.z, holePosition.x - position.x);
     }
 
@@ -317,7 +319,7 @@ public class Ball
     public bool InMotion() { return velocity.magnitude > 0.25; } // This is wrong because it isn't adjusted for deltaTime
     public bool IsMoving() { return InAir() || InMotion(); }
 
-    public bool InHole() { return position == game.GetHoleInfo().GetHolePosition(); }
+    public bool InHole() { return position == holePosition; }
     public bool InWater() { return false; } // TODO
     public bool OnGreen() { return game.GetTerrainAttributes().OnGreen(terrainHit); }
 
@@ -329,6 +331,7 @@ public class Ball
     public void SetRelativePosition(Vector3 v) { position = position + v; }
     public void SetRelativePosition(float x, float y, float z) { SetRelativePosition(new Vector3(x, y, z)); }
     public void SetLastPosition() { lastPosition = new Vector3(position.x, position.y, position.z); }
+    public void SetHolePosition() { holePosition = game.GetHoleInfo().GetHolePosition(); }
 
     public Vector3 GetPosition() { return new Vector3(position.x, position.y, position.z); }
     public Vector3 GetLastPosition() { return lastPosition; }

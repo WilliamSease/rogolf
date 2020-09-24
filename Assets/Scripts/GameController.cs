@@ -283,6 +283,7 @@ public class GameController : MonoBehaviour
 
         // Set ball
         game.GetBall().Reset(game.GetHoleInfo().GetTeePosition());
+        game.GetBall().SetHolePosition();
 		
 		// Set freeFocus object
 		freeFocus.transform.position = game.GetBall().GetPosition();
