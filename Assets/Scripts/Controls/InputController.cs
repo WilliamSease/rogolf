@@ -3,10 +3,12 @@
 public class InputController
 {
     private Game game;
+	public Canvas console;
 
     public InputController(Game game)
     {
         this.game = game;
+		console = (GameObject.Find("DevConsole")).GetComponent<Canvas>();
     }
 
     /// <summary>
@@ -17,6 +19,7 @@ public class InputController
     /// </summary>
     public void Tick()
     {
+		if (console.enabled) return;
         if (Input.GetKeyDown(KeyCode.Space))
         {
             game.state.OnKeySpace();

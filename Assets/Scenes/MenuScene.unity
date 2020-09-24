@@ -6422,6 +6422,7 @@ GameObject:
   - component: {fileID: 1551951891}
   - component: {fileID: 1551951890}
   - component: {fileID: 1551951894}
+  - component: {fileID: 1551951895}
   m_Layer: 5
   m_Name: UICanvas
   m_TagString: Untagged
@@ -6542,6 +6543,19 @@ MonoBehaviour:
   bonusText: {fileID: 1420895658}
   camToggleText: {fileID: 1547799873}
   normalToggleText: {fileID: 1088498396}
+--- !u!114 &1551951895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551951889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e25fd4c2010d31543bc0aeceb2d71219, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  og: {fileID: 1551951892}
 --- !u!1 &1574802864
 GameObject:
   m_ObjectHideFlags: 0
