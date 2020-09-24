@@ -11,7 +11,7 @@ public class RunningState : State
         if (game.ball.IsMoving())
         {
             game.ball.Tick();
-            // TODO - game.currentYards.Tick();
+            game.currentDistance.Tick();
         }
         else
         {

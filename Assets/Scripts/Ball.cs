@@ -324,5 +324,6 @@ public class Ball
     public void SetLastPosition() { lastPosition = new Vector3(position.x, position.y, position.z); }
 
     public Vector3 GetPosition() { return new Vector3(position.x, position.y, position.z); }
+    public Vector3 GetLastPosition() { return lastPosition; }
     public float GetAngle() { return angle; }
 }

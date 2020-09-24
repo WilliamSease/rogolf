@@ -27,6 +27,7 @@ public class Game : MonoBehaviour
     public GameObject cameraObject;
     public GameObject ballObject;
     public List<GameObject> cursorList;
+    public GameObject freeFocus;
 
     public Target target;
     public MouseOrbitImproved orbitalControls;
@@ -44,8 +45,8 @@ public class Game : MonoBehaviour
     // GAME OBJECT (not GameObject)
     public HoleInfo holeInfo;
     public Ball ball;
-	public GameObject freeFocus;
     public Cursor cursor;
+    public CurrentDistance currentDistance;
     public Bag bag;
     public Powerbar powerbar;
 
@@ -67,7 +68,7 @@ public class Game : MonoBehaviour
 
     /// <summary>
     /// Game Update function.
-    /// Propogate Update to all relevant objects.
+    /// Propagate Update to all relevant objects.
     /// </summary>
     void Update()
     {
@@ -91,7 +92,7 @@ public class Game : MonoBehaviour
         // Update camera target position
         if (target == Target.BALL) orbitalControls.targetPosition = ballPosition;
         if (target == Target.CURSOR) orbitalControls.targetPosition = cursorPosition;
-		if (target == Target.FREE) orbitalControls.targetPosition = freeFocus.transform.position;
+        if (target == Target.FREE) orbitalControls.targetPosition = freeFocus.transform.position;
         
         // Send Game reference to other objects
         GodOfUI ui = (GodOfUI)GameObject.Find("UICanvas").GetComponent<GodOfUI>();
@@ -152,6 +153,7 @@ public class Game : MonoBehaviour
 
         ball = new Ball(this);
         cursor = new Cursor(this);
+        currentDistance = new CurrentDistance(this);
         bag = new Bag(this);
         powerbar = new Powerbar(this);
     }
@@ -166,7 +168,7 @@ public class Game : MonoBehaviour
 
     public void ToggleTarget() {
         if (target == Target.BALL) target = Target.CURSOR;
-		else if (target == Target.CURSOR) target = Target.FREE;
+        else if (target == Target.CURSOR) target = Target.FREE;
         else target = Target.BALL;
     }
 
@@ -189,7 +191,7 @@ public class Game : MonoBehaviour
     public Target GetTarget() { return target; }
     public HoleInfo GetHoleInfo() { return holeInfo; }
     public Ball GetBall() { return ball; }
-	public GameObject getFreeFocus() { return freeFocus; }
+    public GameObject getFreeFocus() { return freeFocus; }
     public Cursor GetCursor() { return cursor; }
     public Bag GetBag() { return bag; }
     public Powerbar GetPowerbar() { return powerbar; }
