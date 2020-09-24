@@ -52,22 +52,16 @@ public class TerrainAttributes
         {
             case 'B':
                 return bunker;
-                break;
             case 'F':
                 return fairway;
-                break;
             case 'G':
                 return green;
-                break;
             case 'R':
                 return rough;
-                break;
             case 'W':
                 return water;
-                break;
             default:
                 throw new InvalidOperationException("Cannot not get TerrainType for GameObject " + gameObjectName);
-                break;
         }
     }
 
