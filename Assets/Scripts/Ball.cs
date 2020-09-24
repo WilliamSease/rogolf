@@ -18,6 +18,7 @@ public class Ball
 
     private Vector3 position;
     private Vector3 velocity;
+    private Vector3 wind;
     private Vector3 fnet;
     private float angle;
     private float dtheta;
@@ -88,9 +89,13 @@ public class Ball
         Vector3 angleVector = VectorUtil.FromPolar(horizontal * mass, angle);
         velocity = angleVector;
         velocity.y = vertical;
-
-        // Set wind resistance
+        
+        // Set wind
+        wind = game.GetWind().GetWindVector();
+        
+        // Set drag
         fnet = gravity * mass;
+
         // Set spin
         Vector2 clubVector = VectorUtil.FromPolar(club.GetPower(), club.GetLoft());
         spin = VectorUtil.FromPolar(-clubVector.y / clubVector.x * SPIN_RATE, angle);
@@ -114,7 +119,9 @@ public class Ball
 
         Reset();
         Strike(club, 1f, 0f);
-        terrainNormal = new Vector3(0,1,0);
+        // Overwrite wind vector
+        wind = Vector3.zero;
+        terrainNormal = Vector3.up;
         while (true)
         {
             deltaTime = 0.03f;
@@ -210,8 +217,8 @@ public class Ball
         // Apply inaccuracy
         VectorUtil.Rotate(velocity, dtheta);
         // Apply wind
-        //velocity += 
-        // Update wind resistance
+        velocity += wind;
+        // Update drag
         fnet = (gravity * mass) - ((velocity * (0.5f*c*rho*A * Mathf.Pow(velocity.magnitude / mass, 2))) / velocity.magnitude);
         // Update velocity
         velocity += fnet * deltaTime;

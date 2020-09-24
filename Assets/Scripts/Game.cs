@@ -44,6 +44,7 @@ public class Game : MonoBehaviour
 
     // GAME OBJECT (not GameObject)
     public HoleInfo holeInfo;
+    public Wind wind;
     public Ball ball;
     public Cursor cursor;
     public CurrentDistance currentDistance;
@@ -151,6 +152,7 @@ public class Game : MonoBehaviour
         inputController = new InputController(this);
         target = Target.BALL;
 
+        wind = new Wind(this);
         ball = new Ball(this);
         cursor = new Cursor(this);
         currentDistance = new CurrentDistance(this);
@@ -190,6 +192,7 @@ public class Game : MonoBehaviour
 
     public Target GetTarget() { return target; }
     public HoleInfo GetHoleInfo() { return holeInfo; }
+    public Wind GetWind() { return wind; }
     public Ball GetBall() { return ball; }
     public GameObject getFreeFocus() { return freeFocus; }
     public Cursor GetCursor() { return cursor; }
