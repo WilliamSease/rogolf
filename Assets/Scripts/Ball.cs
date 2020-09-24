@@ -89,10 +89,10 @@ public class Ball
         Vector3 angleVector = VectorUtil.FromPolar(horizontal * mass, angle);
         velocity = angleVector;
         velocity.y = vertical;
-        
+
         // Set wind
         wind = game.GetWind().GetWindVector();
-        
+
         // Set drag
         fnet = gravity * mass;
 
@@ -194,8 +194,6 @@ public class Ball
 
     public void Tick()
     {
-        //UnityEngine.Debug.Log(position + "\t" + velocity + "\t" + height + "\t" + noHeightTime); // TODO - debug
-        
         SetDeltaTime();
         if (IsMoving())
         {
@@ -327,7 +325,9 @@ public class Ball
     public void SetRate(float rate) { this.rate = rate; }
     public void SetInaccuracyRate(float inaccuracyRate) { this.inaccuracyRate = inaccuracyRate; }
     public void SetPosition(Vector3 v) { position = new Vector3(v.x, v.y, v.z); }
-    public void SetPosition(float x, float y, float z) { position = new Vector3(x, y, z); } 
+    public void SetPosition(float x, float y, float z) { position = new Vector3(x, y, z); }
+    public void SetRelativePosition(Vector3 v) { position = position + v; }
+    public void SetRelativePosition(float x, float y, float z) { SetRelativePosition(new Vector3(x, y, z)); }
     public void SetLastPosition() { lastPosition = new Vector3(position.x, position.y, position.z); }
 
     public Vector3 GetPosition() { return new Vector3(position.x, position.y, position.z); }
