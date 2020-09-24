@@ -36,8 +36,7 @@ public class DevConsole : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for(int i = 0; i < 19; i++)
-			Pump("");
+		Clear();
 		PumpArr(splash);
 		thisCanvas.enabled = false;
     }
@@ -74,6 +73,12 @@ public class DevConsole : MonoBehaviour
 		}
     }
 	
+	void Clear()
+	{
+		for(int i = 0; i < 20; i++)
+			Pump("");
+	}
+	
 	void Pump(string str)
 	{
 		for(int i = 0; i < 19; i++)
@@ -92,6 +97,12 @@ public class DevConsole : MonoBehaviour
 		Pump("System: " + str);
 	}
 	
+	void Report(bool succ)
+	{
+		if (succ) Reply("Success.");
+		else Reply("Unspecified failure.");
+	}
+	
 	void Execute(string str)
 	{
 		try { game = GameObject.Find("GodObject").GetComponent<Game>(); }
@@ -106,19 +117,22 @@ public class DevConsole : MonoBehaviour
 				PumpArr(helpMessage);
 			break;
 			case "scene":
-				Scene(arr[1]);
+				Report(Scene(arr[1]));
 			break;
 			case "status":
-				Status();
+				Report(Status());
+			break;
+			case "clear":
+				Clear();
 			break;
 			case "absmov":
-				AbsMov(Tail(arr));
+				Report(AbsMov(Tail(arr)));
 			break;
 			case "moveball":
-				MoveBall(arr[1].ToLower(), Floatify(arr[2]), Floatify(arr[3]), Floatify(arr[4]));
+				Report(MoveBall(arr[1].ToLower(), Floatify(arr[2]), Floatify(arr[3]), Floatify(arr[4])));
 			break;
 			case "getballpos":
-				GetBallPos();
+				Report(GetBallPos());
 			break;
 			default:
 				Reply("'" + arr[0] + "' dosen't appear to be a command");
@@ -126,39 +140,45 @@ public class DevConsole : MonoBehaviour
 		}
 	}
 	
-	public void Scene(string str)
+	public bool Scene(string str)
 	{
 		Reply("Attempting Scene Load...");
 		gc.LoadScene(str);
+		return true;
 	}
 	
-	public void Status()
+	public bool Status()
 	{
-		Reply("***STATUS***");
+		Pump("***STATUS***");
 		Pump("Memory Usage: " + System.GC.GetTotalMemory(true) + "Bytes");
+		Pump("Uptime: " + (int) Time.realtimeSinceStartup / 60 + "m " + ((int) Time.realtimeSinceStartup % 60) + "s");
+		Pump("Rendering: " + SystemInfo.graphicsDeviceName);
+		return true;
 	}
 	
-	public void MoveBall(string type, float x, float y, float z)
+	public bool MoveBall(string type, float x, float y, float z)
 	{
 		if (type.Equals("abs")) 
 			game.GetBall().SetPosition(new Vector3(x,y,z));
 		else if (type.Equals("rel"))
 			game.GetBall().SetRelativePosition(x,y,z);
-		else 
-			Reply("MoveBall: You must specify 'abs' or 'rel'!");
+		else { Reply("MoveBall: You must specify 'abs' or 'rel'!"); return false; }
+		return true;
 	}
 	
-	public void GetBallPos() 
+	public bool GetBallPos() 
 	{ 
 		Vector3 v = game.GetBall().GetPosition();
 		Reply("GetBallPos: " + v[0] + " " + v[1] + " " + v[2]);
+		return true;
 	}
 	
-	public void AbsMov(string[] arr)
+	public bool AbsMov(string[] arr)
 	{
 		GameObject g = GameObject.Find(arr[0]);
-		if (g == null) Reply("GameObject " + arr[0] + " appears not to exist.");
+		if (g == null) { Reply("GameObject " + arr[0] + " appears not to exist."); return false; }
 		else g.transform.position = new Vector3(Floatify(arr[1]),Floatify(arr[2]),Floatify(arr[3]));
+		return true;
 	}
 	
 	//These are easy utility functions.
