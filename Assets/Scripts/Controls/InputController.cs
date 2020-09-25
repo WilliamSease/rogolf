@@ -8,7 +8,8 @@ public class InputController
     private Game game;
 	public Canvas console;
 
-    private const float DELAY = 0.2f;
+    private const float SLOW_DELAY = 0.5f;
+    private const float FAST_DELAY = 0.05f;
     private List<Tuple<KeyCode, Action>> keyboard;
     private float[] pressTimes;
 
@@ -51,20 +52,21 @@ public class InputController
     private void ProcessKey(int i, float deltaTime)
     {
         KeyCode keyCode = keyboard[i].Item1;
-        if (Input.GetKey(keyCode))
+        if (Input.GetKeyDown(keyCode))
         {
-            UnityEngine.Debug.Log(keyCode);
+            Action onKeyPress = keyboard[i].Item2;
+            onKeyPress();
+            pressTimes[i] = SLOW_DELAY;
+        }
+        else if (Input.GetKey(keyCode))
+        {
             pressTimes[i] -= deltaTime;
             if (pressTimes[i] <= 0f)
             {
                 Action onKeyPress = keyboard[i].Item2;
                 onKeyPress();
-                pressTimes[i] += DELAY;
+                pressTimes[i] += FAST_DELAY;
             }
-        }
-        if (Input.GetKeyUp(keyCode))
-        {
-            pressTimes[i] = 0f;
         }
     }
 }

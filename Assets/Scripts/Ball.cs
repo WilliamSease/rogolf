@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class Ball
 {
-    private const float ANGLE_INCREMENT = 1/32f;
+    private const float ANGLE_INCREMENT = 1/64f;
     private const float SPIN_RATE = 3f;
     private const float SPIN_DECAY = 0.5f;
     private const float NO_HEIGHT_TIME_OUT = 5f;
