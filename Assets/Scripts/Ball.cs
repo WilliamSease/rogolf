@@ -155,13 +155,13 @@ public class Ball
     /// <summary>
     /// Debug method for brute-forcing the correct trajectory.
     /// </summary>
-    public void FindTrajectory(Club club, float distanceTarget, float maxHeightTarget)
+    public void FindTrajectory(Club club, float distanceTarget, float maxHeightTarget, int iterations)
     {
         Tuple<float,float,string> result;
         float distance = Single.NaN;
         float maxHeight = Single.NaN;
         string outputString = "";
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < iterations; i++)
         {
             result = SimulateDistance(club, true);
             distance = result.Item1;

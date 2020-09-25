@@ -35,30 +35,28 @@ public class Bag
         this.bagList.Add(new Club("PW", 89f, 0.119f));
         this.bagList.Add(new Club("SW", 67f, 0.147f));
         this.bagList.Add(new Club("LW", 49f, 0.185f));
-        this.bagList.Add(new Club("P", 81f, 0.0000001f));
+        this.bagList.Add(new Club("P",  81f, 0.0000001f));
 
         // Calculate distances
-        bool debug = false;
-        if (debug)
+        foreach (Club club in bagList)
         {
-            for (int i = 0; i < bagList.Count; i++)
-            {
-                game.GetBall().FindTrajectory(bagList[i], DISTANCES[i]*TO_METERS, MAX_HEIGHTS[i]*TO_METERS);
-            }
-            foreach (Club club in bagList)
-            {
-                UnityEngine.Debug.Log(club.GetName() + "\t" + club.GetDistance()*TO_YARDS);
-            }
-        }
-        else
-        {
-            foreach (Club club in bagList)
-            {
-                game.GetBall().SimulateDistance(club);
-            }
+            game.GetBall().SimulateDistance(club);
         }
 
         this.current = 0;
+    }
+
+    public void GenerateClubs()
+    {
+        int iterations = 1000;
+        for (int i = 0; i < bagList.Count; i++)
+        {
+            game.GetBall().FindTrajectory(bagList[i], DISTANCES[i]*TO_METERS, MAX_HEIGHTS[i]*TO_METERS, iterations);
+        }
+        foreach (Club club in bagList)
+        {
+            UnityEngine.Debug.Log(club.GetName() + "\t" + club.GetDistance()*TO_YARDS);
+        }
     }
 
     public void SelectBestClub()

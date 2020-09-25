@@ -142,6 +142,9 @@ public class DevConsole : MonoBehaviour
             case "getwind":
                 Report(GetWind());
             break;
+            case "generateclubs":
+                Report(GenerateClubs());
+            break;
             default:
                 Reply("'" + arr[0] + "' doesn't appear to be a command");
             break;
@@ -232,6 +235,14 @@ public class DevConsole : MonoBehaviour
     {
         Wind wind = game.GetWind();
         Reply(String.Format("Speed: {0}, Angle: {1}", wind.GetSpeed(), wind.GetAngle()));
+        return true;
+    }
+
+    public bool GenerateClubs()
+    {
+        Reply("Please wait...");
+        game.GetBag().GenerateClubs();
+        Reply("Done.");
         return true;
     }
     
