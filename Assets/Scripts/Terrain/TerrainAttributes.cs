@@ -6,7 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class TerrainAttributes
 {
-    public const float SIMULATED_FRICTION = 0.95f;
+    public const float SIMULATED_FRICTION = 5.0E-2f;
     public const float SIMULATED_BOUNCE = 0.3f;
 
     private TerrainType tee;
@@ -18,12 +18,12 @@ public class TerrainAttributes
 
     public TerrainAttributes() {
         //                     friction,bounce,lieRate,lieRange
-        tee = new TerrainType(    0.95f, 0.3f, 0.99f, 0.02f);
-        green = new TerrainType(  0.98f, 0.3f, 0.99f, 0.02f);
-        fairway = new TerrainType(0.98f, 0.3f, 0.99f, 0.02f);
-        rough = new TerrainType(  0.90f, 0.3f, 0.80f, 0.16f);
-        bunker = new TerrainType( 0.50f, 0.1f, 0.70f, 0.20f);
-        water = new TerrainType(  0.10f, 0.0f, 0.20f, 0.10f); 
+        tee = new TerrainType(    5.0E-2f, 0.3f, 0.99f, 0.02f);
+        green = new TerrainType(  5.0E-2f, 0.3f, 0.99f, 0.02f);
+        fairway = new TerrainType(5.0E-2f, 0.3f, 0.99f, 0.02f);
+        rough = new TerrainType(  3.0E-2f, 0.3f, 0.80f, 0.16f);
+        bunker = new TerrainType( 1.0E-2f, 0.1f, 0.70f, 0.20f);
+        water = new TerrainType(  1.0E-9f, 0.0f, 0.20f, 0.10f); 
     }
 
     /// <summary>

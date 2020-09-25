@@ -277,8 +277,9 @@ public class Ball
     {
         if (!InAir())
         {
-            //position.y -= height;
-            velocity *= GetFriction(debug);
+            float friction = Mathf.Pow(GetFriction(debug), deltaTime);
+            velocity.x *= friction;
+            velocity.z *= friction;
         }
     }
 
@@ -315,11 +316,11 @@ public class Ball
         }
     }
 
-    public bool InAir() { return height > 0.001; }
-    public bool InMotion() { return velocity.magnitude > 0.25; } // This is wrong because it isn't adjusted for deltaTime
+    public bool InAir() { return height > 0.1f; }
+    public bool InMotion() { return velocity.magnitude > 0.15f; }
     public bool IsMoving() { return InAir() || InMotion(); }
 
-    public bool InHole() { return position == holePosition; }
+    public bool InHole() { return Vector3.Distance(position, holePosition) < 1; } // TODO - this isn't right nor working
     public bool InWater() { return false; } // TODO
     public bool OnGreen() { return game.GetTerrainAttributes().OnGreen(terrainHit); }
 

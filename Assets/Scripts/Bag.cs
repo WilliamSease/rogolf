@@ -38,22 +38,25 @@ public class Bag
         this.bagList.Add(new Club("P", 81f, 0.0000001f));
 
         // Calculate distances
-        
-        foreach (Club club in bagList)
+        bool debug = false;
+        if (debug)
         {
-            game.GetBall().SimulateDistance(club);
+            for (int i = 0; i < bagList.Count; i++)
+            {
+                game.GetBall().FindTrajectory(bagList[i], DISTANCES[i]*TO_METERS, MAX_HEIGHTS[i]*TO_METERS);
+            }
+            foreach (Club club in bagList)
+            {
+                UnityEngine.Debug.Log(club.GetName() + "\t" + club.GetDistance()*TO_YARDS);
+            }
         }
-        
-        /*
-        for (int i = 0; i < bagList.Count; i++)
+        else
         {
-            game.GetBall().FindTrajectory(bagList[i], DISTANCES[i]*TO_METERS, MAX_HEIGHTS[i]*TO_METERS);
+            foreach (Club club in bagList)
+            {
+                game.GetBall().SimulateDistance(club);
+            }
         }
-        foreach (Club club in bagList)
-        {
-            UnityEngine.Debug.Log(club.GetName() + "\t" + club.GetDistance()*TO_YARDS);
-        }
-        */
 
         this.current = 0;
     }

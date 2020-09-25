@@ -29,6 +29,16 @@ public class Wind
         wind = VectorUtil.FromPolar(speed, angle);
     }
 
+    public void Disable()
+    {
+        speed = 0f;
+        angle = 0f;
+        wind = VectorUtil.FromPolar(speed, angle);
+    }
+
+    /// <summary>
+    /// Currently unused.
+    /// </summary>
     public void UpdateWind()
     {
         speed += Random.Range(0.0f, 1.0f) * SPEED_RATE - SPEED_RATE / 2;
@@ -41,5 +51,10 @@ public class Wind
         wind = VectorUtil.FromPolar(speed, angle);
     }
 
+    public void SetSpeed(float speed) { this.speed = speed; }
+    public void SetAngle(float angle) { this.angle = angle; }
+
+    public float GetSpeed() { return speed; }
+    public float GetAngle() { return angle; }
     public Vector3 GetWindVector() { return wind * RATIO; }
 }
