@@ -36,6 +36,8 @@ public class TerrainType
 
     public float GetFriction() { return friction; }
     public float GetBounce() { return bounce; }
+    public float GetLieRate() { return lieRate; }
+    public float GetLieRange() { return lieRange; }
     public float GetLie()
     {
         // This should return an evenly distributed lie depending on the lieRange

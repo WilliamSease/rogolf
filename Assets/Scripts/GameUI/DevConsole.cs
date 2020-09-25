@@ -145,6 +145,12 @@ public class DevConsole : MonoBehaviour
             case "generateclubs":
                 Report(GenerateClubs());
             break;
+            case "setterrain":
+                Report(SetTerrain(Tail(arr)));
+            break;
+            case "getterrain":
+                Report(GetTerrain(Tail(arr)));
+            break;
             default:
                 Reply("'" + arr[0] + "' doesn't appear to be a command");
             break;
@@ -202,7 +208,7 @@ public class DevConsole : MonoBehaviour
 
     public bool SetWind(string[] arr)
     {
-        string errorMessage = "Error. Valid arguments: {off, on, (speed angle)}";
+        string errorMessage = "SetWind: {off, on, (speed angle)}";
         Wind wind = game.GetWind();
         if (arr.Length == 0) {
             Reply(errorMessage);
@@ -243,6 +249,67 @@ public class DevConsole : MonoBehaviour
         Reply("Please wait...");
         game.GetBag().GenerateClubs();
         Reply("Done.");
+        return true;
+    }
+
+    public bool SetTerrain(string[] arr)
+    {
+        string errorMessage = "SetTerrain: {g,f,r,b,w} {friction, bounce, lieRate, lieRange} float";
+        if (arr.Length == 3)
+        {
+            TerrainType terrainType = game.GetTerrainAttributes().GetTerrainType(arr[0].ToUpper());
+            float n = Floatify(arr[2]);
+            switch (arr[1].ToLower())
+            {
+                case "friction":
+                    terrainType.SetFriction(n);
+                    break;
+                case "bounce":
+                    terrainType.SetBounce(n);
+                    break;
+                case "lierate":
+                    terrainType.SetLieRate(n);
+                    break;
+                case "lierange":
+                    terrainType.SetLieRange(n);
+                    break;
+                default:
+                    Reply(errorMessage);
+                    break;
+            }
+            return true;
+        }
+        Reply(errorMessage);
+        return true;
+    }
+
+    public bool GetTerrain(string[] arr)
+    {
+        string errorMessage = "GetTerrain: {g,f,r,b,w} {friction, bounce, lieRate, lieRange}";
+        if (arr.Length == 2)
+        {
+            TerrainType terrainType = game.GetTerrainAttributes().GetTerrainType(arr[0].ToUpper());
+            switch (arr[1].ToLower())
+            {
+                case "friction":
+                    Reply(terrainType.GetFriction().ToString());
+                    break;
+                case "bounce":
+                    Reply(terrainType.GetBounce().ToString());
+                    break;
+                case "lierate":
+                    Reply(terrainType.GetLieRate().ToString());
+                    break;
+                case "lierange":
+                    Reply(terrainType.GetLieRange().ToString());
+                    break;
+                default:
+                    Reply(errorMessage);
+                    break;
+            }
+            return true;
+        }
+        Reply(errorMessage);
         return true;
     }
     

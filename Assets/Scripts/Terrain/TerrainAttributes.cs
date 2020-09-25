@@ -43,12 +43,11 @@ public class TerrainAttributes
     }
 
     /// <summary>
-    /// Gets the TerrainType of a surface given a RaycastHit.
+    /// Gets the TerrainType of a surface given a string name.
     /// </summary>
-    private TerrainType GetTerrainType(RaycastHit terrainHit)
+    public TerrainType GetTerrainType(string name)
     {
-        string gameObjectName = terrainHit.transform.gameObject.name;
-        switch (gameObjectName[0])
+        switch (name[0])
         {
             case 'B':
                 return bunker;
@@ -61,9 +60,14 @@ public class TerrainAttributes
             case 'W':
                 return water;
             default:
-                throw new InvalidOperationException("Cannot not get TerrainType for GameObject " + gameObjectName);
+                throw new InvalidOperationException("Cannot not get TerrainType for name " + name);
         }
     }
+
+    /// <summary>
+    /// Gets the TerrainType of a surface given a RaycastHit.
+    /// </summary>
+    public TerrainType GetTerrainType(RaycastHit terrainHit) { return GetTerrainType(terrainHit.transform.gameObject.name); }
 
     public bool OnGreen(RaycastHit terrainHit) { return terrainHit.transform.gameObject.name[0] == 'G'; }
 
