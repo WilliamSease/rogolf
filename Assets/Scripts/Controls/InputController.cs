@@ -8,7 +8,6 @@ public class InputController
     private Game game;
 	public Canvas console;
 
-    private const float ZERO = 0f;
     private const float DELAY = 0.2f;
     private List<Tuple<KeyCode, Action>> keyboard;
     private float[] pressTimes;
@@ -56,7 +55,7 @@ public class InputController
         {
             UnityEngine.Debug.Log(keyCode);
             pressTimes[i] -= deltaTime;
-            if (pressTimes[i] <= ZERO)
+            if (pressTimes[i] <= 0f)
             {
                 Action onKeyPress = keyboard[i].Item2;
                 onKeyPress();
@@ -65,7 +64,7 @@ public class InputController
         }
         if (Input.GetKeyUp(keyCode))
         {
-            pressTimes[i] = ZERO;
+            pressTimes[i] = 0f;
         }
     }
 }
