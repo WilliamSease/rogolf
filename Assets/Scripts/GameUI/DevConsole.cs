@@ -24,13 +24,29 @@ public class DevConsole : MonoBehaviour
     };
     
     private string[] helpMessage =
-    {   "***************************",
-        "Help: Displays this message",
-        "Scene [string]: Attempt to load a scene (unstable)",
-        "Status: Display interesting things.",
-        "MoveBall [\"Abs\" \"Rel\"] [f] [f] [f]: Places the ball.",
+    {   "Help {general|ball|physics|tools}"
+    };
+
+    private string[] helpGeneral =
+    {   "Scene name: Attempt to load a scene (unstable)",
+        "Status: Display status info."
+    };
+
+    private string[] helpBall =
+    {   "MoveBall {Abs|Rel} x y z: Places the ball.",
         "GetBallPos: Prints the ball's position.",
-        "***************************"
+        "ToTee [{front|back}]: Move the ball to tee."
+    };
+
+    private string[] helpPhysics =
+    {   "GetWind: Get wind speed and angle.",
+        "SetWind: Set wind speed and angle.",
+        "GetTerrain: Get terrain attribute.",
+        "SetTerrain: Set terrain attribute."
+    };
+
+    private string[] helpTools =
+    {   "GenerateClubs: Send optimal club parameters to .csv."
     };
     
     // Start is called before the first frame update
@@ -113,7 +129,7 @@ public class DevConsole : MonoBehaviour
         switch(arr[0])
         {
             case "help":
-                PumpArr(helpMessage);
+                Help(Tail(arr));
             break;
             case "scene":
                 Report(Scene(arr[1]));
@@ -155,6 +171,35 @@ public class DevConsole : MonoBehaviour
                 Reply("'" + arr[0] + "' doesn't appear to be a command");
             break;
         }
+    }
+
+    public bool Help(string[] arr)
+    {
+        string[] message;
+        if (arr.Length == 1)
+        {
+            switch (arr[0].ToLower())
+            {
+                case "general":
+                    message = helpGeneral;
+                    break;
+                case "ball":
+                    message = helpBall;
+                    break;
+                case "physics":
+                    message = helpPhysics;
+                    break;
+                case "tools":
+                    message = helpTools;
+                    break;
+                default:
+                    message = helpMessage;
+                    break;
+            }
+        }
+        else message = helpMessage;
+        PumpArr(message);
+        return true;
     }
     
     public bool Scene(string str)
@@ -201,7 +246,7 @@ public class DevConsole : MonoBehaviour
 
     public bool ToTee(string[] arr)
     {
-        string errorMessage = "ToTee [{front, back}]";
+        string errorMessage = "ToTee [{front|back}]";
         if (arr.Length == 0)
         {
             game.GetBall().SetPosition(game.GetHoleInfo().GetTeePosition());
@@ -226,7 +271,7 @@ public class DevConsole : MonoBehaviour
 
     public bool SetWind(string[] arr)
     {
-        string errorMessage = "SetWind {off, on, (speed angle)}";
+        string errorMessage = "SetWind {off|on|speed angle}";
         Wind wind = game.GetWind();
         if (arr.Length == 0) {
             Reply(errorMessage);
@@ -272,8 +317,8 @@ public class DevConsole : MonoBehaviour
 
     public bool SetTerrain(string[] arr)
     {
-        string errorMessage1 = "SetTerrain {g,f,r,b,w}";
-        string errorMessage2 = "    {friction, bounce, lieRate, lieRange} float";
+        string errorMessage1 = "SetTerrain {g|f|r|b|w}";
+        string errorMessage2 = "    {friction|bounce|lieRate|lieRange} f";
         if (arr.Length == 3)
         {
             TerrainType terrainType = game.GetTerrainAttributes().GetTerrainType(arr[0].ToUpper());
@@ -306,8 +351,8 @@ public class DevConsole : MonoBehaviour
 
     public bool GetTerrain(string[] arr)
     {
-        string errorMessage1 = "GetTerrain {g,f,r,b,w}";
-        string errorMessage2 = "    {friction, bounce, lieRate, lieRange}";
+        string errorMessage1 = "GetTerrain {g|f|r|b|w}";
+        string errorMessage2 = "    {friction|bounce|lieRate|lieRange}";
         if (arr.Length == 2)
         {
             TerrainType terrainType = game.GetTerrainAttributes().GetTerrainType(arr[0].ToUpper());
