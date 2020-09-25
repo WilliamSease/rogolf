@@ -134,7 +134,7 @@ public class DevConsole : MonoBehaviour
                 Report(GetBallPos());
             break;
             case "totee":
-                Report(ToTee());
+                Report(ToTee(Tail(arr)));
             break;
             case "setwind":
                 Report(SetWind(Tail(arr)));
@@ -199,16 +199,34 @@ public class DevConsole : MonoBehaviour
         return true;
     }
 
-    public bool ToTee()
+    public bool ToTee(string[] arr)
     {
-        game.GetBall().SetPosition(game.GetHoleInfo().GetTeePosition());
+        string errorMessage = "ToTee [{front, back}]";
+        if (arr.Length == 0)
+        {
+            game.GetBall().SetPosition(game.GetHoleInfo().GetTeePosition());
+        }
+        else if (arr.Length == 1)
+        {
+            char c = arr[0].ToLower()[0];
+            if (c == 'f') game.GetBall().SetPosition(game.GetHoleInfo().GetFrontTeePosition());
+            else if (c == 'b') game.GetBall().SetPosition(game.GetHoleInfo().GetBackTeePosition());
+            else {
+                Reply(errorMessage);
+                return true;
+            }
+        }
+        else { 
+            Reply(errorMessage);
+            return true;
+        }
         game.GetBall().AngleToHole();
         return true;
     }
 
     public bool SetWind(string[] arr)
     {
-        string errorMessage = "SetWind: {off, on, (speed angle)}";
+        string errorMessage = "SetWind {off, on, (speed angle)}";
         Wind wind = game.GetWind();
         if (arr.Length == 0) {
             Reply(errorMessage);
@@ -254,7 +272,8 @@ public class DevConsole : MonoBehaviour
 
     public bool SetTerrain(string[] arr)
     {
-        string errorMessage = "SetTerrain: {g,f,r,b,w} {friction, bounce, lieRate, lieRange} float";
+        string errorMessage1 = "SetTerrain {g,f,r,b,w}";
+        string errorMessage2 = "    {friction, bounce, lieRate, lieRange} float";
         if (arr.Length == 3)
         {
             TerrainType terrainType = game.GetTerrainAttributes().GetTerrainType(arr[0].ToUpper());
@@ -274,18 +293,21 @@ public class DevConsole : MonoBehaviour
                     terrainType.SetLieRange(n);
                     break;
                 default:
-                    Reply(errorMessage);
+                    Reply(errorMessage1);
+                    Reply(errorMessage2);
                     break;
             }
             return true;
         }
-        Reply(errorMessage);
+        Reply(errorMessage1);
+        Reply(errorMessage2);
         return true;
     }
 
     public bool GetTerrain(string[] arr)
     {
-        string errorMessage = "GetTerrain: {g,f,r,b,w} {friction, bounce, lieRate, lieRange}";
+        string errorMessage1 = "GetTerrain {g,f,r,b,w}";
+        string errorMessage2 = "    {friction, bounce, lieRate, lieRange}";
         if (arr.Length == 2)
         {
             TerrainType terrainType = game.GetTerrainAttributes().GetTerrainType(arr[0].ToUpper());
@@ -304,12 +326,14 @@ public class DevConsole : MonoBehaviour
                     Reply(terrainType.GetLieRange().ToString());
                     break;
                 default:
-                    Reply(errorMessage);
+                    Reply(errorMessage1);
+                    Reply(errorMessage2);
                     break;
             }
             return true;
         }
-        Reply(errorMessage);
+        Reply(errorMessage1);
+        Reply(errorMessage2);
         return true;
     }
     
