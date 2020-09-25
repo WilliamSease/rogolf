@@ -89,9 +89,7 @@ public class HoleInfo
         if (tee == Tee.FRONT) return lengthFront;
         else return lengthBack;
     }
-    public float GetYardsRounded() { return Mathf.Round(ToYards(GetLength())); }
-
-    private float ToYards(float m) { return m * 1.09361f; }
+    public float GetYardsRounded() { return Mathf.Round(MathUtil.ToYards(GetLength())); }
 
     public override string ToString()
     {

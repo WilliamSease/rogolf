@@ -57,7 +57,7 @@ public class Ball
 
         dtheta = 0;
         height = 0;
-        terrainNormal = new Vector3(Single.NaN, Single.NaN, Single.NaN);
+        terrainNormal = VectorUtil.NaN;
 
         Reset(Vector3.zero);
     }
@@ -114,7 +114,7 @@ public class Ball
         float maxHeight = 0;
         if (debug)
         {
-            outputString.Append(club.GetPower() + "," + club.GetLoft() + "\nx,y\n");
+            outputString.Append(String.Format("Power:,{0}\nLoft:,{1}\nMass:,{2}\nRadius:,{3}\nx,y\n", club.GetPower(), club.GetLoft(), mass, radius));
             maxHeight = 0;
         }
 
@@ -155,7 +155,7 @@ public class Ball
     /// <summary>
     /// Debug method for brute-forcing the correct trajectory.
     /// </summary>
-    public void FindTrajectory(Club club, float distanceTarget, float maxHeightTarget, int iterations)
+    public void FindTrajectory(Club club, float distanceTarget, float maxHeightTarget, int iterations, int clubIndex)
     {
         Tuple<float,float,string> result;
         float distance = Single.NaN;
@@ -192,7 +192,9 @@ public class Ball
                 }
             }
         }
-        System.IO.File.WriteAllText(club.GetName() + ".csv", distance + "," + maxHeight + "\n" + outputString.ToString());
+        string filename = String.Format("{0}-{1}-{2}.csv", DateTime.Now.ToString("yyyyMMddTHHmmss"), clubIndex, club.GetName());
+        string info = String.Format("Distance:,{0}y\nMax Height:,{1}y\n", MathUtil.ToYards(distance), MathUtil.ToYards(maxHeight));
+        System.IO.File.WriteAllText(filename, info + outputString.ToString());
     }
 
     public void Tick()
@@ -333,8 +335,12 @@ public class Ball
     public void SetRelativePosition(float x, float y, float z) { SetRelativePosition(new Vector3(x, y, z)); }
     public void SetLastPosition() { lastPosition = new Vector3(position.x, position.y, position.z); }
     public void SetHolePosition() { holePosition = game.GetHoleInfo().GetHolePosition(); }
+    public void SetMass(float mass) { this.mass = mass; }
+    public void SetRadius(float radius) { this.radius = radius; }
 
     public Vector3 GetPosition() { return new Vector3(position.x, position.y, position.z); }
     public Vector3 GetLastPosition() { return lastPosition; }
     public float GetAngle() { return angle; }
+    public float GetMass() { return mass; }
+    public float GetRadius() { return radius; }
 }

@@ -7,8 +7,6 @@ public class Bag
 {
     private static readonly float[] DISTANCES =   {275f,243f,230f,212f,203f,194f,183f,172f,160f,148f,136f,120f,100f,10f};
     private static readonly float[] MAX_HEIGHTS = { 32f, 30f, 31f, 27f, 28f, 31f, 30f, 32f, 31f, 30f, 29f, 30f, 30f,0.001f};
-    private const float TO_METERS = 0.9144f;
-    private const float TO_YARDS = 1.09361f;
 
     private Game game;
 
@@ -46,16 +44,16 @@ public class Bag
         this.current = 0;
     }
 
+    /// <summary>
+    /// Brute-force club parameters given desired output behavior.
+    /// Sends results to .csv files in the root project directory.
+    /// </summary>
     public void GenerateClubs()
     {
         int iterations = 1000;
         for (int i = 0; i < bagList.Count; i++)
         {
-            game.GetBall().FindTrajectory(bagList[i], DISTANCES[i]*TO_METERS, MAX_HEIGHTS[i]*TO_METERS, iterations);
-        }
-        foreach (Club club in bagList)
-        {
-            UnityEngine.Debug.Log(club.GetName() + "\t" + club.GetDistance()*TO_YARDS);
+            game.GetBall().FindTrajectory(bagList[i], MathUtil.ToMeters(DISTANCES[i]), MathUtil.ToMeters(MAX_HEIGHTS[i]), iterations, i);
         }
     }
 

@@ -41,6 +41,8 @@ public class DevConsole : MonoBehaviour
     private string[] helpPhysics =
     {   "GetWind: Get wind speed and angle.",
         "SetWind: Set wind speed and angle.",
+        "GetBallPhysics: Get ball physics parameters.",
+        "SetBallPhysics: Set ball physics parameters.",
         "GetTerrain: Get terrain attribute.",
         "SetTerrain: Set terrain attribute."
     };
@@ -166,6 +168,12 @@ public class DevConsole : MonoBehaviour
             break;
             case "getterrain":
                 Report(GetTerrain(Tail(arr)));
+            break;
+            case "getballphysics":
+                Report(GetBallPhysics(Tail(arr)));
+            break;
+            case "setballphysics":
+                Report(SetBallPhysics(Tail(arr)));
             break;
             default:
                 Reply("'" + arr[0] + "' doesn't appear to be a command");
@@ -309,7 +317,6 @@ public class DevConsole : MonoBehaviour
 
     public bool GenerateClubs()
     {
-        Reply("Please wait...");
         game.GetBag().GenerateClubs();
         Reply("Done.");
         return true;
@@ -382,6 +389,55 @@ public class DevConsole : MonoBehaviour
         return true;
     }
     
+    public bool GetBallPhysics(string[] arr)
+    {
+        string errorMessage1 = "GetBallPhysics TODO";
+        if (arr.Length == 1)
+        {
+            Ball ball = game.GetBall();
+            switch (arr[0].ToLower())
+            {
+                case "mass":
+                    Reply(ball.GetMass().ToString());
+                    break;
+                case "radius":
+                    Reply(ball.GetRadius().ToString());
+                    break;
+                default:
+                    Reply(errorMessage1);
+                    break;
+            }
+            return true;
+        }
+        Reply(errorMessage1);
+        return true;
+    }
+
+    public bool SetBallPhysics(string[] arr)
+    {
+        string errorMessage1 = "SetBallPhysics TODO";
+        if (arr.Length == 2)
+        {
+            Ball ball = game.GetBall();
+            float n = Floatify(arr[1]);
+            switch (arr[0].ToLower())
+            {
+                case "mass":
+                    ball.SetMass(n);
+                    break;
+                case "radius":
+                    ball.SetRadius(n);
+                    break;
+                default:
+                    Reply(errorMessage1);
+                    break;
+            }
+            return true;
+        }
+        Reply(errorMessage1);
+        return true;
+    }
+
     //These are easy utility functions.
     public string[] Tail(string[] to) 
     {
