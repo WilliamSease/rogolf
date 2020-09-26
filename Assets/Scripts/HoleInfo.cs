@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using TeeEnum;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace TeeEnum
 {
+    [System.Serializable]
     public enum Tee { FRONT, BACK }
 }
 
@@ -14,6 +16,8 @@ public class HoleInfo
     private const float PAR_3_MAX_LENGTH = 228.6f;
     private const float PAR_4_MAX_LENGTH = 429.8f;
     private const float PAR_5_MAX_LENGTH = 630.9f;
+
+    private Game game;
 
     private int holeNumber;
     private int par;
@@ -25,7 +29,7 @@ public class HoleInfo
     private float lengthFront;
     private float lengthBack;
 
-    public HoleInfo(int holeNumber, Tee tee, Vector3 frontTeePosition, Vector3 backTeePosition, Vector3 holePosition, int par)
+    public HoleInfo(Game game, int holeNumber, Tee tee, Vector3 frontTeePosition, Vector3 backTeePosition, Vector3 holePosition, int par)
     {
         this.holeNumber = holeNumber;
         this.tee = tee;
@@ -37,7 +41,7 @@ public class HoleInfo
         this.par = par;
     }
 
-    public HoleInfo(int holeNumber, Tee tee, Vector3 frontTeePosition, Vector3 backTeePosition, Vector3 holePosition)
+    public HoleInfo(Game game, int holeNumber, Tee tee, Vector3 frontTeePosition, Vector3 backTeePosition, Vector3 holePosition)
     {
         this.holeNumber = holeNumber;
         this.tee = tee;
@@ -47,6 +51,11 @@ public class HoleInfo
 
         CalculateHoleLength();
         CalculatePar();
+    }
+
+    public void AddCurrentHole()
+    {
+        game.GetHoleBag().AddHole(new HoleData(SceneManager.GetActiveScene().name, tee, lengthFront, lengthBack, par));
     }
 
     public void CalculateHoleLength()

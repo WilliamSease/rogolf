@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -11,13 +12,14 @@ public class HoleBag
     public const string ROGOLF_HOLES = "rogolf_holes.txt";
     public const string TEST_HOLES = "test_holes.txt";
 
+    private string holeName;
     private string holeListPath;
     private List<string> holeList;
-    private List<string> holesPlayed;
+    private List<HoleData> holesPlayed;
 
     public HoleBag()
     {
-        holesPlayed = new List<string>();
+        holesPlayed = new List<HoleData>();
         holeListPath = ROGOLF_HOLES;
         NewHoleList();
     }
@@ -34,12 +36,10 @@ public class HoleBag
         {
             // Get random hole
             int index = 0;
-            string hole = holeList[index];
-            // Add hole to played list
-            holesPlayed.Add(hole);
+            holeName = holeList[index];
             // Remove hole from list
             holeList.RemoveAt(index);
-            return hole;
+            return holeName;
         }
     }
 
@@ -56,8 +56,11 @@ public class HoleBag
         }
     }
 
-    public int GetHoleCount()
-    {
-        return holesPlayed.Count;
+    public void AddHole(HoleData holeData) { holesPlayed.Add(holeData); }
+
+    public HoleData GetHoleData() { 
+        if (holesPlayed.Count > 0) return holesPlayed[holesPlayed.Count - 1];
+        else throw new InvalidOperationException("Can't get HoleData before we've created it!");
     }
+    public int GetHoleCount() { return holesPlayed.Count; }
 }

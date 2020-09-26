@@ -279,7 +279,7 @@ public class GameController : MonoBehaviour
         }
 
         // Set HoleInfo
-        game.SetHoleInfo(new HoleInfo(game.GetHoleBag().GetHoleCount(), Tee.FRONT, teeFrontPosition, teeBackPosition, holePosition));
+        game.SetHoleInfo(new HoleInfo(game, game.GetHoleBag().GetHoleCount(), Tee.FRONT, teeFrontPosition, teeBackPosition, holePosition));
 
         // Set ball
         game.GetBall().Reset(game.GetHoleInfo().GetTeePosition());
