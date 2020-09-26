@@ -228,7 +228,7 @@ public class DevConsole : MonoBehaviour
     public bool Scene(string str)
     {
         Reply("Attempting Scene Load...");
-        gc.LoadScene(str);
+        Reply("Out of Order"); //gc.LoadScene(str);
         return true;
     }
     

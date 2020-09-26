@@ -84,13 +84,13 @@ public class GameController : MonoBehaviour
         GameDataManager.SaveGameData(game);
         UnityEngine.Object.Destroy(godObject);
 
-        // Load scene
-        LoadScene(nextHole);
+        // Load first hole
+        LoadHole(nextHole);
     }
     
-    public void LoadScene(string nextHole)
+    public void LoadHole(string nextHole)
     {
-        StartCoroutine(AsyncSceneLoad(nextHole));
+        StartCoroutine(AsyncHoleLoad(nextHole));
     }
 
     /// <summary>
@@ -98,7 +98,7 @@ public class GameController : MonoBehaviour
     /// </summary>
     /// <param name="targetScene">Name of the new scene to load</param>
     /// <returns></returns>
-    IEnumerator AsyncSceneLoad(string targetScene)
+    IEnumerator AsyncHoleLoad(string targetScene)
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(targetScene);
         while (!asyncLoad.isDone)
@@ -380,6 +380,23 @@ public class GameController : MonoBehaviour
 
     public void EndHole()
     {
-        throw new InvalidOperationException("TODO - EndHole");
+        GameObject godObject = GameObject.Find("GodObject");
+        Game oldGame = godObject.GetComponent<Game>();
+
+        // Get next hole
+        string nextHole = oldGame.GetHoleBag().GetHole();
+
+        // Save and destroy
+        GameDataManager.SaveGameData(oldGame);
+        UnityEngine.Object.Destroy(godObject);
+
+        // Disable GameObjects
+        gameUI.enabled = false;
+        //camera.SetActive(false);
+        ball.SetActive(false);
+        foreach (GameObject cursor in cursorList) cursor.SetActive(false);
+
+        // Load scoreboard
+        SceneManager.LoadScene("ScoreCardScene");
     }
 }
