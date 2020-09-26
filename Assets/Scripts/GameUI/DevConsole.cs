@@ -24,7 +24,7 @@ public class DevConsole : MonoBehaviour
     };
     
     private string[] helpMessage =
-    {   "Help {general|ball|physics|tools}"
+    {   "Help {general|game|ball|physics|tools}"
     };
 
     private string[] helpGeneral =
@@ -32,16 +32,22 @@ public class DevConsole : MonoBehaviour
         "Status: Display status info."
     };
 
+    private string[] helpGame =
+    {   "GetWind: Get wind speed and angle.",
+        "SetWind: Set wind speed and angle.",
+        "EndHole: End current hole."
+    };
+
     private string[] helpBall =
     {   "MoveBall {Abs|Rel} x y z: Places the ball.",
         "GetBallPos: Prints the ball's position.",
-        "ToTee [{front|back}]: Move the ball to tee."
+        "GetRemaining: Get 3D distance to hole.",
+        "ToTee [{front|back}]: Move the ball to tee.",
+        "ToHole: Move the ball to hole."
     };
 
     private string[] helpPhysics =
-    {   "GetWind: Get wind speed and angle.",
-        "SetWind: Set wind speed and angle.",
-        "GetBallPhysics: Get ball physics parameters.",
+    {   "GetBallPhysics: Get ball physics parameters.",
         "SetBallPhysics: Set ball physics parameters.",
         "GetTerrain: Get terrain attribute.",
         "SetTerrain: Set terrain attribute."
@@ -174,6 +180,15 @@ public class DevConsole : MonoBehaviour
             break;
             case "setballphysics":
                 Report(SetBallPhysics(Tail(arr)));
+            break;
+            case "getremaining":
+                Report(GetRemaining());
+            break;
+            case "tohole":
+                Report(ToHole());
+            break;
+            case "endhole":
+                Report(EndHole());
             break;
             default:
                 Reply("'" + arr[0] + "' doesn't appear to be a command");
@@ -435,6 +450,24 @@ public class DevConsole : MonoBehaviour
             return true;
         }
         Reply(errorMessage1);
+        return true;
+    }
+
+    public bool GetRemaining()
+    {
+        Reply(game.GetBall().DistanceToHole().ToString());
+        return true;
+    }
+
+    public bool ToHole()
+    {
+        game.GetBall().SetPosition(game.GetHoleInfo().GetHolePosition());
+        return true;
+    }
+
+    public bool EndHole()
+    {
+        game.SetState(new PostHoleState(game));
         return true;
     }
 

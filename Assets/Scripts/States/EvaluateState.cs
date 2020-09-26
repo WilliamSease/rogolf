@@ -10,8 +10,8 @@ public class EvaluateState : State
     {
         if (game.ball.InHole())
         {
-            // TODO - go to next hole
             game.SetState(new PostHoleState(game));
+            return;
         }
         else if (game.ball.InWater())
         {

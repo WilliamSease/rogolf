@@ -33,9 +33,7 @@ public class PostHoleState : State
         if (timeRemaining <= 0)
         {
             Reset();
-            //game.SetState(new ScorecardState(game));
-            // Go to scorecard
-            throw new InvalidOperationException("Hole over. Go to scorecard");
+            game.gc.EndHole();
         }
     }
 }

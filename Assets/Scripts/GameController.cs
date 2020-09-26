@@ -377,4 +377,9 @@ public class GameController : MonoBehaviour
 
         greenNormalMap = !greenNormalMap;
     }
+
+    public void EndHole()
+    {
+        throw new InvalidOperationException("TODO - EndHole");
+    }
 }

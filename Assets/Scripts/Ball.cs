@@ -322,7 +322,8 @@ public class Ball
     public bool InMotion() { return velocity.magnitude > 0.15f; }
     public bool IsMoving() { return InAir() || InMotion(); }
 
-    public bool InHole() { return Vector3.Distance(position, holePosition) < 1; } // TODO - this isn't right nor working
+    public float DistanceToHole() { return Vector3.Distance(position, holePosition); }
+    public bool InHole() { return DistanceToHole() < 1; } // TODO - this isn't right
     public bool InWater() { return false; } // TODO
     public bool OnGreen() { return game.GetTerrainAttributes().OnGreen(terrainHit); }
 
