@@ -5,38 +5,56 @@ using UnityEngine;
 [System.Serializable]
 public class ItemBag
 {
-    private List<string> itemList;
+    private List<Item> itemList;
+    private List<Item> heldItems;
 
     public ItemBag()
     {
+        heldItems = new List<Item>();
         NewItemList();
     }
 
-    public string GetHole()
+    public Item GetItem()
     {
-        // If holeList is empty, create a new one and try again
+        // If itemList is empty, create a new one and try again
         if (itemList.Count == 0)
         {
             NewItemList();
-            return GetHole();
+            return GetItem();
         }
         else
         {
-            // Get random hole
+            // Get random item
             int index = 0;
-            string hole = itemList[index];
+            Item item = itemList[index];
             // Remove hole from list
             itemList.RemoveAt(index);
-            return hole;
+            return item;
         }
     }
 
+    public void AddItem(Item item)
+    {
+        heldItems.Add(item);
+    }
+
     /// <summary>
-    /// Generates a full hole list with all possible holes
+    /// Generates a full item list with all possible items
     /// </summary>
     private void NewItemList()
     {
-        itemList = new List<string>();
-        itemList.Add("a01");
+        // Make new empty list
+        itemList = new List<Item>();
+
+        // Add items
+        itemList.Add(new PowerUp());
+        itemList.Add(new ControlUp());
+        itemList.Add(new ImpactUp());
+        itemList.Add(new SpinUp());
+    }
+
+    public List<Item> GetHeldItems()
+    {
+        return heldItems;
     }
 }

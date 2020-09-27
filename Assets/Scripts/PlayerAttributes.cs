@@ -39,7 +39,7 @@ public class PlayerAttributes
     public void SetSpin(double spin) { this.spin = spin; }
 
     public void IncreasePower(double increase) { this.power += increase; }
-    public void IncreaseContro(double increase) { this.control += increase; }
+    public void IncreaseControl(double increase) { this.control += increase; }
     public void IncreaseImpact(double increase) { this.impact += increase; }
     public void IncreaseSpin(double increase) { this.spin += increase; }
 }

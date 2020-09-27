@@ -69,7 +69,6 @@ public class GameController : MonoBehaviour
     /// </summary>
     public void StartGame()
     {
-        gameUI.enabled = true;
         GameDataManager.ResetGameData();
 
         GameObject godObject = GodObject.Create();
@@ -289,12 +288,11 @@ public class GameController : MonoBehaviour
 		// Set freeFocus object
 		freeFocus.transform.position = game.GetBall().GetPosition();
 
-
-        // Reset per-hole data
-        //game.ResetStrokes();
-
         // Set state
         game.SetState(new PrepareState(game));
+
+        // Enable game UI
+        gameUI.enabled = true;
     }
     
     // Vector3 is a non-nullable type; we need the '?' operator to be able to null it.
