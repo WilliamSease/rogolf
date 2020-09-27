@@ -33,7 +33,9 @@ public class DevConsole : MonoBehaviour
     };
 
     private string[] helpGame =
-    {   "GetWind: Get wind speed and angle.",
+    {   "GetPlayer: Get player attribute",
+        "SetPlayer: Set player attribute",
+        "GetWind: Get wind speed and angle.",
         "SetWind: Set wind speed and angle.",
         "GetHoleData: Gets info about the current hole.",
         "EndHole: End current hole."
@@ -193,6 +195,12 @@ public class DevConsole : MonoBehaviour
             break;
             case "getholedata":
                 Report(GetHoleData());
+            break;
+            case "getplayer":
+                Report(GetPlayer(Tail(arr)));
+            break;
+            case "setplayer":
+                Report(SetPlayer(Tail(arr)));
             break;
             default:
                 Reply("'" + arr[0] + "' doesn't appear to be a command");
@@ -478,6 +486,72 @@ public class DevConsole : MonoBehaviour
     public bool GetHoleData()
     {
         Reply(game.GetHoleBag().GetCurrentHoleData().ToString());
+        return true;
+    }
+
+    public bool GetPlayer(string[] arr)
+    {
+        string errorMessage = "GetPlayer [{power|control|impact|spin}]";
+        PlayerAttributes pa = game.GetPlayerAttributes();
+        if (arr.Length == 0)
+        {
+            Reply(pa.ToString());
+            return true;
+        }
+        else if (arr.Length == 1)
+        {
+            switch (arr[0])
+            {
+                case "power":
+                    Reply(pa.GetPower().ToString());
+                    break;
+                case "control":
+                    Reply(pa.GetControl().ToString());
+                    break;
+                case "impact":
+                    Reply(pa.GetImpact().ToString());
+                    break;
+                case "spin":
+                    Reply(pa.GetSpin().ToString());
+                    break;
+                default:
+                    Reply(errorMessage);
+                    break;
+            }
+            return true;
+        }
+        Reply(errorMessage);
+        return true;
+    }
+
+    public bool SetPlayer(string[] arr)
+    {
+        string errorMessage = "SetPlayer {power|control|impact|spin} n";
+        if (arr.Length == 2)
+        {
+            PlayerAttributes pa = game.GetPlayerAttributes();
+            float n = Floatify(arr[1]);
+            switch (arr[0])
+            {
+                case "power":
+                    pa.SetPower(n);
+                    break;
+                case "control":
+                    pa.SetControl(n);
+                    break;
+                case "impact":
+                    pa.SetImpact(n);
+                    break;
+                case "spin":
+                    pa.SetSpin(n);
+                    break;
+                default:
+                    Reply(errorMessage);
+                    break;
+            }
+            return true;
+        }
+        Reply(errorMessage);
         return true;
     }
 

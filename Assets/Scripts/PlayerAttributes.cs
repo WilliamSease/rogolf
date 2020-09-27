@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -42,4 +43,9 @@ public class PlayerAttributes
     public void IncreaseControl(double increase) { this.control += increase; }
     public void IncreaseImpact(double increase) { this.impact += increase; }
     public void IncreaseSpin(double increase) { this.spin += increase; }
+
+    public override string ToString()
+    {
+        return String.Format("P:{0}, C:{1}, I:{2}, S:{3}", power, control, impact, spin);
+    }
 }

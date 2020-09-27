@@ -33,8 +33,9 @@ public class ItemBag
         }
     }
 
-    public void AddItem(Item item)
+    public void ApplyItem(Game game, Item item)
     {
+        item.Apply(game.GetPlayerAttributes(), game.GetTerrainAttributes());
         heldItems.Add(item);
     }
 

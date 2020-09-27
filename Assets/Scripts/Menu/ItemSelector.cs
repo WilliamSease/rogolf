@@ -73,8 +73,8 @@ public class ItemSelector : MonoBehaviour
 
         if (selected != Selected.NONE && (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)))
         {
-            // Add item
-            game.GetItemBag().AddItem(selected == Selected.LEFT ? leftItem : rightItem);
+            // Add and apply item
+            game.GetItemBag().ApplyItem(game, selected == Selected.LEFT ? leftItem : rightItem);
 
             // Get next hole
             string nextHole = game.GetHoleBag().GetHole();
