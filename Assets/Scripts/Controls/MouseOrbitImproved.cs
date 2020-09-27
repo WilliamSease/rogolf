@@ -25,9 +25,9 @@ public class MouseOrbitImproved : MonoBehaviour
         // Apply default parameters
         distance = 100f;
         xSpeed = 25.0f;
-        ySpeed = 250.0f;
-        rotationSenitivity = 0.005f;
-        scrollSensitivity = 25;
+        ySpeed = 500.0f;
+        rotationSenitivity = 0.002f;
+        scrollSensitivity = 100;
         yMinLimit = -20f;
         yMaxLimit = 30f;
         distanceMin = 2f;
