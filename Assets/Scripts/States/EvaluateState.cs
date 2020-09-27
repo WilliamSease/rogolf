@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class EvaluateState : State
 {
-    public EvaluateState(Game game) : base(game) { }
+    private Ball ball;
+
+    public EvaluateState(Game game) : base(game) {
+        this.ball = game.GetBall();
+    }
 
     public override void Tick()
     {
-        if (game.ball.InHole())
+        if (ball.InHole())
         {
             game.SetState(new PostHoleState(game));
             return;
         }
-        else if (game.ball.InWater())
+        else if (ball.InWater())
         {
             game.GetHoleBag().GetCurrentHoleData().IncrementStrokes();
             // TODO - reset the ball

@@ -4,14 +4,20 @@ using UnityEngine;
 
 public class RunningState : State
 {
-    public RunningState(Game game) : base(game) { }
+    private Ball ball;
+    private CurrentDistance currentDistance;
+
+    public RunningState(Game game) : base(game) {
+        this.ball = game.GetBall();
+        this.currentDistance = game.GetCurrentDistance();
+    }
 
     public override void Tick()
     {
-        if (game.ball.IsMoving())
+        if (ball.IsMoving())
         {
-            game.ball.Tick();
-            game.currentDistance.Tick();
+            ball.Tick();
+            currentDistance.Tick();
         }
         else
         {

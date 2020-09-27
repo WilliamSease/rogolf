@@ -4,25 +4,28 @@ using UnityEngine;
 
 public class AccuracyState : State
 {
-    public AccuracyState(Game game) : base(game) { }
+    private Powerbar powerbar;
+
+    public AccuracyState(Game game) : base(game) {
+        this.powerbar = game.GetPowerbar();
+    }
 
     public override void Tick()
     {
-        game.powerbar.Tick();
-        // TODO - update wind?
+        powerbar.Tick();
 
-        if (game.powerbar.OutOfRange())
+        if (powerbar.OutOfRange())
         {
-            game.powerbar.SetAccuracy();
+            powerbar.SetAccuracy();
             game.SetState(new PreStrikingState(game));
         }
     }
 
     public override void OnKeySpace()
     {
-        if (game.powerbar.ValidAccuracy())
+        if (powerbar.ValidAccuracy())
         {
-            game.powerbar.SetAccuracy();
+            powerbar.SetAccuracy();
             game.SetState(new PreStrikingState(game));
         }
     }

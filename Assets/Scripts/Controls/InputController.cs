@@ -19,18 +19,18 @@ public class InputController
 		console = (GameObject.Find("DevConsole")).GetComponent<Canvas>();
 
         keyboard = new List<Tuple<KeyCode, Action>>();
-        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.Space, delegate() { game.state.OnKeySpace(); }));
-        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.UpArrow, delegate() { game.state.OnKeyUpArrow(); }));
-        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.DownArrow, delegate() { game.state.OnKeyDownArrow(); }));
-        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.RightArrow, delegate() { game.state.OnKeyRightArrow(); }));
-        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.LeftArrow, delegate() { game.state.OnKeyLeftArrow(); }));
-        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.W, delegate() { game.state.OnKeyW(); }));
-        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.A, delegate() { game.state.OnKeyA(); }));
-        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.S, delegate() { game.state.OnKeyS(); }));
-        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.D, delegate() { game.state.OnKeyD(); }));
-        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.Q, delegate() { game.state.OnKeyQ(); }));
-        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.E, delegate() { game.state.OnKeyE(); }));
-        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.Return, delegate() { game.state.OnKeyReturn(); }));
+        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.Space, delegate() { game.GetState().OnKeySpace(); }));
+        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.UpArrow, delegate() { game.GetState().OnKeyUpArrow(); }));
+        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.DownArrow, delegate() { game.GetState().OnKeyDownArrow(); }));
+        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.RightArrow, delegate() { game.GetState().OnKeyRightArrow(); }));
+        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.LeftArrow, delegate() { game.GetState().OnKeyLeftArrow(); }));
+        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.W, delegate() { game.GetState().OnKeyW(); }));
+        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.A, delegate() { game.GetState().OnKeyA(); }));
+        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.S, delegate() { game.GetState().OnKeyS(); }));
+        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.D, delegate() { game.GetState().OnKeyD(); }));
+        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.Q, delegate() { game.GetState().OnKeyQ(); }));
+        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.E, delegate() { game.GetState().OnKeyE(); }));
+        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.Return, delegate() { game.GetState().OnKeyReturn(); }));
 
         pressTimes = new float[keyboard.Count];
     }

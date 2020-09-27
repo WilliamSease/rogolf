@@ -33,23 +33,23 @@ public class Game : MonoBehaviour
     public MouseOrbitImproved orbitalControls;
 
     // Other game objects (that aren't game objects)
-    public State state;
-    public InputController inputController;
+    private State state;
+    private InputController inputController;
 
     // Persistent game objects
-    public HoleBag holeBag;
-    public ItemBag itemBag;
-    public PlayerAttributes playerAttributes;
-    public TerrainAttributes terrainAttributes;
+    private HoleBag holeBag;
+    private ItemBag itemBag;
+    private PlayerAttributes playerAttributes;
+    private TerrainAttributes terrainAttributes;
 
     // GAME OBJECT (not GameObject)
-    public HoleInfo holeInfo;
-    public Wind wind;
-    public Ball ball;
-    public Cursor cursor;
-    public CurrentDistance currentDistance;
-    public Bag bag;
-    public Powerbar powerbar;
+    private HoleInfo holeInfo;
+    private Wind wind;
+    private Ball ball;
+    private Cursor cursor;
+    private CurrentDistance currentDistance;
+    private Bag bag;
+    private Powerbar powerbar;
 
     public void Init()
     {
@@ -173,6 +173,8 @@ public class Game : MonoBehaviour
 
     public GameController GetGameController() { return gc; }
 
+    public State GetState() { return state; }
+    
     public HoleBag GetHoleBag() { return holeBag; }
     public ItemBag GetItemBag() { return itemBag; }
     public PlayerAttributes GetPlayerAttributes() { return playerAttributes; }
@@ -189,6 +191,7 @@ public class Game : MonoBehaviour
     public Ball GetBall() { return ball; }
     public GameObject getFreeFocus() { return freeFocus; }
     public Cursor GetCursor() { return cursor; }
+    public CurrentDistance GetCurrentDistance() { return currentDistance; }
     public Bag GetBag() { return bag; }
     public Powerbar GetPowerbar() { return powerbar; }
 }
