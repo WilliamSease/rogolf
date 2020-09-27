@@ -7,6 +7,7 @@ using UnityEngine;
 [System.Serializable]
 public class HoleData
 {
+    private string name;
     private Tee tee;
     private float lengthFront;
     private float lengthBack;
@@ -19,6 +20,7 @@ public class HoleData
 
     public HoleData(string name, Tee tee, float lengthFront, float lengthBack, int par)
     {
+        this.name = name;
         this.tee = tee;
         this.lengthFront = lengthFront;
         this.lengthBack = lengthBack;
@@ -40,6 +42,7 @@ public class HoleData
     public void SetFir(bool fir) { this.fir = fir; }
     public void SetGir(bool gir) { this.gir = gir; }
 
+    public string GetName() { return name; }
     public Tee GetTee() { return tee; }
     public float GetLengthFront() { return lengthFront; }
     public float GetLengthBack() { return lengthBack; }
@@ -48,4 +51,10 @@ public class HoleData
     public int GetPutts() { return putts; }
     public bool GetFir() { return fir; }
     public bool GetGir() { return gir; }
+
+    public string ToString()
+    {
+        return String.Format("N:{0},T:{1},F:{2}y,B:{3}y,P:{4}", 
+            name, tee, MathUtil.ToYardsRounded(lengthFront), MathUtil.ToYardsRounded(lengthBack), par);
+    }
 }

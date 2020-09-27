@@ -19,7 +19,6 @@ public class HoleInfo
 
     private Game game;
 
-    private int holeNumber;
     private int par;
     private Tee tee;
     private Vector3 frontTeePosition;
@@ -29,9 +28,8 @@ public class HoleInfo
     private float lengthFront;
     private float lengthBack;
 
-    public HoleInfo(Game game, int holeNumber, Tee tee, Vector3 frontTeePosition, Vector3 backTeePosition, Vector3 holePosition, int par)
+    public HoleInfo(Game game, Tee tee, Vector3 frontTeePosition, Vector3 backTeePosition, Vector3 holePosition, int par)
     {
-        this.holeNumber = holeNumber;
         this.tee = tee;
         this.frontTeePosition = frontTeePosition;
         this.backTeePosition = backTeePosition;
@@ -41,9 +39,9 @@ public class HoleInfo
         this.par = par;
     }
 
-    public HoleInfo(Game game, int holeNumber, Tee tee, Vector3 frontTeePosition, Vector3 backTeePosition, Vector3 holePosition)
+    public HoleInfo(Game game, Tee tee, Vector3 frontTeePosition, Vector3 backTeePosition, Vector3 holePosition)
     {
-        this.holeNumber = holeNumber;
+        this.game = game;
         this.tee = tee;
         this.frontTeePosition = frontTeePosition;
         this.backTeePosition = backTeePosition;
@@ -55,6 +53,7 @@ public class HoleInfo
 
     public void AddCurrentHole()
     {
+        UnityEngine.Debug.Log(game);
         game.GetHoleBag().AddHole(new HoleData(SceneManager.GetActiveScene().name, tee, lengthFront, lengthBack, par));
     }
 
@@ -77,7 +76,6 @@ public class HoleInfo
         else { par = 6; }
     }
 
-    public int GetHoleNumber() { return holeNumber; }
     public int GetPar() { return par; }
     public Tee GetTee() { return tee; }
     public Vector3 GetFrontTeePosition() { return frontTeePosition; }
@@ -98,11 +96,10 @@ public class HoleInfo
         if (tee == Tee.FRONT) return lengthFront;
         else return lengthBack;
     }
-    public float GetYardsRounded() { return Mathf.Round(MathUtil.ToYards(GetLength())); }
 
     public override string ToString()
     {
-        return String.Format("HoleInfo (click for more info)\nH : {0}\nP : {1}\nT : {2}\nFP: {3}\nBP: {4}\nHP: {5}\nFL: {6}\nBL: {7}\n", 
-            holeNumber, par, tee, frontTeePosition, backTeePosition, holePosition, lengthFront, lengthBack);
+        return String.Format("HoleInfo (click for more info)\nP : {0}\nT : {1}\nFP: {2}\nBP: {3}\nHP: {4}\nFL: {5}\nBL: {6}\n", 
+            par, tee, frontTeePosition, backTeePosition, holePosition, lengthFront, lengthBack);
     }
 }

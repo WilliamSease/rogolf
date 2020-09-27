@@ -11,7 +11,7 @@ public class StrikingState : State
         // Hit the damn thing
         game.GetBall().Strike(game.GetBag().GetClub(), (float)game.GetPowerbar().GetPower(), 0f);
         
-        game.IncrementStrokes();
+        game.GetHoleBag().GetCurrentHoleData().IncrementStrokes();
         game.SetState(new RunningState(game));
     }
 }

@@ -51,9 +51,6 @@ public class Game : MonoBehaviour
     public Bag bag;
     public Powerbar powerbar;
 
-    // Game parameters
-    private int strokes;
-
     public void Init()
     {
         this.state = new NoState(this);
@@ -175,10 +172,6 @@ public class Game : MonoBehaviour
     }
 
     public GameController GetGameController() { return gc; }
-
-    public int GetStrokes() { return strokes; }
-    public void ResetStrokes() { strokes = 0; }
-    public void IncrementStrokes() { ++strokes; }
 
     public HoleBag GetHoleBag() { return holeBag; }
     public ItemBag GetItemBag() { return itemBag; }

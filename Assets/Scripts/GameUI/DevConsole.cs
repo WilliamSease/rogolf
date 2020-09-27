@@ -35,6 +35,7 @@ public class DevConsole : MonoBehaviour
     private string[] helpGame =
     {   "GetWind: Get wind speed and angle.",
         "SetWind: Set wind speed and angle.",
+        "GetHoleData: Gets info about the current hole.",
         "EndHole: End current hole."
     };
 
@@ -189,6 +190,9 @@ public class DevConsole : MonoBehaviour
             break;
             case "endhole":
                 Report(EndHole());
+            break;
+            case "getholedata":
+                Report(GetHoleData());
             break;
             default:
                 Reply("'" + arr[0] + "' doesn't appear to be a command");
@@ -468,6 +472,12 @@ public class DevConsole : MonoBehaviour
     public bool EndHole()
     {
         game.SetState(new PostHoleState(game));
+        return true;
+    }
+
+    public bool GetHoleData()
+    {
+        Reply(game.GetHoleBag().GetCurrentHoleData().ToString());
         return true;
     }
 

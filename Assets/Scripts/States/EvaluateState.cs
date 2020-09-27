@@ -15,7 +15,7 @@ public class EvaluateState : State
         }
         else if (game.ball.InWater())
         {
-            game.IncrementStrokes();
+            game.GetHoleBag().GetCurrentHoleData().IncrementStrokes();
             // TODO - reset the ball
         }
         game.SetState(new PrepareState(game));

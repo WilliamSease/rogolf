@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TeeEnum;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -24,41 +26,66 @@ public class ScoreCard : MonoBehaviour
         godObject = GodObject.Create();
         godObject.AddComponent<Game>();
         Game game = godObject.GetComponent<Game>();
-        game.CreateGameData();
+        game.enabled = false;
+        game.LoadGameData();
+
+        List<HoleData> holesPlayed = game.GetHoleBag().GetHolesPlayed();
 
         for(int i = 0; i < 18; i++)
         {
             Hole[i].text = (i+1).ToString();
-            Back[i].text = "";
-            Front[i].text = "";
-            Par[i].text = "";
-            Par[i].fontStyle = FontStyle.Bold;
-            Hcp[i].text = "";
-            Strokes[i].text = "";
-            Putts[i].text = "";
-            Fir[i].text = "";
-            Gir[i].text = "";
+            if (i < holesPlayed.Count)
+            {
+                HoleData h = holesPlayed[i];
+
+                Back[i].text = MathUtil.ToYardsRounded(h.GetLengthBack()).ToString();
+                Front[i].text = MathUtil.ToYardsRounded(h.GetLengthFront()).ToString();
+                if (h.GetTee() == Tee.BACK) { Back[i].fontStyle = FontStyle.Bold; }
+                else { Front[i].fontStyle = FontStyle.Bold; }
+                Par[i].text = h.GetPar().ToString();
+                Par[i].fontStyle = FontStyle.Bold;
+                Hcp[i].text = "";
+                Strokes[i].text = h.GetStrokes().ToString();
+                Putts[i].text = h.GetPutts().ToString();
+                Fir[i].text = h.GetFir() ? "X" : "";
+                Gir[i].text = h.GetGir() ? "X" : "";
+            }
+            else
+            {
+                Back[i].text = "";
+                Front[i].text = "";
+                Par[i].text = "";
+                Hcp[i].text = "";
+                Strokes[i].text = "";
+                Putts[i].text = "";
+                Fir[i].text = "";
+                Gir[i].text = "";
+            }
         }
 
-        tot[0].text = "OUT";
-        tot[1].text = "SumBack";
-        tot[2].text = "SumFront";
-        tot[3].text = "SumPar";
-        tot[4].text = "AvgHcp";
-        tot[5].text = "SumStrokes";
-        tot[6].text = "SumPutts";
-        tot[7].text = "SumFir";
-        tot[8].text = "SumGir";
+        foreach (Text t in tot) t.fontStyle = FontStyle.Bold;
 
+        List<HoleData> front = holesPlayed.Take(9).ToList();
+        tot[0].text = "OUT";
+        tot[1].text = (front.Sum(h => MathUtil.ToYardsRounded(h.GetLengthBack()))).ToString();
+        tot[2].text = (front.Sum(h => MathUtil.ToYardsRounded(h.GetLengthFront()))).ToString();
+        tot[3].text = (front.Sum(h => h.GetPar())).ToString();
+        tot[4].text = "AvgHcp";
+        tot[5].text = (front.Sum(h => h.GetStrokes())).ToString();
+        tot[6].text = (front.Sum(h => h.GetPutts())).ToString();
+        tot[7].text = (front.Sum(h => h.GetFir() ? 1 : 0)).ToString();
+        tot[8].text = (front.Sum(h => h.GetGir() ? 1 : 0)).ToString();
+
+        List<HoleData> back = holesPlayed.Skip(9).Take(9).ToList();
         tot[9].text = "IN";
-        tot[10].text = "SumBack";
-        tot[11].text = "SumFront";
-        tot[12].text = "SumPar";
+        tot[10].text = (back.Sum(h => MathUtil.ToYardsRounded(h.GetLengthBack()))).ToString();
+        tot[11].text = (back.Sum(h => MathUtil.ToYardsRounded(h.GetLengthFront()))).ToString();
+        tot[12].text = (back.Sum(h => h.GetPar())).ToString();
         tot[13].text = "AvgHcp";
-        tot[14].text = "SumStrokes";
-        tot[15].text = "SumPutts";
-        tot[16].text = "SumFir";
-        tot[17].text = "SumGir";
+        tot[14].text = (back.Sum(h => h.GetStrokes())).ToString();
+        tot[15].text = (back.Sum(h => h.GetPutts())).ToString();
+        tot[16].text = (back.Sum(h => h.GetFir() ? 1 : 0)).ToString();
+        tot[17].text = (back.Sum(h => h.GetGir() ? 1 : 0)).ToString();
     }
 
     void Update()

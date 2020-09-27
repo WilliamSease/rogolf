@@ -58,9 +58,11 @@ public class HoleBag
 
     public void AddHole(HoleData holeData) { holesPlayed.Add(holeData); }
 
-    public HoleData GetHoleData() { 
+    public int GetCurrentHoleNumber() { return holesPlayed.Count; }
+    public HoleData GetCurrentHoleData() { 
         if (holesPlayed.Count > 0) return holesPlayed[holesPlayed.Count - 1];
-        else throw new InvalidOperationException("Can't get HoleData before we've created it!");
+        else return null;
     }
     public int GetHoleCount() { return holesPlayed.Count; }
+    public List<HoleData> GetHolesPlayed() { return holesPlayed; }
 }
