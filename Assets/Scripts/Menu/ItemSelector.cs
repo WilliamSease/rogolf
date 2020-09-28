@@ -19,7 +19,7 @@ public class ItemSelector : MonoBehaviour
     private Text leftDescription;
     private Text rightName;
     private Text rightDescription;
-    private GameObject godObject;
+    private GameObject gcObject;
 
     private Game game;
     private Item leftItem;
@@ -41,11 +41,8 @@ public class ItemSelector : MonoBehaviour
         rightDescription = GameObject.Find(RIGHT_DESCRIPTION).GetComponent<Text>();
 
         // Initialize logic
-        godObject = GodObject.Create();
-        godObject.AddComponent<Game>();
-        game = godObject.GetComponent<Game>();
-        game.enabled = false;
-        game.LoadGameData();
+        gcObject = GameObject.Find(GameController.NAME);
+        game = gcObject.GetComponent<Game>();
 
         // Get items to display
         leftItem = game.GetItemBag().GetItem();
@@ -86,12 +83,8 @@ public class ItemSelector : MonoBehaviour
             // Get next hole
             string nextHole = game.GetHoleBag().GetHole();
 
-            // Save and destroy
-            GameDataManager.SaveGameData(game);
-            UnityEngine.Object.Destroy(godObject);
-
             // Advance to next hole
-            GameController gc = GameObject.Find(GameController.NAME).GetComponent<GameController>();
+            GameController gc = gcObject.GetComponent<GameController>();
             gc.LoadHole(nextHole);
         }
     }

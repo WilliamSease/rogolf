@@ -10,7 +10,7 @@ public class ScoreCard : MonoBehaviour
 {
     public const string SCENE_NAME = "ScoreCardScene";
 
-    private GameObject godObject;
+    private GameObject gcObject;
 
     public Text[] Hole = new Text[18];
     public Text[] Back = new Text[18];
@@ -25,11 +25,8 @@ public class ScoreCard : MonoBehaviour
     
     void Start()
     {
-        godObject = GodObject.Create();
-        godObject.AddComponent<Game>();
-        Game game = godObject.GetComponent<Game>();
-        game.enabled = false;
-        game.LoadGameData();
+        gcObject = GameObject.Find(GameController.NAME);
+        Game game = gcObject.GetComponent<Game>();
 
         List<HoleData> holesPlayed = game.GetHoleBag().GetHolesPlayed();
 
@@ -92,11 +89,8 @@ public class ScoreCard : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
         {
-            // Need not save game data
-            UnityEngine.Object.Destroy(godObject);
-
             // Load item scene
             SceneManager.LoadScene(ItemSelector.SCENE_NAME);
         }

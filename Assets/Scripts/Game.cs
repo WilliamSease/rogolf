@@ -23,7 +23,6 @@ public class Game : MonoBehaviour
     public GameController gc;
 
     // GameObject objects
-    public GameObject godObject;
     public GameObject cameraObject;
     public GameObject ballObject;
     public List<GameObject> cursorList;
@@ -36,7 +35,7 @@ public class Game : MonoBehaviour
     private State state;
     private InputController inputController;
 
-    // Persistent game objects
+    // Game data objects
     private HoleBag holeBag;
     private ItemBag itemBag;
     private PlayerAttributes playerAttributes;
@@ -51,16 +50,38 @@ public class Game : MonoBehaviour
     private Bag bag;
     private Powerbar powerbar;
 
-    public void Init()
+    /// <summary>
+    /// Performs initialization of Game object.
+    /// </summary>
+    public void Initialize()
     {
         this.state = new NoState(this);
-        gc = (GameController) GameObject.Find(GameController.NAME).GetComponent<GameController>();
-        LoadGameData();
+        gc = GameObject.Find(GameController.NAME).GetComponent<GameController>();
+        
+        // Initialize fields
+        this.holeBag = new HoleBag();
+        this.itemBag = new ItemBag();
+        this.playerAttributes = new PlayerAttributes();
+        this.terrainAttributes = new TerrainAttributes();
+
+        inputController = new InputController(this);
+        target = Target.BALL;
+
+        wind = new Wind(this);
+        ball = new Ball(this);
+        cursor = new Cursor(this);
+        currentDistance = new CurrentDistance(this);
+        bag = new Bag(this);
+        powerbar = new Powerbar(this);
+
+        // Send Game reference to other objects
+        GodOfUI ui = GameObject.Find(GodOfUI.NAME).GetComponent<GodOfUI>();
+        ui.gameRef = this;
     }
 
     /// <summary>
     /// Game Start function.
-    /// Just call Init().
+    /// Just call Initialize().
     /// </summary>
     void Start() { }
 
@@ -91,70 +112,6 @@ public class Game : MonoBehaviour
         if (target == Target.BALL) orbitalControls.targetPosition = ballPosition;
         if (target == Target.CURSOR) orbitalControls.targetPosition = cursorPosition;
         if (target == Target.FREE) orbitalControls.targetPosition = freeFocus.transform.position;
-        
-        // Send Game reference to other objects
-        GodOfUI ui = (GodOfUI)GameObject.Find("UICanvas").GetComponent<GodOfUI>();
-        ui.gameRef = this;
-    }
-
-    /// <summary>
-    /// Some state will call this method when the hole is over.
-    /// It needs to...
-    ///     1. Save any relevant data using binary files
-    ///     2. Destroy anything we've instantiated
-    ///     3. Move on to the next scene (and add a new GodObject to it???)
-    /// </summary>
-    public void Exit()
-    {
-        SaveGameData();
-        Destroy(this);
-    }
-
-    /// <summary>
-    /// Save game data to binary file
-    /// </summary>
-    public void SaveGameData()
-    {
-        GameDataManager.SaveGameData(this);
-    }
-
-    /// <summary>
-    /// Load game data from binary file
-    /// </summary>
-    public void LoadGameData()
-    {
-        GameData gameData = GameDataManager.LoadGameData();
-        this.holeBag = gameData.holeBag;
-        this.itemBag = gameData.itemBag;
-        this.playerAttributes = gameData.playerAttributes;
-        this.terrainAttributes = gameData.terrainAttributes;
-
-        Initialize();
-    }
-
-    public void CreateGameData()
-    {
-        this.state = new NoState(this);
-
-        this.holeBag = new HoleBag();
-        this.itemBag = new ItemBag();
-        this.playerAttributes = new PlayerAttributes();
-        this.terrainAttributes = new TerrainAttributes();
-
-        Initialize();
-    }
-
-    private void Initialize()
-    {
-        inputController = new InputController(this);
-        target = Target.BALL;
-
-        wind = new Wind(this);
-        ball = new Ball(this);
-        cursor = new Cursor(this);
-        currentDistance = new CurrentDistance(this);
-        bag = new Bag(this);
-        powerbar = new Powerbar(this);
     }
 
     public void SetState(State state)

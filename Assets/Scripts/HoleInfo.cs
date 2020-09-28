@@ -53,7 +53,6 @@ public class HoleInfo
 
     public void AddCurrentHole()
     {
-        UnityEngine.Debug.Log(game);
         game.GetHoleBag().AddHole(new HoleData(SceneManager.GetActiveScene().name, tee, lengthFront, lengthBack, par));
     }
 

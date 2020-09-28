@@ -59,7 +59,7 @@ public class Bag
 
     public void SelectBestClub()
     {
-        float distanceToHole = VectorUtil.MapDistance(game.GetBall().GetPosition(), game.GetHoleInfo().GetHolePosition());
+        float distanceToHole = MathUtil.MapDistance(game.GetBall().GetPosition(), game.GetHoleInfo().GetHolePosition());
         for (int i = bagList.Count - 1; i >= 0; i--)
         {
             if (distanceToHole < bagList[i].GetDistance())

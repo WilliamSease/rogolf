@@ -57,7 +57,7 @@ public class Ball
 
         dtheta = 0;
         height = 0;
-        terrainNormal = VectorUtil.NaN;
+        terrainNormal = MathUtil.Vector3NaN;
 
         Reset(Vector3.zero);
     }
@@ -87,7 +87,7 @@ public class Ball
         // Set velocity
         float horizontal = clubPower * Mathf.Cos(clubLoft);
         float vertical = clubPower * Mathf.Sin(clubLoft);
-        Vector3 angleVector = VectorUtil.FromPolar(horizontal * mass, angle);
+        Vector3 angleVector = MathUtil.FromPolar(horizontal * mass, angle);
         velocity = angleVector;
         velocity.y = vertical;
 
@@ -98,8 +98,8 @@ public class Ball
         fnet = gravity * mass;
 
         // Set spin
-        Vector2 clubVector = VectorUtil.FromPolar(club.GetPower(), club.GetLoft());
-        spin = VectorUtil.FromPolar(-clubVector.y / clubVector.x * SPIN_RATE, angle);
+        Vector2 clubVector = MathUtil.FromPolar(club.GetPower(), club.GetLoft());
+        spin = MathUtil.FromPolar(-clubVector.y / clubVector.x * SPIN_RATE, angle);
         // Set inaccuracy
         this.dtheta = dtheta * inaccuracyRate; 
     }
@@ -218,7 +218,7 @@ public class Ball
         // Update position
         position += velocity * (deltaTime / mass);
         // Apply inaccuracy
-        VectorUtil.Rotate(velocity, dtheta);
+        MathUtil.Rotate(velocity, dtheta);
         // Apply wind
         velocity += wind;
         // Update drag

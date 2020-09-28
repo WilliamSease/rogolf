@@ -133,8 +133,8 @@ public class DevConsole : MonoBehaviour
     
     void Execute(string str)
     {
-        try { game = GameObject.Find(GodObject.NAME).GetComponent<Game>(); }
-        catch (NullReferenceException e) { Reply("Game is currently null. Functionality is limited!"); }
+        try { game = GameObject.Find(GameController.NAME).GetComponent<Game>(); }
+        catch (NullReferenceException) { Reply("Game is currently null. Functionality is limited!"); }
         Pump(str);
         string[] arr = Regex.Split(str, " ");
         arr[0] = arr[0].ToLower();

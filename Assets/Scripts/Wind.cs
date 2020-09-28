@@ -26,14 +26,14 @@ public class Wind
     {
         speed = Random.Range(0.0f, MAX_INITIAL_SPEED);
         angle = Random.Range(0.0f, Mathf.PI*2f);
-        wind = VectorUtil.FromPolar(speed, angle);
+        wind = MathUtil.FromPolar(speed, angle);
     }
 
     public void Disable()
     {
         speed = 0f;
         angle = 0f;
-        wind = VectorUtil.FromPolar(speed, angle);
+        wind = MathUtil.FromPolar(speed, angle);
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ public class Wind
         speed = speed >= 0 ? speed : 0;
 
         // Recalculate wind vector
-        wind = VectorUtil.FromPolar(speed, angle);
+        wind = MathUtil.FromPolar(speed, angle);
     }
 
     public void SetSpeed(float speed) { this.speed = speed; }

@@ -52,7 +52,7 @@ public class HoleData
     public bool GetFir() { return fir; }
     public bool GetGir() { return gir; }
 
-    public string ToString()
+    public override string ToString()
     {
         return String.Format("N:{0},T:{1},F:{2}y,B:{3}y,P:{4}", 
             name, tee, MathUtil.ToYardsRounded(lengthFront), MathUtil.ToYardsRounded(lengthBack), par);

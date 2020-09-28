@@ -49,19 +49,6 @@ public class GameController : MonoBehaviour
 
     void Update() { }
 
-    public static GameController GetInstance()
-    {
-        GameObject gameObject = GameObject.Find(NAME);
-        if (gameObject != null)
-        {
-            return gameObject.GetComponent<GameController>();
-        }
-        else
-        {
-            throw new InvalidOperationException("GameController GameObject not found.");
-        }
-    }
-
     /// <summary>
     /// Called from the main menu.
     /// Resets old game data, and initializes new data.
@@ -69,19 +56,13 @@ public class GameController : MonoBehaviour
     /// </summary>
     public void StartGame()
     {
-        GameDataManager.ResetGameData();
-
-        GameObject godObject = GodObject.Create();
-        godObject.AddComponent<Game>();
-        Game game = godObject.GetComponent<Game>();
-        game.CreateGameData();
+        this.gameObject.AddComponent<Game>();
+        Game game = this.gameObject.GetComponent<Game>();
+        game.enabled = false;
+        game.Initialize();
 
         // Get next hole
         string nextHole = game.GetHoleBag().GetHole();
-        
-        // Save and destroy
-        GameDataManager.SaveGameData(game);
-        UnityEngine.Object.Destroy(godObject);
 
         // Load first hole
         LoadHole(nextHole);
@@ -110,10 +91,7 @@ public class GameController : MonoBehaviour
     public void NextHole()
     {
         // Load persistent game data
-        GameObject godObject = GodObject.Create();
-        godObject.AddComponent<Game>();
-        Game game = godObject.GetComponent<Game>();
-        game.Init();
+        Game game = this.gameObject.GetComponent<Game>();
 
         /* Modify Scene */
         greenNormalMap = false;
@@ -291,8 +269,9 @@ public class GameController : MonoBehaviour
         // Set state
         game.SetState(new PrepareState(game));
 
-        // Enable game UI
+        // Enable game
         gameUI.enabled = true;
+        game.enabled = true;
     }
     
     // Vector3 is a non-nullable type; we need the '?' operator to be able to null it.
@@ -379,21 +358,19 @@ public class GameController : MonoBehaviour
 
     public void EndHole()
     {
-        GameObject godObject = GameObject.Find(GodObject.NAME);
-        Game oldGame = godObject.GetComponent<Game>();
+        Game game = this.gameObject.GetComponent<Game>();
 
-        // Get next hole
-        string nextHole = oldGame.GetHoleBag().GetHole();
-
-        // Save and destroy
-        GameDataManager.SaveGameData(oldGame);
-        UnityEngine.Object.Destroy(godObject);
-
-        // Disable GameObjects
+        // Disable game and associated objects
+        game.enabled = false;
         gameUI.enabled = false;
         //camera.SetActive(false);
         ball.SetActive(false);
         foreach (GameObject cursor in cursorList) cursor.SetActive(false);
+
+        // Get next hole
+        string nextHole = game.GetHoleBag().GetHole();
+
+        // TODO - reset any Game 'state' here
 
         // Load scoreboard
         SceneManager.LoadScene(ScoreCard.SCENE_NAME);

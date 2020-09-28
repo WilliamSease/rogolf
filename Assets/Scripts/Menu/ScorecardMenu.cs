@@ -19,7 +19,7 @@ public class ScorecardMenu : MonoBehaviour
     public Button button_8;
     public Button button_9;
 
-    int activeCharacter = 0;
+    //int activeCharacter = 0;
     public Text characterSel;
 
     // Start is called before the first frame update

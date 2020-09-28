@@ -18,7 +18,7 @@ public class CurrentDistance
 
     public void Tick()
     {
-        distance = VectorUtil.MapDistance(ball.GetLastPosition(), ball.GetPosition());
+        distance = MathUtil.MapDistance(ball.GetLastPosition(), ball.GetPosition());
     }
 
     public float GetCurrentDistance() { return distance; }
