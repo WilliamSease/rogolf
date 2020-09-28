@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 
 public class DevConsole : MonoBehaviour
 {
+    public const string NAME = "DevConsole";
+
     public GameController gc;
     private Game game;
     
@@ -131,7 +133,7 @@ public class DevConsole : MonoBehaviour
     
     void Execute(string str)
     {
-        try { game = GameObject.Find("GodObject").GetComponent<Game>(); }
+        try { game = GameObject.Find(GodObject.NAME).GetComponent<Game>(); }
         catch (NullReferenceException e) { Reply("Game is currently null. Functionality is limited!"); }
         Pump(str);
         string[] arr = Regex.Split(str, " ");

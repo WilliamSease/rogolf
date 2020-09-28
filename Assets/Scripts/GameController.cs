@@ -379,7 +379,7 @@ public class GameController : MonoBehaviour
 
     public void EndHole()
     {
-        GameObject godObject = GameObject.Find("GodObject");
+        GameObject godObject = GameObject.Find(GodObject.NAME);
         Game oldGame = godObject.GetComponent<Game>();
 
         // Get next hole
@@ -396,6 +396,6 @@ public class GameController : MonoBehaviour
         foreach (GameObject cursor in cursorList) cursor.SetActive(false);
 
         // Load scoreboard
-        SceneManager.LoadScene("ScoreCardScene");
+        SceneManager.LoadScene(ScoreCard.SCENE_NAME);
     }
 }

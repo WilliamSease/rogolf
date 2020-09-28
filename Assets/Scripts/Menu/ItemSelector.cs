@@ -5,6 +5,13 @@ using UnityEngine.UI;
 
 public class ItemSelector : MonoBehaviour
 {
+    public const string SCENE_NAME = "ItemScene";
+
+    private const string LEFT_NAME = "LeftName";
+    private const string LEFT_DESCRIPTION = "LeftDescription";
+    private const string RIGHT_NAME = "RightName";
+    private const string RIGHT_DESCRIPTION = "RightDescription";
+
     public RawImage leftSelector;
     public RawImage rightSelector;
 
@@ -28,10 +35,10 @@ public class ItemSelector : MonoBehaviour
         rightSelector.gameObject.SetActive(false);
 
         // Get UI objects
-        leftName = GameObject.Find("LeftName").GetComponent<Text>();
-        leftDescription = GameObject.Find("LeftDescription").GetComponent<Text>();
-        rightName = GameObject.Find("RightName").GetComponent<Text>();
-        rightDescription = GameObject.Find("RightDescription").GetComponent<Text>();
+        leftName = GameObject.Find(LEFT_NAME).GetComponent<Text>();
+        leftDescription = GameObject.Find(LEFT_DESCRIPTION).GetComponent<Text>();
+        rightName = GameObject.Find(RIGHT_NAME).GetComponent<Text>();
+        rightDescription = GameObject.Find(RIGHT_DESCRIPTION).GetComponent<Text>();
 
         // Initialize logic
         godObject = GodObject.Create();

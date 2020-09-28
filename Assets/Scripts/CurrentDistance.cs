@@ -21,8 +21,5 @@ public class CurrentDistance
         distance = VectorUtil.MapDistance(ball.GetLastPosition(), ball.GetPosition());
     }
 
-    public float GetCurrentDistance()
-    {
-        return distance;
-    }
+    public float GetCurrentDistance() { return distance; }
 }

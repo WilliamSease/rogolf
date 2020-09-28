@@ -32,14 +32,11 @@ public class IdleState : State
     public override void OnKeyA() { game.GetBall().IncrementAngle(); }
     public override void OnKeyD() { game.GetBall().DecrementAngle(); }
 
-	public override void OnKeyUpArrow() { game.getFreeFocus().transform.Translate(Vector3.forward); }
-	public override void OnKeyDownArrow() { game.getFreeFocus().transform.Translate(Vector3.back); }
-	public override void OnKeyLeftArrow() { game.getFreeFocus().transform.Translate(Vector3.left); }
-	public override void OnKeyRightArrow() { game.getFreeFocus().transform.Translate(Vector3.right); }
-
-
-
-
+    public override void OnKeyUpArrow() { game.getFreeFocus().transform.Translate(Vector3.forward); }
+    public override void OnKeyDownArrow() { game.getFreeFocus().transform.Translate(Vector3.back); }
+    public override void OnKeyLeftArrow() { game.getFreeFocus().transform.Translate(Vector3.left); }
+    public override void OnKeyRightArrow() { game.getFreeFocus().transform.Translate(Vector3.right); }
+    
     public override void OnKeyE() { game.GetGameController().ToggleGreenNormalMap(); }
 
     public override void OnKeyQ() { game.ToggleTarget(); }

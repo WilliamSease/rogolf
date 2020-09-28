@@ -16,7 +16,7 @@ public class InputController
     public InputController(Game game)
     {
         this.game = game;
-		console = (GameObject.Find("DevConsole")).GetComponent<Canvas>();
+		console = (GameObject.Find(DevConsole.NAME)).GetComponent<Canvas>();
 
         keyboard = new List<Tuple<KeyCode, Action>>();
         keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.Space, delegate() { game.GetState().OnKeySpace(); }));

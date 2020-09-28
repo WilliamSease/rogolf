@@ -54,8 +54,5 @@ public class ItemBag
         itemList.Add(new SpinUp());
     }
 
-    public List<Item> GetHeldItems()
-    {
-        return heldItems;
-    }
+    public List<Item> GetHeldItems() { return heldItems; }
 }

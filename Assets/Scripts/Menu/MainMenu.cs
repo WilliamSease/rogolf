@@ -90,13 +90,9 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
     }
 
-    void task_8()
-    {
-    }
+    void task_8() { }
 
-    void task_9()
-    {
-    }
+    void task_9() { }
 
     void loadState()
     {

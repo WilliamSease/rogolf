@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class ScoreCard : MonoBehaviour
 {
+    public const string SCENE_NAME = "ScoreCardScene";
+
     private GameObject godObject;
 
     public Text[] Hole = new Text[18];
@@ -96,7 +98,7 @@ public class ScoreCard : MonoBehaviour
             UnityEngine.Object.Destroy(godObject);
 
             // Load item scene
-            SceneManager.LoadScene("ItemScene");
+            SceneManager.LoadScene(ItemSelector.SCENE_NAME);
         }
     }
 }

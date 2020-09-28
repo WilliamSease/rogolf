@@ -9,15 +9,8 @@ public class HoverSelector : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public RawImage mySelector;
     public RawImage notMySelector;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
+    void Start() { }
+    void Update() { }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -25,7 +18,5 @@ public class HoverSelector : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         notMySelector.gameObject.SetActive(false);
     }
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-    }
+    public void OnPointerExit(PointerEventData eventData) { }
 }
