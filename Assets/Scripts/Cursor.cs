@@ -14,12 +14,12 @@ public class Cursor
 
     public void Enable()
     {
-        foreach (GameObject cursor in game.cursorList) { cursor.SetActive(true); }
+        foreach (GameObject cursor in game.GetCursorList()) { cursor.SetActive(true); }
     }
 
     public void Disable()
     {
-        foreach (GameObject cursor in game.cursorList) { cursor.SetActive(false); }
+        foreach (GameObject cursor in game.GetCursorList()) { cursor.SetActive(false); }
     }
 
     public void Tick()

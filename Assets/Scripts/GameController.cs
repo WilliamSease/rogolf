@@ -9,12 +9,11 @@ public class GameController : MonoBehaviour
 {
     public const string NAME = "GameController";
 
-    public GameObject camera;
-    public GameObject ball;
+    public GameObject cameraPrefab;
+    public GameObject ballPrefab;
+    public GameObject cursorPrefab;
 	public GameObject freeFocus;
 
-    public GameObject cursor;
-    public List<GameObject> cursorList;
     public Material cursorOn;
     public Material cursorOff;
     public const float CURSOR_RATE = 0.1f;
@@ -93,6 +92,14 @@ public class GameController : MonoBehaviour
         // Load persistent game data
         Game game = this.gameObject.GetComponent<Game>();
 
+        // Delete old objects if necessary
+        if (game.GetCameraObject() != null) 
+        {
+            Destroy(game.GetCameraObject());
+            Destroy(game.GetBallObject());
+            foreach (GameObject cursor in game.GetCursorList()) Destroy(cursor);
+        }
+
         /* Modify Scene */
         greenNormalMap = false;
 
@@ -100,30 +107,29 @@ public class GameController : MonoBehaviour
         // TODO - we're just using stock lighting for now
         RenderSettings.skybox = skyboxMaterial;
 
-        //  Add ball
-        ball = Instantiate(ball);
-        game.ballObject = ball;
+        // Add ball
+        game.SetBallObject(Instantiate(ballPrefab));
 		
 		// Add freeFocus
 		game.freeFocus = freeFocus;
 
         // Add cursor
-        cursorList.Add(Instantiate(cursor));
-        cursorList.Add(Instantiate(cursor));
-        cursorList.Add(Instantiate(cursor));
-        foreach (GameObject c in cursorList)
+        List<GameObject> cursorList = new List<GameObject>();
+        cursorList.Add(Instantiate(cursorPrefab));
+        cursorList.Add(Instantiate(cursorPrefab));
+        cursorList.Add(Instantiate(cursorPrefab));
+        foreach (GameObject cursor in cursorList)
         {
-            c.GetComponent<Renderer>().material = cursorOff;
+            cursor.GetComponent<Renderer>().material = cursorOff;
         }
-        game.cursorList = cursorList;
+        game.SetCursorList(cursorList);
         cursorDeltaTime = 0;
         cursorIndex = 0;
 
-        // Add camera and controls
-        camera = Instantiate(camera);
-        game.cameraObject = camera;
-        MouseOrbitImproved orbitalControls = camera.GetComponent<MouseOrbitImproved>();
-        game.orbitalControls = orbitalControls;
+        // Grab reference to orbital controls
+        GameObject cameraCopy = Instantiate(cameraPrefab);
+        game.SetCameraObject(cameraCopy);
+        game.orbitalControls =  cameraCopy.GetComponent<MouseOrbitImproved>();
 
         string holeName = SceneManager.GetActiveScene().name;
 
@@ -320,6 +326,7 @@ public class GameController : MonoBehaviour
         cursorDeltaTime += Time.deltaTime;
         if (cursorDeltaTime >= CURSOR_RATE)
         {
+            List<GameObject> cursorList = this.gameObject.GetComponent<Game>().GetCursorList();
             cursorList[cursorIndex].GetComponent<Renderer>().material = cursorOff;
             cursorIndex--;
             if (cursorIndex < 0) cursorIndex = cursorList.Count - 1;
@@ -363,9 +370,9 @@ public class GameController : MonoBehaviour
         // Disable game and associated objects
         game.enabled = false;
         gameUI.enabled = false;
-        //camera.SetActive(false);
-        ball.SetActive(false);
-        foreach (GameObject cursor in cursorList) cursor.SetActive(false);
+        //Destroy(game.cameraObject);
+        //Destroy(game.ballObject);
+        game.GetCursor().Disable();
 
         // Get next hole
         string nextHole = game.GetHoleBag().GetHole();

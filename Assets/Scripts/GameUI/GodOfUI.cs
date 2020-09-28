@@ -10,27 +10,33 @@ public class GodOfUI : MonoBehaviour
 
     public Game gameRef;
     public GameController gc;
-    //Powerbar elements.
+
+    // Powerbar elements
     public Image fillBar;
     public Image negBar;
     public Slider marker;
     private float current;
     private float power;
-    //Golfbag elements.
+
+    // Golfbag elements
     public Text clubText;
-    //Holeinfo elements.
+
+    // Holeinfo elements
     public Text holeText;
     public Text parText;
     public Text yardText;
     public Text strokeText;
-    //WindInfo elements.
+
+    // WindInfo elements
     public GameObject arrowParent;
     public GameObject arrowTarget;
     private float windSpeed;
     private float windOrient;
-    //Bonusinfo elements.
+
+    // Bonusinfo elements
     public Text bonusText;
-    //CamToggleText
+    
+    // CamToggleText
     public Text camToggleText;
     public Text normalToggleText;
     
@@ -63,8 +69,7 @@ public class GodOfUI : MonoBehaviour
         strokeText.text = holeData != null ? holeData.GetStrokes().ToString() : "";
 
         //Windinfo update
-        GameObject cam = gc.camera;
-        Vector3 camAngles = cam.transform.rotation.eulerAngles;
+        Vector3 camAngles = gameRef.GetCameraObject().transform.rotation.eulerAngles;
         camAngles[1] = -camAngles[1];
         camAngles[0] = 0;
         camAngles[2] = 0;

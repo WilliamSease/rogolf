@@ -4280,11 +4280,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a45f55279a55a84cb8e050b24ee98d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 1405086373536391866, guid: 49d2d9d8dc595494fa97e46155efd2ff, type: 3}
-  ball: {fileID: 311251129746609182, guid: d3c72079bd870a74984e9c9ad242b167, type: 3}
+  cameraPrefab: {fileID: 1405086373536391866, guid: 49d2d9d8dc595494fa97e46155efd2ff, type: 3}
+  ballPrefab: {fileID: 311251129746609182, guid: d3c72079bd870a74984e9c9ad242b167, type: 3}
+  cursorPrefab: {fileID: 4743382481015483612, guid: 4d048eace87ed4342b81970ed769fd29, type: 3}
   freeFocus: {fileID: 151096086}
-  cursor: {fileID: 4743382481015483612, guid: 4d048eace87ed4342b81970ed769fd29, type: 3}
-  cursorList: []
   cursorOn: {fileID: 2100000, guid: f175d8bd29ec98943a725b5d6a310b56, type: 2}
   cursorOff: {fileID: 2100000, guid: 30bfb6b1274ce9040bc85eea13d4133f, type: 2}
   cursorDeltaTime: 0

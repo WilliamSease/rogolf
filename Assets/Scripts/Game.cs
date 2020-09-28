@@ -23,9 +23,9 @@ public class Game : MonoBehaviour
     public GameController gc;
 
     // GameObject objects
-    public GameObject cameraObject;
-    public GameObject ballObject;
-    public List<GameObject> cursorList;
+    private GameObject cameraObject;
+    private GameObject ballObject;
+    private List<GameObject> cursorList;
     public GameObject freeFocus;
 
     public Target target;
@@ -129,6 +129,13 @@ public class Game : MonoBehaviour
     }
 
     public GameController GetGameController() { return gc; }
+
+    public GameObject GetCameraObject() { return cameraObject; }
+    public GameObject GetBallObject() { return ballObject; }
+    public List<GameObject> GetCursorList() { return cursorList; }
+    public void SetCameraObject(GameObject cameraObject) { this.cameraObject = cameraObject; }
+    public void SetBallObject(GameObject ballObject) { this.ballObject = ballObject; }
+    public void SetCursorList(List<GameObject> cursorList) { this.cursorList = cursorList; }
 
     public State GetState() { return state; }
     
