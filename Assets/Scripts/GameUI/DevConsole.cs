@@ -229,6 +229,9 @@ public class DevConsole : MonoBehaviour
                 case "tools":
                     message = helpTools;
                     break;
+				case "game":
+					message = helpGame;
+					break;
                 default:
                     message = helpMessage;
                     break;

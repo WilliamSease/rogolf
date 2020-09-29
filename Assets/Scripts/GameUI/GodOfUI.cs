@@ -12,11 +12,18 @@ public class GodOfUI : MonoBehaviour
     public GameController gc;
 
     // Powerbar elements
+	public GameObject powerbarParent;
     public Image fillBar;
     public Image negBar;
     public Slider marker;
     private float current;
     private float power;
+	public Text[] underText = new Text[4];
+	public bool renderPowerbar = true;
+	
+	//Distance Display Elements
+	public GameObject distanceDisplay;
+	public Text distanceText;
 
     // Golfbag elements
     public Text clubText;
@@ -58,13 +65,30 @@ public class GodOfUI : MonoBehaviour
     {
         // Return if game is not active
         if (gameRef == null || !gameRef.enabled) return;
+		if (!renderPowerbar)
+		{
+			powerbarParent.SetActive(false);
+			distanceDisplay.SetActive(true);
+			distanceText.text = MathUtil.ToYards(gameRef.GetCurrentDistance().GetCurrentDistance()).ToString("F2") + "y";
 
+		}
+		else
+		{
+			powerbarParent.SetActive(true);
+			distanceDisplay.SetActive(false);
+		}
         // Powerbar update
         current = (float) gameRef.GetPowerbar().GetCurrent();
         power = (float) gameRef.GetPowerbar().GetPower();
         fillBar.fillAmount = current;
         negBar.fillAmount = (current >= -.12f) ? -current : .12f;
         marker.value = (power == 0) ? current : power;
+		
+		int maxVal = (int) MathUtil.ToYardsRounded(gameRef.GetBag().GetClub().GetDistance());
+		underText[0].text = (int)((float)maxVal) + "y";
+		underText[1].text = (int)((float)maxVal * .75f) + "y";
+		underText[2].text = (int)((float)maxVal * .5f) + "y";
+		underText[3].text = (int)((float)maxVal * .25f) + "y";
 
         // Bag update
         clubText.text = gameRef.GetBag().GetClub().GetName();
@@ -79,13 +103,13 @@ public class GodOfUI : MonoBehaviour
         //Windinfo update
 		Wind tWind = gameRef.GetWind();
         Vector3 camAngles = gameRef.GetCameraObject().transform.rotation.eulerAngles;
-        camAngles[1] = -camAngles[1] + MathUtil.RadsToDeg((float) tWind.GetAngle());
+        camAngles[1] = -camAngles[1] + MathUtil.RadsToDeg((float) tWind.GetAngle());//This is wrong. lord help us
         camAngles[0] = 0;
         arrowParent.transform.eulerAngles = camAngles;
-		transform.RotateAround(arrowParent.transform.position, 
+		/*transform.RotateAround(arrowParent.transform.position, 
 			windCamera.transform.right, 
-				gameRef.GetCameraObject().transform.eulerAngles.x);
-		windText.text = "" + tWind.GetSpeed().ToString().Substring(0,3) + "m";
+				gameRef.GetCameraObject().transform.eulerAngles.x);*/
+		windText.text = "" + tWind.GetSpeed().ToString().Substring(0, Math.Min(3, tWind.GetSpeed().ToString().Length)) + "m";
 		
 		//Lieinfo update
 		float[] vals = gameRef.GetTerrainAttributes().GetTeeTerrain().GetBounds();

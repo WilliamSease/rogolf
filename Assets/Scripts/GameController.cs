@@ -132,7 +132,8 @@ public class GameController : MonoBehaviour
 		cursorTextObject.AddComponent<TextMeshPro>();
 		cursorTextObject.GetComponent<TextMeshPro>().fontSize = 48;
 		cursorTextObject.GetComponent<TextMeshPro>().outlineColor = Color.black;
-		cursorTextObject.GetComponent<TextMeshPro>().outlineWidth = 0.5f;
+		cursorTextObject.GetComponent<TextMeshPro>().outlineWidth = 0.07f;
+		cursorTextObject.GetComponent<TextMeshPro>().fontSharedMaterial.EnableKeyword("OUTLINE_ON");
 		cursorTextObject.transform.localScale = new Vector3(-.25f,.25f,.25f);
 		game.SetCursorTextObject(cursorTextObject);
 
