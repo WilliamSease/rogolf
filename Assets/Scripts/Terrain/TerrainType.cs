@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -43,6 +44,11 @@ public class TerrainType
         // This should return an evenly distributed lie depending on the lieRange
         return lieRate;
     }
+	
+	public float[] GetBounds()
+	{
+		return new float[] {GetLieRate() - GetLieRange() / 2f, GetLieRate() + GetLieRange() / 2 };
+	}
 
     public void SetFriction(float friction) { this.friction = friction; }
     public void SetBounce(float bounce) { this.bounce = bounce; }

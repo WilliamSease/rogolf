@@ -32,9 +32,17 @@ public class GodOfUI : MonoBehaviour
     public GameObject arrowTarget;
     private float windSpeed;
     private float windOrient;
+	public Text windText;
+	public Camera windCamera;
+	
+	//LieInfo elements
+	public Text lieText;
 
     // Bonusinfo elements
     public Text bonusText;
+	
+	// Playerinfo elements
+	public Text playerinfoText;
     
     // CamToggleText
     public Text camToggleText;
@@ -69,17 +77,41 @@ public class GodOfUI : MonoBehaviour
         strokeText.text = holeData != null ? holeData.GetStrokes().ToString() : "";
 
         //Windinfo update
+		Wind tWind = gameRef.GetWind();
         Vector3 camAngles = gameRef.GetCameraObject().transform.rotation.eulerAngles;
-        camAngles[1] = -camAngles[1];
+        camAngles[1] = -camAngles[1] + MathUtil.RadsToDeg((float) tWind.GetAngle());
         camAngles[0] = 0;
-        camAngles[2] = 0;
         arrowParent.transform.eulerAngles = camAngles;
-
+		transform.RotateAround(arrowParent.transform.position, 
+			windCamera.transform.right, 
+				gameRef.GetCameraObject().transform.eulerAngles.x);
+		windText.text = "" + tWind.GetSpeed().ToString().Substring(0,3) + "m";
+		
+		//Lieinfo update
+		float[] vals = gameRef.GetTerrainAttributes().GetTeeTerrain().GetBounds();
+		lieText.text = floatToPct(vals[0].ToString()) + "%~" + 
+			floatToPct(vals[1].ToString()) + "%";
         // BonusText update
         //bonusText.text = ;
+		
+		// Playerstats update
+		PlayerAttributes plr = gameRef.GetPlayerAttributes();
+		playerinfoText.text = "Power: " + plr.GetPower() + "\n" + "Control: "+ plr.GetControl() + "\n" +
+			"Impact: " + plr.GetImpact() + "\n" + "Spin: "+ plr.GetSpin() + "\n";
         
         // ToggleText update
         camToggleText.text = Char.ToUpper(gameRef.GetTarget().ToString()[0]) + gameRef.GetTarget().ToString().ToLower().Substring(1);
         normalToggleText.text = gc.greenNormalMap ? "Angles" : "Normal";
     }
+	
+	public string floatToPct(string str)
+	{
+		if (str.Substring(0,1).Equals("0")) //Pct below 100
+			return str.Substring(2,Math.Min(2,str.Length - 2));
+		if (str.Length == 1) //Whole nums
+			return str + "00";
+		else if (str.Substring(1,1).Equals(".")) //Whole Num with decimal portion
+			return str.Substring(0,1)+""+str.Substring(2);	
+		return "ER";
+	}
 }

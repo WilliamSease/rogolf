@@ -71,10 +71,10 @@ public class TerrainAttributes
 
     public bool OnGreen(RaycastHit terrainHit) { return terrainHit.transform.gameObject.name[0] == 'G'; }
 
-    public TerrainType GetTeeTerain() { return tee; }
-    public TerrainType GetGreenTerain() { return green; }
-    public TerrainType GetFairwayTerain() { return fairway; }
-    public TerrainType GetRoughTerain() { return rough; }
-    public TerrainType GetBunkerTerain() { return bunker; }
-    public TerrainType GetWaterTerain() { return water; }
+    public TerrainType GetTeeTerrain() { return tee; }
+    public TerrainType GetGreenTerrain() { return green; }
+    public TerrainType GetFairwayTerrain() { return fairway; }
+    public TerrainType GetRoughTerrain() { return rough; }
+    public TerrainType GetBunkerTerrain() { return bunker; }
+    public TerrainType GetWaterTerrain() { return water; }
 }

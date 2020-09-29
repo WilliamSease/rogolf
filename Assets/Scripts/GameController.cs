@@ -125,6 +125,10 @@ public class GameController : MonoBehaviour
         game.SetCursorList(cursorList);
         cursorDeltaTime = 0;
         cursorIndex = 0;
+		
+		//Initialize Cursor Text
+		TextMesh cursorText = new TextMesh();
+		game.SetCursorText(cursorText);
 
         // Grab reference to orbital controls
         GameObject cameraCopy = Instantiate(cameraPrefab);
