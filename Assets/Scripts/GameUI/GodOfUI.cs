@@ -116,7 +116,12 @@ public class GodOfUI : MonoBehaviour
 		lieText.text = floatToPct(vals[0].ToString()) + "%~" + 
 			floatToPct(vals[1].ToString()) + "%";
         // BonusText update
-        //bonusText.text = ;
+		List<Item> heldItems = gameRef.GetItemBag().GetHeldItems();
+		bonusText.text = "";
+		foreach (Item i in heldItems)
+		{
+			bonusText.text = bonusText.text + i.GetName() + " -> " + i.GetDescription() + "\n";
+		}
 		
 		// Playerstats update
 		PlayerAttributes plr = gameRef.GetPlayerAttributes();
