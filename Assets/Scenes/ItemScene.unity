@@ -417,6 +417,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mySelector: {fileID: 1279142776}
   notMySelector: {fileID: 2089063704}
+  left: 0
+  right: 1
+  itemSelector: {fileID: 999071185}
 --- !u!1 &933057478
 GameObject:
   m_ObjectHideFlags: 0
@@ -993,6 +996,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mySelector: {fileID: 2089063704}
   notMySelector: {fileID: 1279142776}
+  left: 1
+  right: 0
+  itemSelector: {fileID: 999071185}
 --- !u!1 &1400622082
 GameObject:
   m_ObjectHideFlags: 0
@@ -1165,7 +1171,7 @@ Transform:
   m_LocalScale: {x: 2000, y: 1000, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1538303189
 GameObject:
@@ -1328,7 +1334,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2089063703
 GameObject:

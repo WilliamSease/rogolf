@@ -81,11 +81,24 @@ public class ItemSelector : MonoBehaviour
             game.GetItemBag().ApplyItem(game, selected == Selected.LEFT ? leftItem : rightItem);
 
             // Get next hole
-            string nextHole = game.GetHoleBag().GetHole();
+            MoveOn();
+        }
+    }
+	
+	public void clickSelect(bool left, bool right)
+	{
+		if (left && right) return; //Shouldn't happen anyway but paranoid programmer
+		if (left) game.GetItemBag().ApplyItem(game, leftItem);
+		if (right) game.GetItemBag().ApplyItem(game, rightItem);
+		MoveOn();
+	}
+	
+	void MoveOn()
+	{
+		string nextHole = game.GetHoleBag().GetHole();
 
             // Advance to next hole
             GameController gc = gcObject.GetComponent<GameController>();
             gc.LoadHole(nextHole);
-        }
-    }
+	}
 }

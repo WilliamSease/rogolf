@@ -4,10 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class HoverSelector : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class HoverSelector : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public RawImage mySelector;
     public RawImage notMySelector;
+	public bool left;
+	public bool right;
+	public ItemSelector itemSelector;
 
     void Start() { }
     void Update() { }
@@ -19,4 +22,9 @@ public class HoverSelector : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     }
 
     public void OnPointerExit(PointerEventData eventData) { }
+	
+	public void OnPointerClick(PointerEventData pointerEventData)
+    {
+		itemSelector.clickSelect(left, right);
+    }
 }
