@@ -8,6 +8,7 @@ using System.Xml.Serialization;
 using TargetEnum;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 namespace TargetEnum
 {
@@ -27,6 +28,7 @@ public class Game : MonoBehaviour
     private GameObject ballObject;
     private List<GameObject> cursorList;
     public GameObject freeFocus;
+	public GameObject cursorTextObject;
 
     public Target target;
     public MouseOrbitImproved orbitalControls;
@@ -49,7 +51,6 @@ public class Game : MonoBehaviour
     private CurrentDistance currentDistance;
     private Bag bag;
     private Powerbar powerbar;
-	private TextMesh cursorText;
 
     /// <summary>
     /// Performs initialization of Game object.
@@ -108,10 +109,11 @@ public class Game : MonoBehaviour
             Vector3 tempPos = new Vector3(cursorPosition.x, cursorPosition.y + (i * CURSOR_SEGMENT_HEIGHT), cursorPosition.z);
             cursorList[i].transform.localPosition = tempPos;
         }
-		if (cursorText != null) //Why? Why is it null?
+		if (cursorTextObject != null) //Everything in this if transforms the cursor text object
 		{
-			cursorText.text = GetBag().GetClub().GetDistance() + "m";
-			cursorText.transform.localPosition = new Vector3(cursorPosition.x, cursorPosition.y + (4 * CURSOR_SEGMENT_HEIGHT), cursorPosition.z);
+			cursorTextObject.GetComponent<TextMeshPro>().text = MathUtil.ToYardsRounded(GetBag().GetClub().GetDistance()) + "yds";
+			cursorTextObject.transform.localPosition = new Vector3(cursorPosition.x, cursorPosition.y + (4 * CURSOR_SEGMENT_HEIGHT), cursorPosition.z);
+			cursorTextObject.transform.LookAt(cameraObject.transform);
 		}
 
         // Update camera target position
@@ -142,7 +144,7 @@ public class Game : MonoBehaviour
     public void SetCameraObject(GameObject cameraObject) { this.cameraObject = cameraObject; }
     public void SetBallObject(GameObject ballObject) { this.ballObject = ballObject; }
     public void SetCursorList(List<GameObject> cursorList) { this.cursorList = cursorList; }
-	public void SetCursorText(TextMesh text) { this.cursorText = text; }
+	public void SetCursorTextObject(GameObject to) { this.cursorTextObject = to; }
 
     public State GetState() { return state; }
     
@@ -165,5 +167,5 @@ public class Game : MonoBehaviour
     public CurrentDistance GetCurrentDistance() { return currentDistance; }
     public Bag GetBag() { return bag; }
     public Powerbar GetPowerbar() { return powerbar; }
-	public TextMesh GetCursorText() { return cursorText; }
+	public GameObject GetCursorText() { return cursorTextObject; }
 }

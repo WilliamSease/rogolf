@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TeeEnum;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
@@ -127,8 +128,13 @@ public class GameController : MonoBehaviour
         cursorIndex = 0;
 		
 		//Initialize Cursor Text
-		TextMesh cursorText = new TextMesh();
-		game.SetCursorText(cursorText);
+		GameObject cursorTextObject = new GameObject();
+		cursorTextObject.AddComponent<TextMeshPro>();
+		cursorTextObject.GetComponent<TextMeshPro>().fontSize = 48;
+		cursorTextObject.GetComponent<TextMeshPro>().outlineColor = Color.black;
+		cursorTextObject.GetComponent<TextMeshPro>().outlineWidth = 0.5f;
+		cursorTextObject.transform.localScale = new Vector3(-.25f,.25f,.25f);
+		game.SetCursorTextObject(cursorTextObject);
 
         // Grab reference to orbital controls
         GameObject cameraCopy = Instantiate(cameraPrefab);
