@@ -334,6 +334,10 @@ public class Ball
     public bool IsMoving() { return InAir() || InMotion(); }
 
     public float DistanceToHole() { return Vector3.Distance(position, holePosition); }
+    public TerrainType GetTerrainType() {
+        try { return game.GetTerrainAttributes().GetTerrainType(terrainHit); }
+        catch { return game.GetTerrainAttributes().GetTeeTerrain(); }
+    }
     public bool InHole() { return DistanceToHole() < 1; } // TODO - this isn't right
     public bool OnGreen() { 
         try { return game.GetTerrainAttributes().OnGreen(terrainHit); }

@@ -45,9 +45,9 @@ public class TerrainType
         return lieRate;
     }
 	
-	public float[] GetBounds()
+	public Tuple<float, float> GetBounds()
 	{
-		return new float[] {GetLieRate() - GetLieRange() / 2f, GetLieRate() + GetLieRange() / 2 };
+		return new Tuple<float, float>(GetLieRate() - GetLieRange() / 2f, GetLieRate() + GetLieRange() / 2);
 	}
 
     public void SetFriction(float friction) { this.friction = friction; }
