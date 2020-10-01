@@ -59,7 +59,8 @@ public class DevConsole : MonoBehaviour
     };
 
     private string[] helpTools =
-    {   "GenerateClubs: Send optimal club parameters to .csv."
+    {   "GenerateClubs: Send optimal club parameters to .csv.",
+		"PlaySound [name]: Play a sound"
     };
     
     // Start is called before the first frame update
@@ -135,7 +136,7 @@ public class DevConsole : MonoBehaviour
     {
         try { game = GameObject.Find(GameController.NAME).GetComponent<Game>(); }
         catch (NullReferenceException) { Reply("Game is currently null. Functionality is limited!"); }
-        Pump(str);
+        if(str.Length > 0) Pump(str);
         string[] arr = Regex.Split(str, " ");
         arr[0] = arr[0].ToLower();
         if (arr.Length == 0) return;
@@ -204,6 +205,9 @@ public class DevConsole : MonoBehaviour
             case "setplayer":
                 Report(SetPlayer(Tail(arr)));
             break;
+			case "playsound":
+				Report(PlaySound(Tail(arr)));
+				break;
             default:
                 Reply("'" + arr[0] + "' doesn't appear to be a command");
             break;
@@ -252,9 +256,10 @@ public class DevConsole : MonoBehaviour
     public bool Status()
     {
         Pump("***STATUS***");
-        Pump("Memory Usage: " + System.GC.GetTotalMemory(true) + "Bytes");
+        Pump("Memory Usage: " + System.GC.GetTotalMemory(true) / 1000000 + "MB");
         Pump("Uptime: " + (int) Time.realtimeSinceStartup / 60 + "m " + ((int) Time.realtimeSinceStartup % 60) + "s");
         Pump("Rendering: " + SystemInfo.graphicsDeviceName);
+		Pump("Instantaneous FPS: " + (1f / Time.deltaTime) + (((1f / Time.deltaTime) >= 60) ? " (Seems Good!)" : " (Yikes!)"));
         return true;
     }
     
@@ -559,6 +564,15 @@ public class DevConsole : MonoBehaviour
         Reply(errorMessage);
         return true;
     }
+	
+	public bool PlaySound(string[] arr)
+	{
+		string errorMessage = "PlaySound name";
+		if(arr.Length == 1)
+			return BoomBox.Play(arr[0]);
+		Reply(errorMessage);
+		return true;
+	}
 
     //These are easy utility functions.
     public string[] Tail(string[] to) 

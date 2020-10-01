@@ -36,6 +36,7 @@ public class GameController : MonoBehaviour
     public Material skyboxMaterial;
 
     public Canvas gameUI;
+	public BoomBox boomBox;
 
     public Material normalMap;
     public bool greenNormalMap;
@@ -393,4 +394,12 @@ public class GameController : MonoBehaviour
         // Load scoreboard
         SceneManager.LoadScene(ScoreCard.SCENE_NAME);
     }
+	
+	//Call any sound which is a child element of BoomBox.
+	//str is name, forget capitalization
+	//Returns if boombox had that sound.
+	public bool PlaySound(string str)
+	{
+		return boomBox.GCPlay(str);
+	}
 }

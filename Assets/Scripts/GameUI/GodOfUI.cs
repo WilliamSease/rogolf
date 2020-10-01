@@ -49,7 +49,7 @@ public class GodOfUI : MonoBehaviour
     public Text bonusText;
 	
 	// Playerinfo elements
-	public Text playerinfoText;
+	public Text[] playerinfoText = new Text[4];
     
     // CamToggleText
     public Text camToggleText;
@@ -77,7 +77,7 @@ public class GodOfUI : MonoBehaviour
 			powerbarParent.SetActive(true);
 			distanceDisplay.SetActive(false);
 		}
-        // Powerbar update
+        // Powerbar update. Do this every frame. Rest can be done whenever
         current = (float) gameRef.GetPowerbar().GetCurrent();
         power = (float) gameRef.GetPowerbar().GetPower();
         fillBar.fillAmount = current;
@@ -125,8 +125,10 @@ public class GodOfUI : MonoBehaviour
 		
 		// Playerstats update
 		PlayerAttributes plr = gameRef.GetPlayerAttributes();
-		playerinfoText.text = "Power: " + plr.GetPower() + "\n" + "Control: "+ plr.GetControl() + "\n" +
-			"Impact: " + plr.GetImpact() + "\n" + "Spin: "+ plr.GetSpin() + "\n";
+		playerinfoText[0].text = "" + plr.GetPower();
+		playerinfoText[1].text = "" + plr.GetControl();
+		playerinfoText[2].text = "" + plr.GetImpact();
+		playerinfoText[3].text = "" + plr.GetSpin();
         
         // ToggleText update
         camToggleText.text = Char.ToUpper(gameRef.GetTarget().ToString()[0]) + gameRef.GetTarget().ToString().ToLower().Substring(1);
