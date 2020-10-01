@@ -33,7 +33,7 @@ public class Bag
         this.bagList.Add(new Club("PW", 89f, 0.119f));
         this.bagList.Add(new Club("SW", 67f, 0.147f));
         this.bagList.Add(new Club("LW", 49f, 0.185f));
-        this.bagList.Add(new Club("P",  81f, 0.0000001f));
+        this.bagList.Add(new Club("P",  35f, 1.0E-7f));
 
         // Calculate distances
         foreach (Club club in bagList)
@@ -59,8 +59,15 @@ public class Bag
 
     public void SelectBestClub()
     {
+        // Set to putter if on green
+        if (game.GetBall().OnGreen())
+        {
+            current = bagList.Count - 1;
+            return;
+        }
+
         float distanceToHole = MathUtil.MapDistance(game.GetBall().GetPosition(), game.GetHoleInfo().GetHolePosition());
-        for (int i = bagList.Count - 1; i >= 0; i--)
+        for (int i = bagList.Count - 2; i >= 0; i--)
         {
             if (distanceToHole < bagList[i].GetDistance())
             {

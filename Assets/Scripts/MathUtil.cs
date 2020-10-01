@@ -24,6 +24,8 @@ public static class MathUtil
         return Vector3.Distance(new Vector3(u.x,0,u.z), new Vector3(v.x,0,v.z));
     }
 
+    public static Vector3 Copy(Vector3 v) { return new Vector3(v.x, v.y, v.z); }
+
     public static float ToYards(float m) { return m * 1.09361f; }
     public static float ToYardsRounded(float m) { return Mathf.Round(ToYards(m)); }
     public static float ToMeters(float y) { return y * 0.9144f; }

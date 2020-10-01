@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Wind
 {
+    // Hellmann Exponent
+    public const float a = 0.27f;
+
     private const float MAX_INITIAL_SPEED = 0.5f;
     private const float SPEED_RATE = 0.1f;
     private const float ANGLE_RATE = 1f;
-    private const float HEIGHT_RATE = 1f/128f;
     private const float RATIO = 1f/256f;
 
     private Game game;

@@ -11,6 +11,9 @@ public class Ball
     private const float SPIN_RATE = 3f;
     private const float SPIN_DECAY = 0.5f;
     private const float NO_HEIGHT_TIME_OUT = 5f;
+    private const float INITIAL_MINIMUM_VELOCITY_THRESHOLD = 0.1f;
+    private const float FINAL_MINIMUM_VELOCITY_THRESHOLD = 0.005f;
+    private const float GRAVITATIONAL_ACCELERATION = 9.8f;
 
     private Game game;
     private float deltaTime;
@@ -49,7 +52,7 @@ public class Ball
         rate = 4/3f;
         inaccuracyRate = 1/128f;
         mass = 0.25f;
-        gravity = new Vector3(0, -9.8f, 0);
+        gravity = new Vector3(0, -GRAVITATIONAL_ACCELERATION, 0);
         radius = 0.0625f;
         c = 0.5f;
         rho = 1.2f;
@@ -220,6 +223,7 @@ public class Ball
         // Apply inaccuracy
         MathUtil.Rotate(velocity, dtheta);
         // Apply wind
+        // TODO - velocity += wind * Mathf.Pow(height / 10, Wind.a);
         velocity += wind;
         // Update drag
         fnet = (gravity * mass) - ((velocity * (0.5f*c*rho*A * Mathf.Pow(velocity.magnitude / mass, 2))) / velocity.magnitude);
@@ -279,9 +283,15 @@ public class Ball
     {
         if (!InAir())
         {
-            float friction = Mathf.Pow(GetFriction(debug), deltaTime);
-            velocity.x *= friction;
-            velocity.z *= friction;
+            // N = mgcos(theta)
+            // normal_force = mass * gravity * vertical_component
+            float normalForce = mass * GRAVITATIONAL_ACCELERATION * terrainNormal.y;
+            // f_k = C*N
+            // kinetic_friction = friction_coef * (normal_force * -unit_velocity)
+            Vector3 frictionForce = GetFriction(debug) * (-normalForce * Vector3.Normalize(MathUtil.Copy(velocity)));
+            // If ball 'overcomes' friction
+            if (velocity.magnitude > INITIAL_MINIMUM_VELOCITY_THRESHOLD) { velocity += frictionForce; }
+            else { velocity += (velocity.magnitude > (frictionForce*100f).magnitude) ? frictionForce*100f : -velocity; }
         }
     }
 
@@ -294,7 +304,7 @@ public class Ball
     {
         return debug ? TerrainAttributes.SIMULATED_FRICTION : game.GetTerrainAttributes().GetFriction(terrainHit);
     }
-
+    
     public void AngleToHole()
     {
         angle = Mathf.Atan2(holePosition.z - position.z, holePosition.x - position.x);
@@ -318,14 +328,18 @@ public class Ball
         }
     }
 
+    // TODO - public bool InAir() { return Vector3.Dot(Vector3.Normalize(MathUtil.Copy(velocity)), terrainNormal) > Mathf.PI / 24f; }
     public bool InAir() { return height > 0.1f; }
-    public bool InMotion() { return velocity.magnitude > 0.15f; }
+    public bool InMotion() { return velocity.magnitude > FINAL_MINIMUM_VELOCITY_THRESHOLD; }
     public bool IsMoving() { return InAir() || InMotion(); }
 
     public float DistanceToHole() { return Vector3.Distance(position, holePosition); }
     public bool InHole() { return DistanceToHole() < 1; } // TODO - this isn't right
-    public bool InWater() { return false; } // TODO
-    public bool OnGreen() { return game.GetTerrainAttributes().OnGreen(terrainHit); }
+    public bool OnGreen() { 
+        try { return game.GetTerrainAttributes().OnGreen(terrainHit); }
+        catch { return false; };
+    }
+    public bool InWater() { return game.GetTerrainAttributes().InWater(terrainHit); }
 
     public void SetDeltaTime() { this.deltaTime = Time.deltaTime * rate; }
     public void SetRate(float rate) { this.rate = rate; }
