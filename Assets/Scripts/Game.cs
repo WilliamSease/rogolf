@@ -134,7 +134,7 @@ public class Game : MonoBehaviour
     public void SetState(State state)
     {
         this.state.OnStateExit();
-        UnityEngine.Debug.Log(state);
+        //UnityEngine.Debug.Log(state);
         this.state = state;
         this.state.OnStateEnter();
     }

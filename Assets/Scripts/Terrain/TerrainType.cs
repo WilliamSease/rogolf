@@ -41,13 +41,12 @@ public class TerrainType
     public float GetLieRange() { return lieRange; }
     public float GetLie()
     {
-        // This should return an evenly distributed lie depending on the lieRange
-        return lieRate;
+        return Mathf.Lerp(lieRate - lieRange / 2, lieRate + lieRange / 2, UnityEngine.Random.Range(0.0f, 1.0f));
     }
 	
 	public Tuple<float, float> GetBounds()
 	{
-		return new Tuple<float, float>(GetLieRate() - GetLieRange() / 2f, GetLieRate() + GetLieRange() / 2);
+		return new Tuple<float, float>(GetLieRate() - GetLieRange() / 2f, GetLieRate() + GetLieRange() / 2f);
 	}
 
     public void SetFriction(float friction) { this.friction = friction; }

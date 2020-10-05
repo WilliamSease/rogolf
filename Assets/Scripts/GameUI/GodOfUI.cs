@@ -114,8 +114,17 @@ public class GodOfUI : MonoBehaviour
         windText.text = "" + tWind.GetSpeed().ToString().Substring(0, Math.Min(3, tWind.GetSpeed().ToString().Length)) + "m";
         
         // Lieinfo update
-        Tuple<float, float> lieBounds = gameRef.GetBall().GetTerrainType().GetBounds();
-        lieText.text = String.Format("{0}%-{1}%", (lieBounds.Item1 * 100).ToString("F0"), (lieBounds.Item2 * 100).ToString("F0"));
+        if (gameRef.GetState() is RunningState)
+        {
+            float lie = gameRef.GetBall().GetLie();
+            lieText.text = String.Format("{0}%", (lie * 100).ToString("F0"));
+        }
+        else
+        {
+            Tuple<float, float> lieBounds = gameRef.GetBall().GetTerrainType().GetBounds();
+            lieText.text = String.Format("{0}%-{1}%", (lieBounds.Item1 * 100).ToString("F0"), (lieBounds.Item2 * 100).ToString("F0"));
+        }
+
         // BonusText update
         List<Item> heldItems = gameRef.GetItemBag().GetHeldItems();
         bonusText.text = "";
