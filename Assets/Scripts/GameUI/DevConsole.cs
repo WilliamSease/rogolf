@@ -573,7 +573,7 @@ public class DevConsole : MonoBehaviour
 	{
 		string errorMessage = "PlaySound name";
 		if(arr.Length == 1)
-			return BoomBox.Play(arr[0]);
+			return BoomBox.Play(SoundEnum.Sound.TEST);
 		Reply(errorMessage);
 		return true;
 	}
