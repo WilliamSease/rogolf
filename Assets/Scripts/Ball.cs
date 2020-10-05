@@ -20,6 +20,7 @@ public class Ball
     private Wind wind;
     private float deltaTime;
     private float noHeightTime;
+    private float lie;
 
     private Vector3 position;
     private Vector3 velocity;
@@ -93,12 +94,23 @@ public class Ball
 
     public void Reset() { Reset(Vector3.zero); }
 
-    public void Strike(Club club, float power, float accuracy)
+    public void Strike(Club club, float power, float accuracy, bool debug = false)
     {
-        float clubPower = club.GetPower() * power;
+        // Get player attributes
+        PlayerAttributes playerAttributes = game.GetPlayerAttributes();
+
+        // Get terrain info
+        if (!debug) SetHeight();
+
+        // Set power
+        lie = !debug ? GetTerrainType().GetLie() : 1f;
+        float clubPower = club.GetPower() * power * Mathf.Lerp(0.5f, 1.0f, playerAttributes.GetPower() * lie);
         float clubLoft = club.GetLoft();
 
         SetLastPosition();
+
+        // Apply control
+        //angle += TODO
 
         // Set velocity
         float horizontal = clubPower * Mathf.Cos(clubLoft);
@@ -107,14 +119,18 @@ public class Ball
         velocity = angleVector;
         velocity.y = vertical;
 
+        // Account for terrain slope
+        // TODO - rotate velocity vector?
+
         // Set drag
         fnet = gravity * mass;
 
         // Set spin
         Vector2 clubVector = MathUtil.FromPolar(club.GetPower(), club.GetLoft());
         spin = MathUtil.FromPolar(-clubVector.y / clubVector.x * SPIN_RATE, angle);
+
         // Set inaccuracy
-        this.dtheta = dtheta * inaccuracyRate; 
+        dtheta = accuracy * inaccuracyRate; 
     }
 
     public Tuple<float,float,string> SimulateDistance(Club club, bool debug = false)
@@ -132,7 +148,7 @@ public class Ball
         }
 
         Reset();
-        Strike(club, 1f, 0f);
+        Strike(club, 1f, 0f, true);
         terrainNormal = Vector3.up;
         // Set holePosition to be unreachable
         holePosition = Vector3.down;
@@ -416,6 +432,8 @@ public class Ball
     public void SetHolePosition() { holePosition = game.GetHoleInfo().GetHolePosition(); }
     public void SetMass(float mass) { this.mass = mass; }
     public void SetRadius(float radius) { this.radius = radius; }
+
+    public float GetLie() { return lie; }
 
     public Vector3 GetPosition() { return MathUtil.Copy(position); }
     public Vector3 GetLastPosition() { return lastPosition; }

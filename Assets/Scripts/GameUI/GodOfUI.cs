@@ -114,22 +114,31 @@ public class GodOfUI : MonoBehaviour
         windText.text = "" + tWind.GetSpeed().ToString().Substring(0, Math.Min(3, tWind.GetSpeed().ToString().Length)) + "m";
         
         // Lieinfo update
-        Tuple<float, float> lieBounds = gameRef.GetBall().GetTerrainType().GetBounds();
-        lieText.text = String.Format("{0}%-{1}%", (lieBounds.Item1 * 100).ToString("F0"), (lieBounds.Item2 * 100).ToString("F0"));
+        if (gameRef.GetState() is RunningState)
+        {
+            float lie = gameRef.GetBall().GetLie();
+            lieText.text = String.Format("{0}%", (lie * 100).ToString("F0"));
+        }
+        else
+        {
+            Tuple<float, float> lieBounds = gameRef.GetBall().GetTerrainType().GetBounds();
+            lieText.text = String.Format("{0}%-{1}%", (lieBounds.Item1 * 100).ToString("F0"), (lieBounds.Item2 * 100).ToString("F0"));
+        }
+
         // BonusText update
         List<Item> heldItems = gameRef.GetItemBag().GetHeldItems();
         bonusText.text = "";
         foreach (Item i in heldItems)
         {
-            bonusText.text = bonusText.text + i.GetName() + " -> " + i.GetDescription() + "\n";
+            bonusText.text = bonusText.text + i.GetName() + "\n";
         }
         
         // Playerstats update
         PlayerAttributes plr = gameRef.GetPlayerAttributes();
-        playerinfoText[0].text = "" + plr.GetPower();
-        playerinfoText[1].text = "" + plr.GetControl();
-        playerinfoText[2].text = "" + plr.GetImpact();
-        playerinfoText[3].text = "" + plr.GetSpin();
+        playerinfoText[0].text = (plr.GetPower() * 100).ToString("F0");
+        playerinfoText[1].text = (plr.GetControl() * 100).ToString("F0");
+        playerinfoText[2].text = (plr.GetImpact() * 100).ToString("F0");
+        playerinfoText[3].text = (plr.GetSpin() * 100).ToString("F0");
         
         // ToggleText update
         camToggleText.text = Char.ToUpper(gameRef.GetTarget().ToString()[0]) + gameRef.GetTarget().ToString().ToLower().Substring(1);

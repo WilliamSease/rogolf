@@ -12,6 +12,6 @@ public class SpinUp : Item
 
     public override void Apply(PlayerAttributes playerAttributes, TerrainAttributes terrainAttributes)
     {
-        playerAttributes.IncreaseSpin(10.0);
+        playerAttributes.IncreaseSpin(0.1f);
     }
 }
