@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,37 +27,47 @@ public class Wind
 
     public void Reset()
     {
-        speed = Random.Range(0.0f, MAX_INITIAL_SPEED);
-        angle = Random.Range(0.0f, Mathf.PI*2f);
-        wind = MathUtil.FromPolar(speed, angle);
+        speed = UnityEngine.Random.Range(0.0f, MAX_INITIAL_SPEED);
+        angle = UnityEngine.Random.Range(0.0f, Mathf.PI*2f);
+        UpdateVector();
     }
 
     public void Disable()
     {
         speed = 0f;
         angle = 0f;
-        wind = MathUtil.FromPolar(speed, angle);
+        UpdateVector();
     }
 
-    /// <summary>
-    /// Currently unused.
-    /// </summary>
-    public void UpdateWind()
+    public void Increment()
     {
-        speed += Random.Range(0.0f, 1.0f) * SPEED_RATE - SPEED_RATE / 2;
-        angle += Random.Range(0.0f, 1.0f) * ANGLE_RATE - ANGLE_RATE / 2;
+        speed += UnityEngine.Random.Range(0.0f, 1.0f) * SPEED_RATE - SPEED_RATE / 2;
+        angle += UnityEngine.Random.Range(0.0f, 1.0f) * ANGLE_RATE - ANGLE_RATE / 2;
 
         // Ensure speed >= 0
         speed = speed >= 0 ? speed : 0;
 
-        // Recalculate wind vector
+        UpdateVector();
+    }
+
+    private void UpdateVector()
+    {
         wind = MathUtil.FromPolar(speed, angle);
     }
 
-    public void SetSpeed(float speed) { this.speed = speed; }
-    public void SetAngle(float angle) { this.angle = angle; }
+    public Vector3 GetWindVector(float height) {
+        return (height > 0 && height != Single.NaN) ? wind * (RATIO * Mathf.Pow(height / 10, Wind.a)) : Vector3.zero;
+    }
+
+    public void SetSpeed(float speed) { 
+        this.speed = speed;
+        UpdateVector();
+    }
+    public void SetAngle(float angle) {
+        this.angle = angle;
+        UpdateVector();
+    }
 
     public float GetSpeed() { return speed; }
     public float GetAngle() { return angle; }
-    public Vector3 GetWindVector() { return wind * RATIO; }
 }

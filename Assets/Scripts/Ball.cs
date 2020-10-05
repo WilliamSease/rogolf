@@ -14,14 +14,15 @@ public class Ball
     private const float INITIAL_MINIMUM_VELOCITY_THRESHOLD = 0.1f;
     private const float FINAL_MINIMUM_VELOCITY_THRESHOLD = 0.005f;
     private const float GRAVITATIONAL_ACCELERATION = 9.8f;
+    private const float CUP_DEPTH = 0.1f;
 
     private Game game;
+    private Wind wind;
     private float deltaTime;
     private float noHeightTime;
 
     private Vector3 position;
     private Vector3 velocity;
-    private Vector3 wind;
     private Vector3 fnet;
     private float angle;
     private float dtheta;
@@ -42,14 +43,21 @@ public class Ball
     private float rho;
     private float A;
 
+    private float cupEffectMagnitude;
+    private float cupEffectRadius;
+    private Vector3 cupEffect;
+    private float cupLipRadius;
+    private float cupRadius;
+
     public Ball(Game game)
     {
         this.game = game;
+        this.wind = game.GetWind();
         deltaTime = 0;
         noHeightTime = 0;
 
         // Initialize default parameters
-        rate = 4/3f;
+        rate = 1f;
         inaccuracyRate = 1/128f;
         mass = 0.25f;
         gravity = new Vector3(0, -GRAVITATIONAL_ACCELERATION, 0);
@@ -57,6 +65,11 @@ public class Ball
         c = 0.5f;
         rho = 1.2f;
         A = Mathf.PI * Mathf.Pow(radius, 2);
+
+        cupEffectMagnitude = 1E-5f;
+        cupEffectRadius = 0.2f;
+        cupLipRadius = 0.08f;
+        cupRadius = 0.06f;
 
         dtheta = 0;
         height = 0;
@@ -94,9 +107,6 @@ public class Ball
         velocity = angleVector;
         velocity.y = vertical;
 
-        // Set wind
-        wind = game.GetWind().GetWindVector();
-
         // Set drag
         fnet = gravity * mass;
 
@@ -123,8 +133,6 @@ public class Ball
 
         Reset();
         Strike(club, 1f, 0f);
-        // Overwrite wind vector
-        wind = Vector3.zero;
         terrainNormal = Vector3.up;
         // Set holePosition to be unreachable
         holePosition = Vector3.down;
@@ -206,6 +214,7 @@ public class Ball
         if (IsMoving())
         {
             UpdatePhysicsVectors();
+            ApplyWind();
             SetHeight();
             CalculateBounce();
             CalculateFriction();
@@ -222,13 +231,16 @@ public class Ball
         position += velocity * (deltaTime / mass);
         // Apply inaccuracy
         MathUtil.Rotate(velocity, dtheta);
-        // Apply wind
-        // TODO - velocity += wind * Mathf.Pow(height / 10, Wind.a);
-        velocity += wind;
         // Update drag
         fnet = (gravity * mass) - ((velocity * (0.5f*c*rho*A * Mathf.Pow(velocity.magnitude / mass, 2))) / velocity.magnitude);
+        fnet *= deltaTime;
         // Update velocity
-        velocity += fnet * deltaTime;
+        velocity += fnet;
+    }
+
+    public void ApplyWind()
+    {
+        velocity += wind.GetWindVector(height);
     }
 
     private void SetHeight()
@@ -263,19 +275,67 @@ public class Ball
         }
     }
 
+    private bool CalculateCup()
+    {   
+        float distanceToHole = DistanceToHole();
+        // If ball is in or right above the cup
+        if (distanceToHole < cupRadius)
+        {
+            cupEffect = cupEffectMagnitude/deltaTime * Vector3.Normalize(new Vector3(holePosition.x, holePosition.y-CUP_DEPTH, holePosition.z) - position);
+            velocity += cupEffect;
+            return true;
+        }
+        // If ball is on the cup's lip
+        else if (distanceToHole < cupLipRadius)
+        {
+            cupEffect = cupEffectMagnitude/deltaTime * Vector3.Normalize(holePosition - position);
+            velocity += cupEffect;
+            // If ball exiting cup
+            if (Vector3.Dot(velocity, cupEffect) < 0f)
+            {
+                // If ball sufficiently inside cup
+                if (height < 0.01f) { velocity = 0.1f * Vector3.Reflect(velocity, cupEffect); }
+            }
+            return false;
+        }
+        // If ball is in cup effect radius
+        else if (distanceToHole < cupEffectRadius)
+        {
+            Vector3 cupEffect = cupEffectMagnitude/deltaTime * Vector3.Normalize(holePosition - position);
+            velocity += cupEffect;
+            return false;
+        }
+        // If ball is outside AoE
+        else { 
+            cupEffect = Vector3.zero;
+            return false;
+        }
+    }
+
     private void CalculateBounce(bool debug = false)
     {
+        bool onCup = false;
+        if (!debug) { onCup = CalculateCup(); }
+
         if (height <= 0)
         {
-            position.y -= height;
-            velocity = Vector3.Reflect(velocity, terrainNormal);
-            velocity.y *= GetBounce(debug);
+            if (onCup && !debug)
+            {
+                // If at bottom of cup, zero velocity
+                if (height <= -CUP_DEPTH) velocity = Vector3.zero;
+            }
+            else
+            {
+                position.y -= height;
+                velocity = Vector3.Reflect(velocity, terrainNormal);
+                velocity.y *= GetBounce(debug);
 
-            // Calculate spin
-            //velocity += spin;
-            spin *= SPIN_DECAY;
+                // Calculate spin
+                //velocity += spin;
+                spin *= SPIN_DECAY;
 
-            hasBounced = true;
+                hasBounced = true;
+            }
         }
     }
 
@@ -338,7 +398,7 @@ public class Ball
         try { return game.GetTerrainAttributes().GetTerrainType(terrainHit); }
         catch { return game.GetTerrainAttributes().GetTeeTerrain(); }
     }
-    public bool InHole() { return DistanceToHole() < 1; } // TODO - this isn't right
+    public bool InHole() { return DistanceToHole() < CUP_DEPTH && height <= -CUP_DEPTH+0.025f; }
     public bool OnGreen() { 
         try { return game.GetTerrainAttributes().OnGreen(terrainHit); }
         catch { return false; };
@@ -348,18 +408,24 @@ public class Ball
     public void SetDeltaTime() { this.deltaTime = Time.deltaTime * rate; }
     public void SetRate(float rate) { this.rate = rate; }
     public void SetInaccuracyRate(float inaccuracyRate) { this.inaccuracyRate = inaccuracyRate; }
-    public void SetPosition(Vector3 v) { position = new Vector3(v.x, v.y, v.z); }
+    public void SetPosition(Vector3 v) { position = MathUtil.Copy(v); }
     public void SetPosition(float x, float y, float z) { position = new Vector3(x, y, z); }
     public void SetRelativePosition(Vector3 v) { position = position + v; }
     public void SetRelativePosition(float x, float y, float z) { SetRelativePosition(new Vector3(x, y, z)); }
-    public void SetLastPosition() { lastPosition = new Vector3(position.x, position.y, position.z); }
+    public void SetLastPosition() { lastPosition = MathUtil.Copy(position); }
     public void SetHolePosition() { holePosition = game.GetHoleInfo().GetHolePosition(); }
     public void SetMass(float mass) { this.mass = mass; }
     public void SetRadius(float radius) { this.radius = radius; }
 
-    public Vector3 GetPosition() { return new Vector3(position.x, position.y, position.z); }
+    public Vector3 GetPosition() { return MathUtil.Copy(position); }
     public Vector3 GetLastPosition() { return lastPosition; }
     public float GetAngle() { return angle; }
     public float GetMass() { return mass; }
     public float GetRadius() { return radius; }
+
+    // Debug
+    public Vector3 GetVelocity() { return velocity; }
+    public Vector3 GetFnet() { return fnet; }
+    public float GetHeight() { return height; }
+    public Vector3 GetCupEffect() { return cupEffect; }
 }

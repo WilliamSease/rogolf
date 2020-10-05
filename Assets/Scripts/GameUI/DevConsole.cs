@@ -60,6 +60,7 @@ public class DevConsole : MonoBehaviour
 
     private string[] helpTools =
     {   "GenerateClubs: Send optimal club parameters to .csv.",
+        "GraphicDebug: Toggle graphic debug.",
 		"PlaySound [name]: Play a sound"
     };
     
@@ -144,70 +145,73 @@ public class DevConsole : MonoBehaviour
         {
             case "help":
                 Help(Tail(arr));
-            break;
+                break;
             case "scene":
                 Report(Scene(arr[1]));
-            break;
+                break;
             case "status":
                 Report(Status());
-            break;
+                break;
             case "clear":
                 Clear();
-            break;
+                break;
             case "absmov":
                 Report(AbsMov(Tail(arr)));
-            break;
+                break;
             case "moveball":
                 Report(MoveBall(arr[1].ToLower(), Floatify(arr[2]), Floatify(arr[3]), Floatify(arr[4])));
-            break;
+                break;
             case "getballpos":
                 Report(GetBallPos());
-            break;
+                break;
             case "totee":
                 Report(ToTee(Tail(arr)));
-            break;
+                break;
             case "setwind":
                 Report(SetWind(Tail(arr)));
-            break;
+                break;
             case "getwind":
                 Report(GetWind());
-            break;
+                break;
             case "generateclubs":
                 Report(GenerateClubs());
-            break;
+                break;
             case "setterrain":
                 Report(SetTerrain(Tail(arr)));
-            break;
+                break;
             case "getterrain":
                 Report(GetTerrain(Tail(arr)));
-            break;
+                break;
             case "getballphysics":
                 Report(GetBallPhysics(Tail(arr)));
-            break;
+                break;
             case "setballphysics":
                 Report(SetBallPhysics(Tail(arr)));
-            break;
+                break;
             case "getremaining":
                 Report(GetRemaining());
-            break;
+                break;
             case "tohole":
                 Report(ToHole());
-            break;
+                break;
             case "endhole":
                 Report(EndHole());
-            break;
+                break;
             case "getholedata":
                 Report(GetHoleData());
-            break;
+                break;
             case "getplayer":
                 Report(GetPlayer(Tail(arr)));
-            break;
+                break;
             case "setplayer":
                 Report(SetPlayer(Tail(arr)));
-            break;
+                break;
 			case "playsound":
 				Report(PlaySound(Tail(arr)));
 				break;
+            case "graphicdebug":
+                Report(GraphicDebug());
+                break;
             default:
                 Reply("'" + arr[0] + "' doesn't appear to be a command");
             break;
@@ -573,6 +577,12 @@ public class DevConsole : MonoBehaviour
 		Reply(errorMessage);
 		return true;
 	}
+
+    public bool GraphicDebug()
+    {
+        game.ToggleGraphicDebug();
+        return true;
+    }
 
     //These are easy utility functions.
     public string[] Tail(string[] to) 

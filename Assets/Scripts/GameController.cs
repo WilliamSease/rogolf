@@ -290,6 +290,7 @@ public class GameController : MonoBehaviour
         // Enable game
         gameUI.enabled = true;
         game.enabled = true;
+        game.Begin();
     }
     
     // Vector3 is a non-nullable type; we need the '?' operator to be able to null it.

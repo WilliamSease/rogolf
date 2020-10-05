@@ -52,6 +52,8 @@ public class Game : MonoBehaviour
     private Bag bag;
     private Powerbar powerbar;
 
+    private GraphicDebug graphicDebug;
+
     /// <summary>
     /// Performs initialization of Game object.
     /// </summary>
@@ -79,6 +81,11 @@ public class Game : MonoBehaviour
         // Send Game reference to other objects
         GodOfUI ui = GameObject.Find(GodOfUI.NAME).GetComponent<GodOfUI>();
         ui.gameRef = this;
+    }
+
+    public void Begin()
+    {
+        graphicDebug = new GraphicDebug(this);
     }
 
     /// <summary>
@@ -120,6 +127,8 @@ public class Game : MonoBehaviour
         if (target == Target.BALL) orbitalControls.targetPosition = ballPosition;
         if (target == Target.CURSOR) orbitalControls.targetPosition = cursorPosition;
         if (target == Target.FREE) orbitalControls.targetPosition = freeFocus.transform.position;
+
+        graphicDebug.Tick();
     }
 
     public void SetState(State state)
@@ -130,17 +139,21 @@ public class Game : MonoBehaviour
         this.state.OnStateEnter();
     }
 
-    public void ToggleTarget() {
+    public void ToggleTarget()
+    {
         if (target == Target.BALL) target = Target.CURSOR;
         else if (target == Target.CURSOR) target = Target.FREE;
         else target = Target.BALL;
     }
+
+    public void ToggleGraphicDebug() { graphicDebug.Toggle(); }
 
     public GameController GetGameController() { return gc; }
 
     public GameObject GetCameraObject() { return cameraObject; }
     public GameObject GetBallObject() { return ballObject; }
     public List<GameObject> GetCursorList() { return cursorList; }
+    public GameObject GetCursorTextObject() { return cursorTextObject; }
     public void SetCameraObject(GameObject cameraObject) { this.cameraObject = cameraObject; }
     public void SetBallObject(GameObject ballObject) { this.ballObject = ballObject; }
     public void SetCursorList(List<GameObject> cursorList) { this.cursorList = cursorList; }
