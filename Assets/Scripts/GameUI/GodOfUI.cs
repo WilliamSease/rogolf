@@ -39,6 +39,7 @@ public class GodOfUI : MonoBehaviour
     public GameObject arrowTarget;
     private float windSpeed;
     private float windOrient;
+	//private float jitterOffset;
     public Text windText;
     public Camera windCamera;
     
@@ -103,7 +104,8 @@ public class GodOfUI : MonoBehaviour
         //Windinfo update
         Wind tWind = gameRef.GetWind();
         Vector3 camAngles = gameRef.GetCameraObject().transform.rotation.eulerAngles;
-        camAngles[1] = -camAngles[1] + MathUtil.RadsToDeg((float) tWind.GetAngle());//This is wrong. lord help us
+        camAngles[1] = -camAngles[1] - MathUtil.RadsToDeg((float) tWind.GetAngle()) + 90; //Orient arrow correctly
+		camAngles[1] += UnityEngine.Random.Range(-tWind.GetSpeed(), tWind.GetSpeed()) * 5; //Random jittering according to speed. second value is a multiplier
         camAngles[0] = 0;
         arrowParent.transform.eulerAngles = camAngles;
         /*transform.RotateAround(arrowParent.transform.position, 
