@@ -34,25 +34,17 @@ public class BoomBox : MonoBehaviour
         
     }
 	
-	public bool GCPlay(string str)
+	public bool GCPlay(string str, float vol = 1.0f)
 	{
 		if(!lookUp.ContainsKey(str.ToLower())) return false;
 		AudioSource s = lookUp[str.ToLower()];
-		s.PlayOneShot(s.clip, globalVolume);
+		s.PlayOneShot(s.clip, globalVolume * vol);
 		return true;
 	}
 	
-	//Static/Singleton wrapper.
-	public static bool Play(string str)
-	{
-		return GameObject.Find("BoomBox").GetComponent<BoomBox>().GCPlay(str);
-	}
-	
-	//Enum wrapper.
-	public static bool Play(SoundEnum.Sound b)
-	{
-		return Play(b.ToString());
-	}
+	//Singleton wrapper.
+	public static bool Play(SoundEnum.Sound b) { return GameObject.Find("BoomBox").GetComponent<BoomBox>().GCPlay(b.ToString()); }
+	public static bool Play(SoundEnum.Sound b, float vol) { return GameObject.Find("BoomBox").GetComponent<BoomBox>().GCPlay(b.ToString(), vol); } //This one lets you * a float by globalVolume to create a smaller sound
 	
 	public static void SetVolumeStat(float vol) {GameObject.Find("BoomBox").GetComponent<BoomBox>().SetVolume(vol);}
 	public void SetVolume(float vol) {if (vol >= 0.0f && vol <= 1.0f) globalVolume = vol;}

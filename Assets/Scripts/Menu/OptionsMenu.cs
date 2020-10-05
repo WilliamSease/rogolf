@@ -8,7 +8,6 @@ using System.Diagnostics;
 public class OptionsMenu : MonoBehaviour
 {
     public Canvas thisMenu;
-    public Canvas mainMenu;
 
     public Button button_1;
     public Button button_2;
@@ -40,7 +39,6 @@ public class OptionsMenu : MonoBehaviour
     {
         //UnityEngine.Debug.Log("Back to main...");
         thisMenu.enabled = false;
-        mainMenu.enabled = true;
     }
 
     void task_2()

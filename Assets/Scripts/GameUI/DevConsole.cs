@@ -579,7 +579,7 @@ public class DevConsole : MonoBehaviour
 		if(arr.Length == 1)
 		{
 			Reply("Clip: " + Enum.Parse(typeof(SoundEnum.Sound), arr[0].ToUpper().ToString()) + " Volume: " + BoomBox.GetVolumeStat());
-			return BoomBox.Play(Enum.Parse(typeof(SoundEnum.Sound), arr[0].ToUpper().ToString()).ToString());
+			return BoomBox.Play((SoundEnum.Sound) Enum.Parse(typeof(SoundEnum.Sound), arr[0].ToUpper()));
 		}
 		Reply(errorMessage);
 		return true;

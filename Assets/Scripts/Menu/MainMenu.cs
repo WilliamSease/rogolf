@@ -73,7 +73,6 @@ public class MainMenu : MonoBehaviour
     {
         //UnityEngine.Debug.Log("Kicking to options menu...");
         saveState();
-        thisMenu.enabled = false;
         optionsMenu.enabled = true;
     }
 
@@ -81,7 +80,6 @@ public class MainMenu : MonoBehaviour
     {
         //UnityEngine.Debug.Log("Kicking to controls menu...");
         saveState();
-        thisMenu.enabled = false;
         controlsMenu.enabled = true;
     }
 

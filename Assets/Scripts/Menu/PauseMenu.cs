@@ -18,17 +18,20 @@ public class PauseMenu : MonoBehaviour
     public Button button_7;
     public Button button_8;
     public Button button_9;
+	
+	public Canvas optionsMenu;
+	public Canvas controlsMenu;
 
     // Start is called before the first frame update
     void Start()
     {
         if (thisMenu.enabled) 
             thisMenu.enabled = false;
-        /*button_1.GetComponent<Button>().onClick.AddListener(task_1);
+        button_1.GetComponent<Button>().onClick.AddListener(task_1);
         button_2.GetComponent<Button>().onClick.AddListener(task_2);
         button_3.GetComponent<Button>().onClick.AddListener(task_3);
         button_4.GetComponent<Button>().onClick.AddListener(task_4);
-        button_5.GetComponent<Button>().onClick.AddListener(task_5);
+        /*button_5.GetComponent<Button>().onClick.AddListener(task_5);
         button_6.GetComponent<Button>().onClick.AddListener(task_6);
         button_7.GetComponent<Button>().onClick.AddListener(task_7);
         button_8.GetComponent<Button>().onClick.AddListener(task_8);
@@ -46,18 +49,23 @@ public class PauseMenu : MonoBehaviour
 
     void task_1()
     {
+		optionsMenu.enabled = true;
     }
 
     void task_2()
     {
+		controlsMenu.enabled = true;
     }
 
     void task_3()
     {
+		 button_3.GetComponentInChildren<Text>().text = "Maybe someday...";
+		 button_3.interactable = false;
     }
 
     void task_4()
-    {       
+    {
+		Application.Quit();
     }
 
     void task_5()

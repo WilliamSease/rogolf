@@ -11,13 +11,7 @@ public class ChangeAllFonts : MonoBehaviour
     void Start()
     {
 		if (done) return;
-        Text[] textComponents = Component.FindObjectsOfType<Text>();
-        foreach (Text component in textComponents)
-        {
-            component.font = myFont;
-            component.fontSize = component.fontSize + 5;
-        }
-		done = true;
+        Apply();
     }
 
     // Update is called once per frame
@@ -25,4 +19,15 @@ public class ChangeAllFonts : MonoBehaviour
     {
         
     }
+	
+	public void Apply()
+	{
+		Text[] textComponents = Component.FindObjectsOfType<Text>();
+        foreach (Text component in textComponents)
+        {
+            component.font = myFont;
+            component.fontSize = component.fontSize + 5;
+        }
+		done = true;
+	}
 }
