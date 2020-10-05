@@ -61,7 +61,8 @@ public class DevConsole : MonoBehaviour
     private string[] helpTools =
     {   "GenerateClubs: Send optimal club parameters to .csv.",
         "GraphicDebug: Toggle graphic debug.",
-		"PlaySound [name]: Play a sound"
+		"PlaySound [name]: Play a sound.",
+		"SetVolume [0.0 - 1.0]: Set game volume."
     };
     
     // Start is called before the first frame update
@@ -212,6 +213,9 @@ public class DevConsole : MonoBehaviour
             case "graphicdebug":
                 Report(GraphicDebug());
                 break;
+			case "setvolume":
+				Report(SetVolume(Tail(arr)));
+				break;
             default:
                 Reply("'" + arr[0] + "' doesn't appear to be a command");
             break;
@@ -573,8 +577,23 @@ public class DevConsole : MonoBehaviour
 	{
 		string errorMessage = "PlaySound name";
 		if(arr.Length == 1)
-			return BoomBox.Play(SoundEnum.Sound.TEST);
+		{
+			Reply("Clip: " + Enum.Parse(typeof(SoundEnum.Sound), arr[0].ToUpper().ToString()) + " Volume: " + BoomBox.GetVolumeStat());
+			return BoomBox.Play(Enum.Parse(typeof(SoundEnum.Sound), arr[0].ToUpper().ToString()).ToString());
+		}
 		Reply(errorMessage);
+		return true;
+	}
+	
+	public bool SetVolume(string[] arr)
+	{
+		string errorMessage = "SetVolume vol";
+		if (arr.Length == 1)
+		{
+			BoomBox.SetVolumeStat(Floatify(arr[0]));
+			return true;
+		}
+		Reply (errorMessage);
 		return true;
 	}
 
