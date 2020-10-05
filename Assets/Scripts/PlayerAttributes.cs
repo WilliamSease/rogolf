@@ -6,22 +6,22 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerAttributes
 {
-    private double power;
-    private double control;
-    private double impact;
-    private double spin;
+    private float power;
+    private float control;
+    private float impact;
+    private float spin;
 
     // Default constructor
     public PlayerAttributes()
     {
-        this.power = 30.0;
-        this.control = 30.0;
-        this.impact = 30.0;
-        this.spin = 30.0;
+        this.power = 0.20f;
+        this.control = 0.20f;
+        this.impact = 0.20f;
+        this.spin = 0.20f;
     }
 
     // Constructor for when values are known
-    public PlayerAttributes(double power, double control, double impact, double spin)
+    public PlayerAttributes(float power, float control, float impact, float spin)
     {
         this.power = power;
         this.control = control;
@@ -29,20 +29,20 @@ public class PlayerAttributes
         this.spin = spin;
     }
 
-    public double GetPower() { return power; }
-    public double GetControl() { return control; }
-    public double GetImpact() { return impact; }
-    public double GetSpin() { return spin; }
+    public float GetPower() { return power; }
+    public float GetControl() { return control; }
+    public float GetImpact() { return impact; }
+    public float GetSpin() { return spin; }
 
-    public void SetPower(double power) { this.power = power; }
-    public void SetControl(double control) { this.control = control; }
-    public void SetImpact(double impact) { this.impact = impact; }
-    public void SetSpin(double spin) { this.spin = spin; }
+    public void SetPower(float power) { this.power = power; }
+    public void SetControl(float control) { this.control = control; }
+    public void SetImpact(float impact) { this.impact = impact; }
+    public void SetSpin(float spin) { this.spin = spin; }
 
-    public void IncreasePower(double increase) { this.power += increase; }
-    public void IncreaseControl(double increase) { this.control += increase; }
-    public void IncreaseImpact(double increase) { this.impact += increase; }
-    public void IncreaseSpin(double increase) { this.spin += increase; }
+    public void IncreasePower(float increase) { this.power += increase; }
+    public void IncreaseControl(float increase) { this.control += increase; }
+    public void IncreaseImpact(float increase) { this.impact += increase; }
+    public void IncreaseSpin(float increase) { this.spin += increase; }
 
     public override string ToString()
     {

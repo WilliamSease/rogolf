@@ -121,15 +121,15 @@ public class GodOfUI : MonoBehaviour
         bonusText.text = "";
         foreach (Item i in heldItems)
         {
-            bonusText.text = bonusText.text + i.GetName() + " -> " + i.GetDescription() + "\n";
+            bonusText.text = bonusText.text + i.GetName() + "\n";
         }
         
         // Playerstats update
         PlayerAttributes plr = gameRef.GetPlayerAttributes();
-        playerinfoText[0].text = "" + plr.GetPower();
-        playerinfoText[1].text = "" + plr.GetControl();
-        playerinfoText[2].text = "" + plr.GetImpact();
-        playerinfoText[3].text = "" + plr.GetSpin();
+        playerinfoText[0].text = (plr.GetPower() * 100).ToString("F0");
+        playerinfoText[1].text = (plr.GetControl() * 100).ToString("F0");
+        playerinfoText[2].text = (plr.GetImpact() * 100).ToString("F0");
+        playerinfoText[3].text = (plr.GetSpin() * 100).ToString("F0");
         
         // ToggleText update
         camToggleText.text = Char.ToUpper(gameRef.GetTarget().ToString()[0]) + gameRef.GetTarget().ToString().ToLower().Substring(1);

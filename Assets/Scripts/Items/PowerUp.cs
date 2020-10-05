@@ -12,6 +12,6 @@ public class PowerUp : Item
 
     public override void Apply(PlayerAttributes playerAttributes, TerrainAttributes terrainAttributes)
     {
-        playerAttributes.IncreasePower(10.0);
+        playerAttributes.IncreasePower(0.1f);
     }
 }

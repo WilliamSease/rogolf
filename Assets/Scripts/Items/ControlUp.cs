@@ -12,6 +12,6 @@ public class ControlUp : Item
 
     public override void Apply(PlayerAttributes playerAttributes, TerrainAttributes terrainAttributes)
     {
-        playerAttributes.IncreaseControl(10.0);
+        playerAttributes.IncreaseControl(0.1f);
     }
 }

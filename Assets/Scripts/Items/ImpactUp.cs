@@ -12,6 +12,6 @@ public class ImpactUp : Item
 
     public override void Apply(PlayerAttributes playerAttributes, TerrainAttributes terrainAttributes)
     {
-        playerAttributes.IncreaseImpact(10.0);
+        playerAttributes.IncreaseImpact(0.1f);
     }
 }

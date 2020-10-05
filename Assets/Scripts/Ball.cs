@@ -95,7 +95,14 @@ public class Ball
 
     public void Strike(Club club, float power, float accuracy)
     {
-        float clubPower = club.GetPower() * power;
+        // Get player attributes
+        PlayerAttributes playerAttributes = game.GetPlayerAttributes();
+
+        // Get terrain info
+        SetHeight();
+
+        // Set power
+        float clubPower = club.GetPower() * power * Mathf.Lerp(0.5f, 1.0f, playerAttributes.GetPower());
         float clubLoft = club.GetLoft();
 
         SetLastPosition();
@@ -107,14 +114,18 @@ public class Ball
         velocity = angleVector;
         velocity.y = vertical;
 
+        // Account for terrain slope
+        // TODO - rotate velocity vector?
+
         // Set drag
         fnet = gravity * mass;
 
         // Set spin
         Vector2 clubVector = MathUtil.FromPolar(club.GetPower(), club.GetLoft());
         spin = MathUtil.FromPolar(-clubVector.y / clubVector.x * SPIN_RATE, angle);
+
         // Set inaccuracy
-        this.dtheta = dtheta * inaccuracyRate; 
+        dtheta = accuracy * inaccuracyRate; 
     }
 
     public Tuple<float,float,string> SimulateDistance(Club club, bool debug = false)
