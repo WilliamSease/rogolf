@@ -59,7 +59,7 @@ public class Ball
 
         // Initialize default parameters
         rate = 1f;
-        inaccuracyRate = 1/128f;
+        inaccuracyRate = 3.0E-5f;
         mass = 0.25f;
         gravity = new Vector3(0, -GRAVITATIONAL_ACCELERATION, 0);
         radius = 0.0625f;
@@ -130,12 +130,14 @@ public class Ball
         spin = MathUtil.FromPolar(-clubVector.y / clubVector.x * SPIN_RATE, angle);
 
         // Set inaccuracy
-        dtheta = accuracy * inaccuracyRate; 
+        dtheta = accuracy * inaccuracyRate * Mathf.Lerp(1.5f, 0.5f, playerAttributes.GetImpact());
+
+        // Set other
+        hasBounced = false; 
     }
 
     public Tuple<float,float,string> SimulateDistance(Club club, bool debug = false)
     {
-        hasBounced = false;
         float carry = 0;
         bool set = false;
 
@@ -246,7 +248,7 @@ public class Ball
         // Update position
         position += velocity * (deltaTime / mass);
         // Apply inaccuracy
-        MathUtil.Rotate(velocity, dtheta);
+        if (!hasBounced) velocity = MathUtil.Rotate(velocity, dtheta/deltaTime);
         // Update drag
         fnet = (gravity * mass) - ((velocity * (0.5f*c*rho*A * Mathf.Pow(velocity.magnitude / mass, 2))) / velocity.magnitude);
         fnet *= deltaTime;

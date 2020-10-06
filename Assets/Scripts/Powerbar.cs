@@ -70,5 +70,6 @@ public class Powerbar
     public void SetAccuracy() { accuracy = current; }
     public double GetCurrent() { return current; }
     public double GetPower() { return power; }
-    public double GetAccuracy() { return accuracy; }
+    public double GetAccuracyInternal() { return accuracy; }
+    public double GetAccuracy() { return accuracy / -BAR_MIN; }
 }

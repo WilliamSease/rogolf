@@ -12,13 +12,14 @@ public static class MathUtil
         return new Vector3(Mathf.Cos(theta) * r, 0, Mathf.Sin(theta) * r);
     }
     
-    public static void Rotate(Vector3 v, float theta)
+    public static Vector3 Rotate(Vector3 v, float theta)
     {
         float x = v.x;
         v.x = x * Mathf.Cos(theta) - v.z * Mathf.Sin(theta);
         v.z = x * Mathf.Sin(theta) + v.z * Mathf.Cos(theta);
+        return v;
     }
-
+    
     public static float MapDistance(Vector3 u, Vector3 v)
     {
         return Vector3.Distance(new Vector3(u.x,0,u.z), new Vector3(v.x,0,v.z));
