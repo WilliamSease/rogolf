@@ -8,6 +8,8 @@ using System.Diagnostics;
 public class OptionsMenu : MonoBehaviour
 {
     public Canvas thisMenu;
+	public Slider volumeSlider;
+	public Text volumeSliderText;
 
     public Button button_1;
     public Button button_2;
@@ -25,15 +27,20 @@ public class OptionsMenu : MonoBehaviour
         if (thisMenu.enabled)
             thisMenu.enabled = false;
         button_1.GetComponent<Button>().onClick.AddListener(task_1);
-        /*button_2.GetComponent<Button>().onClick.AddListener(task_2);
+        button_2.GetComponent<Button>().onClick.AddListener(task_2);
         button_3.GetComponent<Button>().onClick.AddListener(task_3);
-        button_4.GetComponent<Button>().onClick.AddListener(task_4);
+        /*button_4.GetComponent<Button>().onClick.AddListener(task_4);
         button_5.GetComponent<Button>().onClick.AddListener(task_5);
         button_6.GetComponent<Button>().onClick.AddListener(task_6);
         button_7.GetComponent<Button>().onClick.AddListener(task_7);
         button_8.GetComponent<Button>().onClick.AddListener(task_8);
         button_9.GetComponent<Button>().onClick.AddListener(task_9);*/
     }
+	
+	void Update()
+	{
+		volumeSliderText.text = (int) (volumeSlider.value * 100f) + "%";
+	}
 
     void task_1()
     {
@@ -43,10 +50,14 @@ public class OptionsMenu : MonoBehaviour
 
     void task_2()
     {
+		//Save Settings here...
+		BoomBox.SetVolumeStat(volumeSlider.value);
     }
 
     void task_3()
     {
+		//Volume Test...
+		BoomBox.Play(SoundEnum.Sound.TEST);
     }
 
     void task_4()

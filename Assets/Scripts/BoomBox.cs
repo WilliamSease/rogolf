@@ -7,7 +7,8 @@ To add a sound to the game:
 1) Create new AudioSource that is child of BoomBox
 2) Append .ogg or .Mp3 in inspector
 3) Add new enum which is the uppercase name of that AudioSource game object
-4) This class does the rest. Just call play on a SoundEnum.Sound.[name]
+4) This class does the rest.
+Calling Syntax : Play(SoundEnum.Sound.[SomeSound]);
 **/
 namespace SoundEnum
 {

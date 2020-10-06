@@ -216,6 +216,9 @@ public class DevConsole : MonoBehaviour
 			case "setvolume":
 				Report(SetVolume(Tail(arr)));
 				break;
+			case "itsover9000":
+				Report(What9000());
+				break;
             default:
                 Reply("'" + arr[0] + "' doesn't appear to be a command");
             break;
@@ -602,6 +605,13 @@ public class DevConsole : MonoBehaviour
         game.ToggleGraphicDebug();
         return true;
     }
+	
+	public bool What9000()
+	{
+		Reply("What?! 9000?!");
+		game.GetPlayerAttributes().IncreasePower(90.0f);
+		return true;
+	}
 
     //These are easy utility functions.
     public string[] Tail(string[] to) 

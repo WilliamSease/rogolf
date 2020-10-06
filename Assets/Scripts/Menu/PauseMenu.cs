@@ -31,8 +31,8 @@ public class PauseMenu : MonoBehaviour
         button_2.GetComponent<Button>().onClick.AddListener(task_2);
         button_3.GetComponent<Button>().onClick.AddListener(task_3);
         button_4.GetComponent<Button>().onClick.AddListener(task_4);
-        /*button_5.GetComponent<Button>().onClick.AddListener(task_5);
-        button_6.GetComponent<Button>().onClick.AddListener(task_6);
+        button_5.GetComponent<Button>().onClick.AddListener(task_5);
+        /*button_6.GetComponent<Button>().onClick.AddListener(task_6);
         button_7.GetComponent<Button>().onClick.AddListener(task_7);
         button_8.GetComponent<Button>().onClick.AddListener(task_8);
         button_9.GetComponent<Button>().onClick.AddListener(task_9*/
@@ -41,11 +41,14 @@ public class PauseMenu : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.Escape))
-        {
-            Time.timeScale = (Time.timeScale == 0) ? 1 : 0;
-            thisMenu.enabled = !thisMenu.enabled;
-        }
+			ToggleThisMenu();
     }
+	
+	void ToggleThisMenu()
+	{
+		Time.timeScale = (Time.timeScale == 0) ? 1 : 0;
+            thisMenu.enabled = !thisMenu.enabled;
+	}
 
     void task_1()
     {
@@ -70,6 +73,7 @@ public class PauseMenu : MonoBehaviour
 
     void task_5()
     {
+		ToggleThisMenu();
     }
 
     void task_6()
