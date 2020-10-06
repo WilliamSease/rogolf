@@ -9,11 +9,11 @@ public class PauseMenu : MonoBehaviour
 {
     public Canvas thisMenu;
 
-    public Button button_1;
-    public Button button_2;
-    public Button button_3;
-    public Button button_4;
-    public Button button_5;
+    public Button button_1; //Options button
+    public Button button_2; //Controls buton
+    public Button button_3; //Restart button
+    public Button button_4; //Quit button
+    public Button button_5; //Close button
     public Button button_6;
     public Button button_7;
     public Button button_8;
