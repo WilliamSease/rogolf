@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Clubs;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,20 +21,20 @@ public class Bag
 
         // Add default clubs
         // name, power, shot loft (radians)
-        this.bagList.Add(new Club("1W", 776f, 0.047f));
-        this.bagList.Add(new Club("3W", 465f, 0.054f));
-        this.bagList.Add(new Club("5W", 371f, 0.059f));
-        this.bagList.Add(new Club("3I", 297f, 0.059f));
-        this.bagList.Add(new Club("4I", 251f, 0.065f));
-        this.bagList.Add(new Club("5I", 211f, 0.077f));
-        this.bagList.Add(new Club("6I", 181f, 0.081f));
-        this.bagList.Add(new Club("7I", 149f, 0.095f));
-        this.bagList.Add(new Club("8I", 125f, 0.101f));
-        this.bagList.Add(new Club("9I", 105f, 0.109f));
-        this.bagList.Add(new Club("PW", 89f, 0.119f));
-        this.bagList.Add(new Club("SW", 67f, 0.147f));
-        this.bagList.Add(new Club("LW", 49f, 0.185f));
-        this.bagList.Add(new Club("P",  35f, 1.0E-7f));
+        this.bagList.Add(new Club(ClubType.ONE_WOOD, 776f, 0.047f));
+        this.bagList.Add(new Club(ClubType.THREE_WOOD, 465f, 0.054f));
+        this.bagList.Add(new Club(ClubType.FIVE_WOOD, 371f, 0.059f));
+        this.bagList.Add(new Club(ClubType.THREE_IRON, 297f, 0.059f));
+        this.bagList.Add(new Club(ClubType.FOUR_IRON, 251f, 0.065f));
+        this.bagList.Add(new Club(ClubType.FIVE_IRON, 211f, 0.077f));
+        this.bagList.Add(new Club(ClubType.SIX_IRON, 181f, 0.081f));
+        this.bagList.Add(new Club(ClubType.SEVEN_IRON, 149f, 0.095f));
+        this.bagList.Add(new Club(ClubType.EIGHT_IRON, 125f, 0.101f));
+        this.bagList.Add(new Club(ClubType.NINE_IRON, 105f, 0.109f));
+        this.bagList.Add(new Club(ClubType.PITCHING_WEDGE, 89f, 0.119f));
+        this.bagList.Add(new Club(ClubType.SAND_WEDGE, 67f, 0.147f));
+        this.bagList.Add(new Club(ClubType.LOB_WEDGE, 49f, 0.185f));
+        this.bagList.Add(new Club(ClubType.PUTTER,  35f, 1.0E-7f));
 
         // Calculate distances
         foreach (Club club in bagList)
@@ -62,12 +63,12 @@ public class Bag
         // Set to putter if on green
         if (game.GetBall().OnGreen())
         {
-            current = bagList.Count - 1;
+            current = GetPutterIndex();
             return;
         }
 
         float distanceToHole = MathUtil.MapDistance(game.GetBall().GetPosition(), game.GetHoleInfo().GetHolePosition());
-        for (int i = bagList.Count - 2; i >= 0; i--)
+        for (int i = GetPutterIndex() - 1; i >= 0; i--)
         {
             if (distanceToHole < bagList[i].GetDistance())
             {
@@ -98,4 +99,5 @@ public class Bag
     }
 
     public Club GetClub() { return bagList[current]; }
+    private int GetPutterIndex() { return bagList.Count - 1; }
 }
