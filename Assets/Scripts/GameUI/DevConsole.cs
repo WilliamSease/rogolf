@@ -40,6 +40,7 @@ public class DevConsole : MonoBehaviour
         "GetWind: Get wind speed and angle.",
         "SetWind: Set wind speed and angle.",
         "GetHoleData: Gets info about the current hole.",
+        "GiveItem: Gives the player item of specified name.",
         "EndHole: End current hole."
     };
 
@@ -219,9 +220,12 @@ public class DevConsole : MonoBehaviour
 			case "itsover9000":
 				Report(What9000());
 				break;
+            case "giveitem":
+                Report(GiveItem(Tail(arr)));
+                break;
             default:
                 Reply("'" + arr[0] + "' doesn't appear to be a command");
-            break;
+                break;
         }
     }
 
@@ -612,6 +616,27 @@ public class DevConsole : MonoBehaviour
 		game.GetPlayerAttributes().IncreasePower(90.0f);
 		return true;
 	}
+
+    public bool GiveItem(string[] arr)
+    {
+        if (arr.Length == 1)
+        {
+            Dictionary<string, Func<Item>> itemMap = new Dictionary<string, Func<Item>>();
+            itemMap.Add("FlashFlood", () => { return new FlashFlood(); });
+            itemMap.Add("Drought", () => { return new Drought(); });
+
+            string itemName = arr[0];
+            Func<Item> itemCreator;
+            bool exists = itemMap.TryGetValue(itemName, out itemCreator);
+            if (exists) { game.GetItemBag().ApplyItem(game, itemCreator()); }
+            else { Reply(String.Format("{0} does not exist in item map.", itemName)); }
+        }
+        else
+        {
+            Reply("GiveItem itemName");
+        }
+        return true;
+    }
 
     //These are easy utility functions.
     public string[] Tail(string[] to) 

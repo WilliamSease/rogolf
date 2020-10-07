@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialTypeEnum;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TeeEnum;
@@ -28,6 +29,7 @@ public class GameController : MonoBehaviour
     public GameObject treeM;
     public GameObject treeL;
 
+    private Dictionary<MaterialType, Material> materialMap;
     public Material green;
     public Material fairway;
     public Material rough;
@@ -61,6 +63,14 @@ public class GameController : MonoBehaviour
         Game game = this.gameObject.GetComponent<Game>();
         game.enabled = false;
         game.Initialize();
+
+        // Initialize Material map
+        materialMap = new Dictionary<MaterialType, Material>();
+        materialMap.Add(MaterialType.GREEN, green);
+        materialMap.Add(MaterialType.FAIRWAY, fairway);
+        materialMap.Add(MaterialType.ROUGH, rough);
+        materialMap.Add(MaterialType.BUNKER, bunker);
+        materialMap.Add(MaterialType.WATER, water);
 
         // Get next hole
         string nextHole = game.GetHoleBag().GetHole();
@@ -208,19 +218,19 @@ public class GameController : MonoBehaviour
                 switch (type)
                 {
                     case 'B':
-                        renderer.material = bunker;
+                        renderer.material = materialMap[game.GetTerrainAttributes().GetSwap(MaterialType.BUNKER)];
                         break;
                     case 'F':
-                        renderer.material = fairway;
+                        renderer.material = materialMap[game.GetTerrainAttributes().GetSwap(MaterialType.FAIRWAY)];
                         break;
                     case 'G':
-                        renderer.material = green;
+                        renderer.material = materialMap[game.GetTerrainAttributes().GetSwap(MaterialType.GREEN)];
                         break;
                     case 'R':
-                        renderer.material = rough;
+                        renderer.material = materialMap[game.GetTerrainAttributes().GetSwap(MaterialType.ROUGH)];
                         break;
                     case 'W':
-                        renderer.material = water;
+                        renderer.material = materialMap[game.GetTerrainAttributes().GetSwap(MaterialType.WATER)];
                         break;
                     default:
                         UnityEngine.Debug.Log("Candidate material not found for mesh " + childName);
