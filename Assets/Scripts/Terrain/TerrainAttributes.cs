@@ -23,6 +23,7 @@ public class TerrainAttributes
     private TerrainType water;
 
     private Dictionary<MaterialType, MaterialType> swapMap;
+    private Dictionary<MaterialType, TerrainType> terrainMap;
 
     public TerrainAttributes() {
         //                     friction,bounce,lieRate,lieRange
@@ -40,6 +41,14 @@ public class TerrainAttributes
         swapMap.Add(MaterialType.ROUGH, MaterialType.ROUGH);
         swapMap.Add(MaterialType.BUNKER, MaterialType.BUNKER);
         swapMap.Add(MaterialType.WATER, MaterialType.WATER);
+
+        // Initialize terrain map
+        terrainMap = new Dictionary<MaterialType, TerrainType>();
+        terrainMap.Add(MaterialType.GREEN, green);
+        terrainMap.Add(MaterialType.FAIRWAY, fairway);
+        terrainMap.Add(MaterialType.ROUGH, rough);
+        terrainMap.Add(MaterialType.BUNKER, bunker);
+        terrainMap.Add(MaterialType.WATER, water);
     }
 
     /// <summary>
@@ -66,15 +75,15 @@ public class TerrainAttributes
         switch (name[0])
         {
             case 'B':
-                return bunker;
+                return terrainMap[GetSwap(MaterialType.BUNKER)];
             case 'F':
-                return fairway;
+                return terrainMap[GetSwap(MaterialType.FAIRWAY)];
             case 'G':
-                return green;
+                return terrainMap[GetSwap(MaterialType.GREEN)];
             case 'R':
-                return rough;
+                return terrainMap[GetSwap(MaterialType.ROUGH)];
             case 'W':
-                return water;
+                return terrainMap[GetSwap(MaterialType.WATER)];
             default:
                 throw new InvalidOperationException("Cannot not get TerrainType for name " + name);
         }
