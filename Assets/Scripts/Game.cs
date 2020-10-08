@@ -107,6 +107,12 @@ public class Game : MonoBehaviour
         Vector3 ballPosition = ball.GetPosition();
         ballPosition.y += BALL_HEIGHT;
         ballObject.transform.localPosition = ballPosition;
+        
+        float cameraDistance = orbitalControls.distance;
+        float ballRadius = ball.GetRadius();
+        if (cameraDistance > 50) ballRadius *= 7f;
+        else if (cameraDistance > 10) ballRadius *= 3.5f;
+        ballObject.transform.localScale = new Vector3(ballRadius, ballRadius, ballRadius);
 
         // Update cursor GameObject
         Vector3 cursorPosition = cursor.GetPosition();
