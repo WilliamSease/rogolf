@@ -17,6 +17,10 @@ namespace TargetEnum
 
 public class Game : MonoBehaviour
 {
+	private const float BALL_HEIGHT = 0.1f;
+    private const float CURSOR_HEIGHT = 1f;
+    private const float CURSOR_SEGMENT_HEIGHT = 1.5f;
+
     public GameController gc;
 
     // GameObject objects
@@ -104,6 +108,26 @@ public class Game : MonoBehaviour
     {
         inputController.Tick();
         state.Tick();
+		
+		// Update ball GameObject
+        Vector3 ballPosition = ball.GetPosition();
+        ballPosition.y += BALL_HEIGHT;
+        ballObject.transform.localPosition = ballPosition;
+
+        // Update cursor GameObject
+        Vector3 cursorPosition = cursor.GetPosition();
+        cursorPosition.y += CURSOR_HEIGHT;
+        for (int i = 0; i < cursorList.Count; i++)
+        {
+            Vector3 tempPos = new Vector3(cursorPosition.x, cursorPosition.y + (i * CURSOR_SEGMENT_HEIGHT), cursorPosition.z);
+            cursorList[i].transform.localPosition = tempPos;
+        }
+		if (cursorTextObject != null) //Everything in this if transforms the cursor text object
+		{
+			cursorTextObject.GetComponent<TextMeshPro>().text = MathUtil.ToYardsRounded(GetBag().GetClub().GetDistance()) + "yds";
+			cursorTextObject.transform.localPosition = new Vector3(cursorPosition.x, cursorPosition.y + (4 * CURSOR_SEGMENT_HEIGHT), cursorPosition.z);
+			cursorTextObject.transform.LookAt(cameraObject.transform);
+		}
 
         // Update camera target position
         if (target == Target.BALL) orbitalControls.targetPosition = ballPosition;
