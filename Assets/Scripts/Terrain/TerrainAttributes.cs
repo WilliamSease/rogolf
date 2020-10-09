@@ -1,7 +1,13 @@
-﻿using System;
+﻿using MaterialTypeEnum;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+namespace MaterialTypeEnum
+{
+    public enum MaterialType { GREEN, FAIRWAY, ROUGH, BUNKER, WATER }
+}
 
 [System.Serializable]
 public class TerrainAttributes
@@ -16,6 +22,9 @@ public class TerrainAttributes
     private TerrainType bunker;
     private TerrainType water;
 
+    private Dictionary<MaterialType, MaterialType> swapMap;
+    private Dictionary<MaterialType, TerrainType> terrainMap;
+
     public TerrainAttributes() {
         //                     friction,bounce,lieRate,lieRange
         tee = new TerrainType(    9.5E-4f, 0.3f, 0.99f, 0.02f);
@@ -24,6 +33,22 @@ public class TerrainAttributes
         rough = new TerrainType(  4.0E-3f, 0.3f, 0.80f, 0.16f);
         bunker = new TerrainType( 7.5E-3f, 0.1f, 0.70f, 0.20f);
         water = new TerrainType(  1.0E-1f, 0.0f, 0.20f, 0.10f); 
+
+        // Initialize swap map
+        swapMap = new Dictionary<MaterialType, MaterialType>();
+        swapMap.Add(MaterialType.GREEN, MaterialType.GREEN);
+        swapMap.Add(MaterialType.FAIRWAY, MaterialType.FAIRWAY);
+        swapMap.Add(MaterialType.ROUGH, MaterialType.ROUGH);
+        swapMap.Add(MaterialType.BUNKER, MaterialType.BUNKER);
+        swapMap.Add(MaterialType.WATER, MaterialType.WATER);
+
+        // Initialize terrain map
+        terrainMap = new Dictionary<MaterialType, TerrainType>();
+        terrainMap.Add(MaterialType.GREEN, green);
+        terrainMap.Add(MaterialType.FAIRWAY, fairway);
+        terrainMap.Add(MaterialType.ROUGH, rough);
+        terrainMap.Add(MaterialType.BUNKER, bunker);
+        terrainMap.Add(MaterialType.WATER, water);
     }
 
     /// <summary>
@@ -50,15 +75,15 @@ public class TerrainAttributes
         switch (name[0])
         {
             case 'B':
-                return bunker;
+                return terrainMap[GetSwap(MaterialType.BUNKER)];
             case 'F':
-                return fairway;
+                return terrainMap[GetSwap(MaterialType.FAIRWAY)];
             case 'G':
-                return green;
+                return terrainMap[GetSwap(MaterialType.GREEN)];
             case 'R':
-                return rough;
+                return terrainMap[GetSwap(MaterialType.ROUGH)];
             case 'W':
-                return water;
+                return terrainMap[GetSwap(MaterialType.WATER)];
             default:
                 throw new InvalidOperationException("Cannot not get TerrainType for name " + name);
         }
@@ -78,4 +103,7 @@ public class TerrainAttributes
     public TerrainType GetRoughTerrain() { return rough; }
     public TerrainType GetBunkerTerrain() { return bunker; }
     public TerrainType GetWaterTerrain() { return water; }
+
+    public MaterialType GetSwap(MaterialType materialType) { return swapMap[materialType]; }
+    public void SetSwap(MaterialType keyType, MaterialType valueType) { swapMap[keyType] = valueType; }
 }

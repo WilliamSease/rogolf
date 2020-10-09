@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MaterialTypeEnum;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TeeEnum;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;
 
 public class GameController : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class GameController : MonoBehaviour
     public GameObject cameraPrefab;
     public GameObject ballPrefab;
     public GameObject cursorPrefab;
-	public GameObject freeFocus;
+    public GameObject freeFocus;
 
     public Material cursorOn;
     public Material cursorOff;
@@ -28,6 +29,7 @@ public class GameController : MonoBehaviour
     public GameObject treeM;
     public GameObject treeL;
 
+    private Dictionary<MaterialType, Material> materialMap;
     public Material green;
     public Material fairway;
     public Material rough;
@@ -36,7 +38,7 @@ public class GameController : MonoBehaviour
     public Material skyboxMaterial;
 
     public Canvas gameUI;
-	public BoomBox boomBox;
+    public BoomBox boomBox;
 
     public Material normalMap;
     public bool greenNormalMap;
@@ -61,6 +63,14 @@ public class GameController : MonoBehaviour
         Game game = this.gameObject.GetComponent<Game>();
         game.enabled = false;
         game.Initialize();
+
+        // Initialize Material map
+        materialMap = new Dictionary<MaterialType, Material>();
+        materialMap.Add(MaterialType.GREEN, green);
+        materialMap.Add(MaterialType.FAIRWAY, fairway);
+        materialMap.Add(MaterialType.ROUGH, rough);
+        materialMap.Add(MaterialType.BUNKER, bunker);
+        materialMap.Add(MaterialType.WATER, water);
 
         // Get next hole
         string nextHole = game.GetHoleBag().GetHole();
@@ -111,9 +121,9 @@ public class GameController : MonoBehaviour
 
         // Add ball
         game.SetBallObject(Instantiate(ballPrefab));
-		
-		// Add freeFocus
-		game.freeFocus = freeFocus;
+        
+        // Add freeFocus
+        game.freeFocus = freeFocus;
 
         // Add cursor
         List<GameObject> cursorList = new List<GameObject>();
@@ -127,16 +137,18 @@ public class GameController : MonoBehaviour
         game.SetCursorList(cursorList);
         cursorDeltaTime = 0;
         cursorIndex = 0;
-		
-		//Initialize Cursor Text
-		GameObject cursorTextObject = new GameObject();
-		cursorTextObject.AddComponent<TextMeshPro>();
-		cursorTextObject.GetComponent<TextMeshPro>().fontSize = 48;
-		cursorTextObject.GetComponent<TextMeshPro>().outlineColor = Color.black;
-		cursorTextObject.GetComponent<TextMeshPro>().outlineWidth = 0.07f;
-		cursorTextObject.GetComponent<TextMeshPro>().fontSharedMaterial.EnableKeyword("OUTLINE_ON");
-		cursorTextObject.transform.localScale = new Vector3(-.25f,.25f,.25f);
-		game.SetCursorTextObject(cursorTextObject);
+        
+        //Initialize Cursor Text
+        GameObject cursorTextObject = new GameObject();
+        cursorTextObject.AddComponent<TextMeshPro>();
+        TextMeshPro cursorText = cursorTextObject.GetComponent<TextMeshPro>();
+        cursorText.fontSize = 72;
+        cursorText.alignment = TextAlignmentOptions.Center;
+        cursorText.outlineColor = Color.black;
+        cursorText.outlineWidth = 0.075f;
+        cursorText.fontSharedMaterial.EnableKeyword("OUTLINE_ON");
+        cursorTextObject.transform.localScale = new Vector3(-.25f,.25f,.25f);
+        game.SetCursorTextObject(cursorTextObject);
 
         // Grab reference to orbital controls
         GameObject cameraCopy = Instantiate(cameraPrefab);
@@ -208,19 +220,19 @@ public class GameController : MonoBehaviour
                 switch (type)
                 {
                     case 'B':
-                        renderer.material = bunker;
+                        renderer.material = materialMap[game.GetTerrainAttributes().GetSwap(MaterialType.BUNKER)];
                         break;
                     case 'F':
-                        renderer.material = fairway;
+                        renderer.material = materialMap[game.GetTerrainAttributes().GetSwap(MaterialType.FAIRWAY)];
                         break;
                     case 'G':
-                        renderer.material = green;
+                        renderer.material = materialMap[game.GetTerrainAttributes().GetSwap(MaterialType.GREEN)];
                         break;
                     case 'R':
-                        renderer.material = rough;
+                        renderer.material = materialMap[game.GetTerrainAttributes().GetSwap(MaterialType.ROUGH)];
                         break;
                     case 'W':
-                        renderer.material = water;
+                        renderer.material = materialMap[game.GetTerrainAttributes().GetSwap(MaterialType.WATER)];
                         break;
                     default:
                         UnityEngine.Debug.Log("Candidate material not found for mesh " + childName);
@@ -280,9 +292,9 @@ public class GameController : MonoBehaviour
         // Set ball
         game.GetBall().Reset(game.GetHoleInfo().GetTeePosition());
         game.GetBall().SetHolePosition();
-		
-		// Set freeFocus object
-		freeFocus.transform.position = game.GetBall().GetPosition();
+        
+        // Set freeFocus object
+        freeFocus.transform.position = game.GetBall().GetPosition();
 
         // Set state
         game.SetState(new PrepareState(game));
@@ -385,7 +397,7 @@ public class GameController : MonoBehaviour
         gameUI.enabled = false;
         //Destroy(game.cameraObject);
         //Destroy(game.ballObject);
-        game.GetCursor().Disable();
+        game.GetCursorGraphics().Disable();
 
         // Get next hole
         string nextHole = game.GetHoleBag().GetHole();
@@ -395,12 +407,12 @@ public class GameController : MonoBehaviour
         // Load scoreboard
         SceneManager.LoadScene(ScoreCard.SCENE_NAME);
     }
-	
-	//Call any sound which is a child element of BoomBox.
-	//str is name, forget capitalization
-	//Returns if boombox had that sound.
-	public bool PlaySound(string str)
-	{
-		return boomBox.GCPlay(str);
-	}
+    
+    //Call any sound which is a child element of BoomBox.
+    //str is name, forget capitalization
+    //Returns if boombox had that sound.
+    public bool PlaySound(string str)
+    {
+        return boomBox.GCPlay(str);
+    }
 }

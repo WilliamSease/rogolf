@@ -1,25 +1,28 @@
-﻿using System;
+﻿using Clubs;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Club
 {
-    private string name;
+    private ClubType type;
     private float power;
     private float loft;
     private float distance;
 
-    public Club(string name, float power, float loft)
+    public Club(ClubType type, float power, float loft)
     {
-        this.name = name;
+        this.type = type;
         this.power = power;
         this.loft = loft;
         // Distance gets simulated by the bag
         this.distance = Single.NaN;
     }
 
-    public string GetName() { return name; }
+    public ClubType GetClubType() { return type; }
+    public ClubClass GetClubClass() { return type.GetClubClass(); }
+    public string GetName() { return type.GetClubName(); }
     public float GetPower() { return power; }
     public float GetLoft() { return loft; }
     public float GetDistance()

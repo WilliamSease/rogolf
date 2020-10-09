@@ -17,10 +17,6 @@ namespace TargetEnum
 
 public class Game : MonoBehaviour
 {
-    private const float BALL_HEIGHT = 0.1f;
-    private const float CURSOR_HEIGHT = 1f;
-    private const float CURSOR_SEGMENT_HEIGHT = 1.5f;
-
     public GameController gc;
 
     // GameObject objects
@@ -28,7 +24,7 @@ public class Game : MonoBehaviour
     private GameObject ballObject;
     private List<GameObject> cursorList;
     public GameObject freeFocus;
-	public GameObject cursorTextObject;
+    public GameObject cursorTextObject;
 
     public Target target;
     public MouseOrbitImproved orbitalControls;
@@ -52,6 +48,9 @@ public class Game : MonoBehaviour
     private Bag bag;
     private Powerbar powerbar;
 
+    // Graphical-related helper classes
+    private BallGraphics ballGraphics;
+    private CursorGraphics cursorGraphics;
     private GraphicDebug graphicDebug;
 
     /// <summary>
@@ -85,6 +84,9 @@ public class Game : MonoBehaviour
 
     public void Begin()
     {
+        // Initialize graphics helpers
+        ballGraphics = new BallGraphics(this);
+        cursorGraphics = new CursorGraphics(this);
         graphicDebug = new GraphicDebug(this);
     }
 
@@ -102,26 +104,6 @@ public class Game : MonoBehaviour
     {
         inputController.Tick();
         state.Tick();
-
-        // Update ball GameObject
-        Vector3 ballPosition = ball.GetPosition();
-        ballPosition.y += BALL_HEIGHT;
-        ballObject.transform.localPosition = ballPosition;
-
-        // Update cursor GameObject
-        Vector3 cursorPosition = cursor.GetPosition();
-        cursorPosition.y += CURSOR_HEIGHT;
-        for (int i = 0; i < cursorList.Count; i++)
-        {
-            Vector3 tempPos = new Vector3(cursorPosition.x, cursorPosition.y + (i * CURSOR_SEGMENT_HEIGHT), cursorPosition.z);
-            cursorList[i].transform.localPosition = tempPos;
-        }
-		if (cursorTextObject != null) //Everything in this if transforms the cursor text object
-		{
-			cursorTextObject.GetComponent<TextMeshPro>().text = MathUtil.ToYardsRounded(GetBag().GetClub().GetDistance()) + "yds";
-			cursorTextObject.transform.localPosition = new Vector3(cursorPosition.x, cursorPosition.y + (4 * CURSOR_SEGMENT_HEIGHT), cursorPosition.z);
-			cursorTextObject.transform.LookAt(cameraObject.transform);
-		}
 
         // Update camera target position
         if (target == Target.BALL) orbitalControls.targetPosition = ballPosition;
@@ -144,6 +126,12 @@ public class Game : MonoBehaviour
 				}
 			}
 		}
+        if (target == Target.BALL) orbitalControls.targetPosition = ball.GetPosition();
+        if (target == Target.CURSOR) orbitalControls.targetPosition = cursor.GetPosition();
+        if (target == Target.FREE) orbitalControls.targetPosition = freeFocus.transform.position;
+
+        ballGraphics.Tick();
+        cursorGraphics.Tick();
         graphicDebug.Tick();
     }
 
@@ -173,7 +161,7 @@ public class Game : MonoBehaviour
     public void SetCameraObject(GameObject cameraObject) { this.cameraObject = cameraObject; }
     public void SetBallObject(GameObject ballObject) { this.ballObject = ballObject; }
     public void SetCursorList(List<GameObject> cursorList) { this.cursorList = cursorList; }
-	public void SetCursorTextObject(GameObject to) { this.cursorTextObject = to; }
+    public void SetCursorTextObject(GameObject to) { this.cursorTextObject = to; }
 
     public State GetState() { return state; }
     
@@ -196,5 +184,6 @@ public class Game : MonoBehaviour
     public CurrentDistance GetCurrentDistance() { return currentDistance; }
     public Bag GetBag() { return bag; }
     public Powerbar GetPowerbar() { return powerbar; }
-	public GameObject GetCursorText() { return cursorTextObject; }
+
+    public CursorGraphics GetCursorGraphics() { return cursorGraphics; }
 }

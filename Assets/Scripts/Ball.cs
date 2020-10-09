@@ -247,8 +247,8 @@ public class Ball
     {
         // Update position
         position += velocity * (deltaTime / mass);
-        // Apply inaccuracy
-        if (!hasBounced) velocity = MathUtil.Rotate(velocity, dtheta/deltaTime);
+        // Apply inaccuracy - TODO
+        //if (!hasBounced) velocity = MathUtil.Rotate(velocity, dtheta/deltaTime);
         // Update drag
         fnet = (gravity * mass) - ((velocity * (0.5f*c*rho*A * Mathf.Pow(velocity.magnitude / mass, 2))) / velocity.magnitude);
         fnet *= deltaTime;
