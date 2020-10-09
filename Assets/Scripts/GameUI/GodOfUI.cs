@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TargetEnum;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -133,7 +134,7 @@ public class GodOfUI : MonoBehaviour
             bonusText.text = bonusText.text + i.GetName() + "\n";
         }
         
-        // Playerstats update
+        // Player attributes update
         PlayerAttributes plr = gameRef.GetPlayerAttributes();
         playerinfoText[0].text = (plr.GetPower() * 100).ToString("F0");
         playerinfoText[1].text = (plr.GetControl() * 100).ToString("F0");
@@ -142,6 +143,9 @@ public class GodOfUI : MonoBehaviour
         
         // ToggleText update
         camToggleText.text = Char.ToUpper(gameRef.GetTarget().ToString()[0]) + gameRef.GetTarget().ToString().ToLower().Substring(1);
-        normalToggleText.text = gc.greenNormalMap ? "Angles" : "Normal";
+        Target target = gameRef.GetTarget();
+        if (target == Target.BALL || target == Target.FREE) camToggleText.text = "View Cursor";
+        else camToggleText.text = "Reset Camera";
+        normalToggleText.text = gc.greenNormalMap ? "Reset Green" : "View Green Normals";
     }
 }

@@ -106,25 +106,24 @@ public class Game : MonoBehaviour
         state.Tick();
 
         // Update camera target position
-        if (target == Target.BALL) orbitalControls.targetPosition = ball.GetPosition();
-        if (target == Target.CURSOR) orbitalControls.targetPosition = cursor.GetPosition();
-        if (target == Target.FREE) 
+        if (Input.GetMouseButton(MouseOrbitImproved.LEFT_MOUSE_BUTTON))
         {
+            target = Target.FREE;
             orbitalControls.targetPosition = freeFocus.transform.position;
-            if (Input.GetMouseButton(MouseOrbitImproved.LEFT_MOUSE_BUTTON))
+
+            freeFocus.transform.LookAt(cameraObject.transform);
+            freeFocus.transform.Translate(Input.GetAxis("Mouse X"), 0, Input.GetAxis("Mouse Y"));
+            RaycastHit hit;
+            Vector3 positionHigh = new Vector3(freeFocus.transform.position.x, freeFocus.transform.position.x + 1000, freeFocus.transform.position.z);
+            Vector3 temp = freeFocus.transform.position;
+            if (Physics.Raycast(new Ray(positionHigh, Vector3.down), out hit))
             {
-                freeFocus.transform.LookAt(cameraObject.transform);
-                freeFocus.transform.Translate(Input.GetAxis("Mouse X"), 0, Input.GetAxis("Mouse Y"));
-                RaycastHit hit;
-                Vector3 positionHigh = new Vector3(freeFocus.transform.position.x, freeFocus.transform.position.x + 1000, freeFocus.transform.position.z);
-                Vector3 temp = freeFocus.transform.position;
-                if (Physics.Raycast(new Ray(positionHigh, Vector3.down), out hit))
-                {
-                    temp.y = hit.point.y;
-                    freeFocus.transform.position = temp;
-                }
+                temp.y = hit.point.y;
+                freeFocus.transform.position = temp;
             }
         }
+        if (target == Target.BALL) orbitalControls.targetPosition = ball.GetPosition();
+        if (target == Target.CURSOR) orbitalControls.targetPosition = cursor.GetPosition();
 
         ballGraphics.Tick();
         cursorGraphics.Tick();
@@ -140,9 +139,18 @@ public class Game : MonoBehaviour
 
     public void ToggleTarget()
     {
-        if (target == Target.BALL) target = Target.CURSOR;
-        else if (target == Target.CURSOR) target = Target.FREE;
-        else target = Target.BALL;
+        if (target == Target.CURSOR) ResetTarget();
+        else
+        {
+            target = Target.CURSOR;
+            freeFocus.transform.position = cursor.GetPosition();
+        }
+    }
+
+    public void ResetTarget()
+    {
+        target = Target.BALL;
+        freeFocus.transform.position = ball.GetPosition();
     }
 
     public void ToggleGraphicDebug() { graphicDebug.Toggle(); }
