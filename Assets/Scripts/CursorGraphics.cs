@@ -23,6 +23,18 @@ public class CursorGraphics
         cursorTextObject = game.GetCursorTextObject();
     }
 
+    public void Enable()
+    {
+        foreach (GameObject cursor in game.GetCursorList()) { cursor.SetActive(true); }
+        cursorTextObject.SetActive(true);
+    }
+
+    public void Disable()
+    {
+        foreach (GameObject cursor in game.GetCursorList()) { cursor.SetActive(false); }
+        cursorTextObject.SetActive(false);
+    }
+
     public void Tick()
     {
         // Update cursor GameObject

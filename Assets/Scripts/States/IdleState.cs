@@ -15,7 +15,7 @@ public class IdleState : State
     {
         if (game.GetTarget() == Target.BALL)
         {
-            game.GetCursor().Disable();
+            game.GetCursorGraphics().Disable();
 
             game.GetPowerbar().Reset();
             game.SetState(new PowerState(game));

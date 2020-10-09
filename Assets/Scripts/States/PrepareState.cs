@@ -8,7 +8,7 @@ public class PrepareState : State
 
     public override void Tick()
     {
-        game.GetCursor().Enable();
+        game.GetCursorGraphics().Enable();
         game.GetBall().AngleToHole();
         game.GetBag().SelectBestClub();
         game.getFreeFocus().transform.position = game.GetBall().GetPosition();

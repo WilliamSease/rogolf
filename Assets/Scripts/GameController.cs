@@ -397,7 +397,7 @@ public class GameController : MonoBehaviour
         gameUI.enabled = false;
         //Destroy(game.cameraObject);
         //Destroy(game.ballObject);
-        game.GetCursor().Disable();
+        game.GetCursorGraphics().Disable();
 
         // Get next hole
         string nextHole = game.GetHoleBag().GetHole();
