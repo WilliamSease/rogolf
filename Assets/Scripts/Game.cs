@@ -17,10 +17,6 @@ namespace TargetEnum
 
 public class Game : MonoBehaviour
 {
-	private const float BALL_HEIGHT = 0.1f;
-    private const float CURSOR_HEIGHT = 1f;
-    private const float CURSOR_SEGMENT_HEIGHT = 1.5f;
-
     public GameController gc;
 
     // GameObject objects
@@ -108,51 +104,27 @@ public class Game : MonoBehaviour
     {
         inputController.Tick();
         state.Tick();
-		
-		// Update ball GameObject
-        Vector3 ballPosition = ball.GetPosition();
-        ballPosition.y += BALL_HEIGHT;
-        ballObject.transform.localPosition = ballPosition;
-
-        // Update cursor GameObject
-        Vector3 cursorPosition = cursor.GetPosition();
-        cursorPosition.y += CURSOR_HEIGHT;
-        for (int i = 0; i < cursorList.Count; i++)
-        {
-            Vector3 tempPos = new Vector3(cursorPosition.x, cursorPosition.y + (i * CURSOR_SEGMENT_HEIGHT), cursorPosition.z);
-            cursorList[i].transform.localPosition = tempPos;
-        }
-		if (cursorTextObject != null) //Everything in this if transforms the cursor text object
-		{
-			cursorTextObject.GetComponent<TextMeshPro>().text = MathUtil.ToYardsRounded(GetBag().GetClub().GetDistance()) + "yds";
-			cursorTextObject.transform.localPosition = new Vector3(cursorPosition.x, cursorPosition.y + (4 * CURSOR_SEGMENT_HEIGHT), cursorPosition.z);
-			cursorTextObject.transform.LookAt(cameraObject.transform);
-		}
 
         // Update camera target position
-        if (target == Target.BALL) orbitalControls.targetPosition = ballPosition;
-        if (target == Target.CURSOR) orbitalControls.targetPosition = cursorPosition;
-        if (target == Target.FREE) 
-		{
-			orbitalControls.targetPosition = freeFocus.transform.position;
-			/*This code pans. Or, it should. Maybe it shouldn't be here. Feel free to move. Maybe a little cumbersome?*/
-			if(Input.GetMouseButton(0))
-			{
-				GetFreeFocus().transform.LookAt(GetCameraObject().transform);
-				GetFreeFocus().transform.Translate(Input.GetAxis("Mouse X"), 0, Input.GetAxis("Mouse Y"));
-				RaycastHit hit;
-				Vector3 positionHigh = new Vector3(GetFreeFocus().transform.position.x, GetFreeFocus().transform.position.x + 1000, GetFreeFocus().transform.position.z);
-				Vector3 temp = GetFreeFocus().transform.position;
-				if (Physics.Raycast(new Ray(positionHigh, Vector3.down), out hit))
-				{
-					temp.y = hit.point.y;
-					GetFreeFocus().transform.position = temp;
-				}
-			}
-		}
         if (target == Target.BALL) orbitalControls.targetPosition = ball.GetPosition();
         if (target == Target.CURSOR) orbitalControls.targetPosition = cursor.GetPosition();
-        if (target == Target.FREE) orbitalControls.targetPosition = freeFocus.transform.position;
+        if (target == Target.FREE) 
+        {
+            orbitalControls.targetPosition = freeFocus.transform.position;
+            if (Input.GetMouseButton(MouseOrbitImproved.LEFT_MOUSE_BUTTON))
+            {
+                freeFocus.transform.LookAt(cameraObject.transform);
+                freeFocus.transform.Translate(Input.GetAxis("Mouse X"), 0, Input.GetAxis("Mouse Y"));
+                RaycastHit hit;
+                Vector3 positionHigh = new Vector3(freeFocus.transform.position.x, freeFocus.transform.position.x + 1000, freeFocus.transform.position.z);
+                Vector3 temp = freeFocus.transform.position;
+                if (Physics.Raycast(new Ray(positionHigh, Vector3.down), out hit))
+                {
+                    temp.y = hit.point.y;
+                    freeFocus.transform.position = temp;
+                }
+            }
+        }
 
         ballGraphics.Tick();
         cursorGraphics.Tick();
@@ -162,7 +134,6 @@ public class Game : MonoBehaviour
     public void SetState(State state)
     {
         this.state.OnStateExit();
-        //UnityEngine.Debug.Log(state);
         this.state = state;
         this.state.OnStateEnter();
     }
