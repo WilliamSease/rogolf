@@ -53,7 +53,7 @@ public class MouseOrbitImproved : MonoBehaviour
         {
 			if (Input.GetMouseButton(CLICK_DEF))//Add OR TRUE to return to classic rogolf camera look...
 			{	
-				x += Input.GetAxis("Mouse X") * xSpeed * distance * rotationSenitivity;
+				x += Input.GetAxis("Mouse X") * xSpeed * 50 * rotationSenitivity; //Changed "distance" to "50"... fix slow cam close up fast cam at long range
 				y -= Input.GetAxis("Mouse Y") * ySpeed * rotationSenitivity;
 			}
             y = ClampAngle(y, yMinLimit, yMaxLimit);
