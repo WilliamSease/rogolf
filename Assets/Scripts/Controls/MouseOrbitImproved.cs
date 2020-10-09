@@ -46,17 +46,20 @@ public class MouseOrbitImproved : MonoBehaviour
         }
     }
 
+	int CLICK_DEF = 1; //Right click
     void LateUpdate()
     {
-        if (targetPosition != null)
+        if (targetPosition != null) //Rotate: RM
         {
-            x += Input.GetAxis("Mouse X") * xSpeed * distance * rotationSenitivity;
-            y -= Input.GetAxis("Mouse Y") * ySpeed * rotationSenitivity;
-
+			if (Input.GetMouseButton(CLICK_DEF))//Add OR TRUE to return to classic rogolf camera look...
+			{	
+				x += Input.GetAxis("Mouse X") * xSpeed * distance * rotationSenitivity;
+				y -= Input.GetAxis("Mouse Y") * ySpeed * rotationSenitivity;
+			}
             y = ClampAngle(y, yMinLimit, yMaxLimit);
-
+			
             Quaternion rotation = Quaternion.Euler(y, x, 0);
-
+			
             distance = Mathf.Clamp(distance - Input.GetAxis("Mouse ScrollWheel") * scrollSensitivity, distanceMin, distanceMax);
 
             Vector3 negDistance = new Vector3(0.0f, 0.0f, -distance);

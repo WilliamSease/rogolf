@@ -32,7 +32,7 @@ public class IdleState : State
     public override void OnKeyA() { game.GetBall().IncrementAngle(); }
     public override void OnKeyD() { game.GetBall().DecrementAngle(); }
 	
-	private int freeMoveScalar = 200;
+	/*private int freeMoveScalar = 200;
     public override void OnKeyUpArrow() //All this is rotated 90deg, wonder why.
 	{ 
 		game.getFreeFocus().transform.Translate(
@@ -56,7 +56,7 @@ public class IdleState : State
 		game.getFreeFocus().transform.Translate(
 			new Vector3(game.GetCameraObject().transform.forward.x, 0, 
 				game.GetCameraObject().transform.forward.z)*freeMoveScalar*Time.deltaTime);
-	}
+	}*/
     
     public override void OnKeyE() { game.GetGameController().ToggleGreenNormalMap(); }
 

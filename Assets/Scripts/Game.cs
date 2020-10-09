@@ -126,8 +126,24 @@ public class Game : MonoBehaviour
         // Update camera target position
         if (target == Target.BALL) orbitalControls.targetPosition = ballPosition;
         if (target == Target.CURSOR) orbitalControls.targetPosition = cursorPosition;
-        if (target == Target.FREE) orbitalControls.targetPosition = freeFocus.transform.position;
-
+        if (target == Target.FREE) 
+		{
+			orbitalControls.targetPosition = freeFocus.transform.position;
+			/*This code pans. Or, it should. Maybe it shouldn't be here. Feel free to move. Maybe a little cumbersome?*/
+			if(Input.GetMouseButton(0))
+			{
+				GetFreeFocus().transform.LookAt(GetCameraObject().transform);
+				GetFreeFocus().transform.Translate(Input.GetAxis("Mouse X"), 0, Input.GetAxis("Mouse Y"));
+				RaycastHit hit;
+				Vector3 positionHigh = new Vector3(GetFreeFocus().transform.position.x, GetFreeFocus().transform.position.x + 1000, GetFreeFocus().transform.position.z);
+				Vector3 temp = GetFreeFocus().transform.position;
+				if (Physics.Raycast(new Ray(positionHigh, Vector3.down), out hit))
+				{
+					temp.y = hit.point.y;
+					GetFreeFocus().transform.position = temp;
+				}
+			}
+		}
         graphicDebug.Tick();
     }
 
@@ -175,7 +191,7 @@ public class Game : MonoBehaviour
     public HoleInfo GetHoleInfo() { return holeInfo; }
     public Wind GetWind() { return wind; }
     public Ball GetBall() { return ball; }
-    public GameObject getFreeFocus() { return freeFocus; }
+    public GameObject GetFreeFocus() { return freeFocus; }
     public Cursor GetCursor() { return cursor; }
     public CurrentDistance GetCurrentDistance() { return currentDistance; }
     public Bag GetBag() { return bag; }

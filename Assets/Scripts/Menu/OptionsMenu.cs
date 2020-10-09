@@ -10,6 +10,7 @@ public class OptionsMenu : MonoBehaviour
     public Canvas thisMenu;
 	public Slider volumeSlider;
 	public Text volumeSliderText;
+	public static float mouseSensitivity;
 
     public Button button_1;
     public Button button_2;

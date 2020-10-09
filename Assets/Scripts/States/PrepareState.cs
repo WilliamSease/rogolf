@@ -11,7 +11,7 @@ public class PrepareState : State
         game.GetCursor().Enable();
         game.GetBall().AngleToHole();
         game.GetBag().SelectBestClub();
-        game.getFreeFocus().transform.position = game.GetBall().GetPosition();
+        game.GetFreeFocus().transform.position = game.GetBall().GetPosition();
         // TODO - update the wind value
         game.SetState(new IdleState(game));
     }
