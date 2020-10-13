@@ -29,6 +29,9 @@ public class GameController : MonoBehaviour
     public GameObject treeM;
     public GameObject treeL;
 
+    public GameObject cupHole;
+    public GameObject cupRim;
+
     private Dictionary<MaterialType, Material> materialMap;
     public Material green;
     public Material fairway;
@@ -265,6 +268,9 @@ public class GameController : MonoBehaviour
             }
         }
 
+        // Add cup
+        AddCup(holePosition);
+
         // Add trees
         foreach (GameObject tree in treeSList) { AddProp(tree, treeS); }
         foreach (GameObject tree in treeMList) { AddProp(tree, treeM); }
@@ -329,6 +335,20 @@ public class GameController : MonoBehaviour
             UnityEngine.Debug.Log(e);
             return null;
         }
+    }
+
+    private void AddCup(Vector3 holePosition)
+    {
+        Vector3 cupPosition = holePosition - new Vector3(0, 0.129f, 0);
+
+        // Add cup rim
+        cupRim = Instantiate(cupRim);
+        cupRim.GetComponent<Renderer>().material.renderQueue = 0;
+        cupRim.transform.position = cupPosition;
+
+        // Add cup 'hole'
+        cupHole = Instantiate(cupHole);
+        cupHole.transform.position = cupPosition;
     }
 
     private RaycastHit RaycastVertical(GameObject gameObject)

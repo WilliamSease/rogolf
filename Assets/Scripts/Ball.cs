@@ -14,7 +14,7 @@ public class Ball
     private const float INITIAL_MINIMUM_VELOCITY_THRESHOLD = 0.1f;
     private const float FINAL_MINIMUM_VELOCITY_THRESHOLD = 0.005f;
     private const float GRAVITATIONAL_ACCELERATION = 9.8f;
-    private const float CUP_DEPTH = 0.1f;
+    private const float CUP_DEPTH = 0.12f;
 
     private Game game;
     private Wind wind;
@@ -69,14 +69,13 @@ public class Ball
 
         cupEffectMagnitude = 1E-5f;
         cupEffectRadius = 0.2f;
-        cupLipRadius = 0.08f;
-        cupRadius = 0.06f;
+        cupRadius = 0.108f;
 
         dtheta = 0;
         height = 0;
         terrainNormal = MathUtil.Vector3NaN;
 
-        Reset(Vector3.zero);
+        Reset();
     }
 
     public void Reset(Vector3 v)
@@ -293,34 +292,22 @@ public class Ball
         }
     }
 
+    // TODO
     private bool CalculateCup()
     {   
         float distanceToHole = DistanceToHole();
         // If ball is in or right above the cup
         if (distanceToHole < cupRadius)
         {
-            cupEffect = cupEffectMagnitude/deltaTime * Vector3.Normalize(new Vector3(holePosition.x, holePosition.y-CUP_DEPTH, holePosition.z) - position);
-            velocity += cupEffect;
+            //cupEffect = cupEffectMagnitude/deltaTime * Vector3.Normalize(new Vector3(holePosition.x, holePosition.y-CUP_DEPTH, holePosition.z) - position);
+            //velocity += cupEffect;
             return true;
-        }
-        // If ball is on the cup's lip
-        else if (distanceToHole < cupLipRadius)
-        {
-            cupEffect = cupEffectMagnitude/deltaTime * Vector3.Normalize(holePosition - position);
-            velocity += cupEffect;
-            // If ball exiting cup
-            if (Vector3.Dot(velocity, cupEffect) < 0f)
-            {
-                // If ball sufficiently inside cup
-                if (height < 0.01f) { velocity = 0.1f * Vector3.Reflect(velocity, cupEffect); }
-            }
-            return false;
         }
         // If ball is in cup effect radius
         else if (distanceToHole < cupEffectRadius)
         {
-            Vector3 cupEffect = cupEffectMagnitude/deltaTime * Vector3.Normalize(holePosition - position);
-            velocity += cupEffect;
+            //cupEffect = cupEffectMagnitude/deltaTime * Vector3.Normalize(holePosition - position);
+            //velocity += cupEffect;
             return false;
         }
         // If ball is outside AoE
@@ -337,11 +324,7 @@ public class Ball
 
         if (height <= 0)
         {
-            if (onCup && !debug)
-            {
-                // If at bottom of cup, zero velocity
-                if (height <= -CUP_DEPTH) velocity = Vector3.zero;
-            }
+            if (onCup && !debug) CupBounce();
             else
             {
                 position.y -= height;
@@ -354,6 +337,29 @@ public class Ball
 
                 hasBounced = true;
             }
+        }
+    }
+
+    // TODO
+    private void CupBounce()
+    {
+        if (height < 0)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(new Ray(position, velocity), out hit))
+            {
+                UnityEngine.Debug.Log(hit.transform.gameObject.name);
+                float cupFaceDistance = position.y - hit.point.y;
+                if (cupFaceDistance < 0.01f)
+                {
+                    velocity = 0.5f * Vector3.Reflect(velocity, terrainNormal);
+                }
+            }
+        }
+        // If at bottom of cup, zero velocity
+        if (height <= -CUP_DEPTH * 0.75)
+        {
+            velocity = Vector3.zero;
         }
     }
 
@@ -407,7 +413,7 @@ public class Ball
     }
 
     // TODO - public bool InAir() { return Vector3.Dot(Vector3.Normalize(MathUtil.Copy(velocity)), terrainNormal) > Mathf.PI / 24f; }
-    public bool InAir() { return height > 0.1f; }
+    public bool InAir() { return height > 0.01f; }
     public bool InMotion() { return velocity.magnitude > FINAL_MINIMUM_VELOCITY_THRESHOLD; }
     public bool IsMoving() { return InAir() || InMotion(); }
 
