@@ -114,7 +114,7 @@ public class Game : MonoBehaviour
             freeFocus.transform.LookAt(cameraObject.transform);
             freeFocus.transform.Translate(Input.GetAxis("Mouse X"), 0, Input.GetAxis("Mouse Y"));
             RaycastHit hit;
-            Vector3 positionHigh = new Vector3(freeFocus.transform.position.x, freeFocus.transform.position.x + 1000, freeFocus.transform.position.z);
+            Vector3 positionHigh = new Vector3(freeFocus.transform.position.x, freeFocus.transform.position.y + 1000, freeFocus.transform.position.z);
             Vector3 temp = freeFocus.transform.position;
             if (Physics.Raycast(new Ray(positionHigh, Vector3.down), out hit))
             {
