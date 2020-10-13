@@ -351,7 +351,7 @@ public class GameController : MonoBehaviour
 
     private void AddCup(Vector3 holePosition)
     {
-        Vector3 cupPosition = holePosition + new Vector3(0, -0.06f, 0);
+        Vector3 cupPosition = holePosition + new Vector3(0, -0.12999f, 0);
 
         // Add cup rim
         cupRim = Instantiate(cupRim);
@@ -359,14 +359,21 @@ public class GameController : MonoBehaviour
 
         // Add cup 'hole'
         cupHole = Instantiate(cupHole);
-        cupHole.transform.position = holePosition + new Vector3(0, -0.08f, 0);
+        cupHole.transform.position = cupPosition;
+
+        // Rotate cup rim and hole according to slope
+        Vector3 terrainNormal = RaycastVertical(cupPosition + Vector3.up).normal;
+        Tuple<float, float> terrainAngle = MathUtil.GetTerrainAngle(terrainNormal, 0f);
+        Vector3 cupRotation = new Vector3(terrainAngle.Item1, 0f, -terrainAngle.Item2);
+        cupRim.transform.eulerAngles = cupRotation;
+        cupHole.transform.eulerAngles = cupRotation;
     }
 
-    private RaycastHit RaycastVertical(GameObject gameObject)
+    private RaycastHit RaycastVertical(Vector3 source)
     {
         RaycastHit hit;
         // Check down
-        if (Physics.Raycast(new Ray(gameObject.transform.position, Vector3.down), out hit))
+        if (Physics.Raycast(new Ray(source, Vector3.down), out hit))
         {
             return hit;
         }
@@ -375,6 +382,12 @@ public class GameController : MonoBehaviour
         {
             throw new InvalidOperationException("RaycastHit not found for " + gameObject.name);
         }
+    }
+
+    private RaycastHit RaycastVertical(GameObject gameObject)
+    {
+        try { return RaycastVertical(gameObject.transform.position); }
+        catch (Exception e) { throw e; }
     }
 
     public void TickCursor()
