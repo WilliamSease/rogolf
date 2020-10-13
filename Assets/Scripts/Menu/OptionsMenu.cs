@@ -10,7 +10,10 @@ public class OptionsMenu : MonoBehaviour
     public Canvas thisMenu;
 	public Slider volumeSlider;
 	public Text volumeSliderText;
-	public static float mouseSensitivity;
+	public Slider panSlider;
+    public Text panSliderText;
+    public Slider rotSlider;
+    public Text rotSliderText;
 
     public Button button_1;
     public Button button_2;
@@ -41,6 +44,8 @@ public class OptionsMenu : MonoBehaviour
 	void Update()
 	{
 		volumeSliderText.text = (int) (volumeSlider.value * 100f) + "%";
+        panSliderText.text = (int) (panSlider.value * 100f) + "%";
+        rotSliderText.text = (int) (rotSlider.value * 100f) + "%";
 	}
 
     void task_1()
@@ -53,6 +58,7 @@ public class OptionsMenu : MonoBehaviour
     {
 		//Save Settings here...
 		BoomBox.SetVolumeStat(volumeSlider.value);
+        MouseOrbitImproved.SetMouseSensitivity(rotSlider.value);
     }
 
     void task_3()

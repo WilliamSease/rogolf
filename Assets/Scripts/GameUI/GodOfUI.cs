@@ -46,6 +46,8 @@ public class GodOfUI : MonoBehaviour
     
     //LieInfo elements
     public Text lieText;
+    public Text aAngle;
+    public Text bAngle;
 
     // Bonusinfo elements
     public Text bonusText;
@@ -128,8 +130,8 @@ public class GodOfUI : MonoBehaviour
 
         // Lie angle update 
         Tuple<float, float> terrainAngle = gameRef.GetBall().GetTerrainAngle();
-        //terrainAngle.Item1.ToString("F0");
-        //terrainAngle.Item2.ToString("F0");
+        aAngle.text = terrainAngle.Item1.ToString("F0")+"º";
+        bAngle.text = terrainAngle.Item2.ToString("F0")+"º";
 
         // BonusText update
         List<Item> heldItems = gameRef.GetItemBag().GetHeldItems();

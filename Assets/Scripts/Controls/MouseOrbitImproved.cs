@@ -23,6 +23,8 @@ public class MouseOrbitImproved : MonoBehaviour
 
     float x = 0.0f;
     float y = 0.0f;
+    
+    public float mouseSensitivity = 1.0f;
 
     void Start()
     {
@@ -57,8 +59,8 @@ public class MouseOrbitImproved : MonoBehaviour
         {
             if (Input.GetMouseButton(RIGHT_MOUSE_BUTTON))
             {   
-                x += Input.GetAxis("Mouse X") * xSpeed * xRotationSenitivity;
-                y -= Input.GetAxis("Mouse Y") * ySpeed * yRotationSenitivity;
+                x += Input.GetAxis("Mouse X") * xSpeed * xRotationSenitivity * mouseSensitivity;
+                y -= Input.GetAxis("Mouse Y") * ySpeed * yRotationSenitivity * mouseSensitivity;
             }
             y = ClampAngle(y, yMinimum, yMaximum);
             
@@ -79,5 +81,10 @@ public class MouseOrbitImproved : MonoBehaviour
         if (angle < -360f) angle += 360F;
         if (angle > 360f) angle -= 360F;
         return Mathf.Clamp(angle, min, max);
+    }
+    
+    public static void SetMouseSensitivity(float to)
+    {
+        FindObjectOfType<MouseOrbitImproved>().mouseSensitivity = to;
     }
 }
