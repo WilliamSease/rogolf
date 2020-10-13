@@ -8,7 +8,7 @@ using UnityEngine;
 public class Ball
 {
     private const float ANGLE_INCREMENT = 1/64f;
-    private const float SPIN_RATE = 3f;
+    private const float SPIN_RATE = 4.5f;
     private const float SPIN_DECAY = 0.5f;
     private const float NO_HEIGHT_TIME_OUT = 5f;
     private const float INITIAL_MINIMUM_VELOCITY_THRESHOLD = 0.1f;
@@ -125,8 +125,8 @@ public class Ball
         fnet = gravity * mass;
 
         // Set spin
-        Vector2 clubVector = MathUtil.FromPolar(club.GetPower(), club.GetLoft());
-        spin = MathUtil.FromPolar(-clubVector.y / clubVector.x * SPIN_RATE, angle);
+        Vector3 clubVector = MathUtil.FromPolar(club.GetPower(), club.GetLoft());
+        spin = MathUtil.FromPolar(-clubVector.z / clubVector.x * SPIN_RATE * Mathf.Lerp(0.5f, 2.0f, playerAttributes.GetSpin()), angle);
 
         // Set inaccuracy
         dtheta = accuracy * inaccuracyRate * Mathf.Lerp(1.5f, 0.5f, playerAttributes.GetImpact());
@@ -332,7 +332,7 @@ public class Ball
                 velocity.y *= GetBounce(debug);
 
                 // Calculate spin
-                //velocity += spin;
+                velocity += spin;
                 spin *= SPIN_DECAY;
 
                 hasBounced = true;
