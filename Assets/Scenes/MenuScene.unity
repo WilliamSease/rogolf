@@ -5959,7 +5959,7 @@ MonoBehaviour:
   treeM: {fileID: 919132149155446097, guid: 321562f1542eddf4f9202d3d0974ab21, type: 3}
   treeL: {fileID: 919132149155446097, guid: 774aa74bea233ed41ad01e7323a77371, type: 3}
   cupHole: {fileID: 5461464890560458439, guid: 77c8aac947459ef4aa3f7bda5d99cfe2, type: 3}
-  cupRim: {fileID: 5823891040471389334, guid: 9476b7e17206e6348af47b4fb174e301, type: 3}
+  cupRim: {fileID: 2551504519817734279, guid: ca41580db2aad584a829e8266d90e40d, type: 3}
   green: {fileID: 2100000, guid: 05ec4a61155dc0a4f9019e2297edeab4, type: 2}
   fairway: {fileID: 2100000, guid: 5c3f3456d57da6a46b9adfa9a140a92b, type: 2}
   rough: {fileID: 2100000, guid: fe5b5fbcd375f5a42b3ea1ea669b6c16, type: 2}

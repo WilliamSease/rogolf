@@ -19,6 +19,22 @@ public static class MathUtil
         v.z = x * Mathf.Sin(theta) + v.z * Mathf.Cos(theta);
         return v;
     }
+
+    public static Tuple<float, float> GetTerrainAngle(Vector3 terrainNormal, float ballAngle)
+    {
+        // Get 'forward' vector in ball direction
+        Vector3 forward = FromPolar(1f, ballAngle);
+        forward.Normalize();
+
+        // Get 'right' vector in ball direction
+        Vector3 right = Rotate(FromPolar(1f, ballAngle), Mathf.PI / 2);
+        right.Normalize();
+
+        // Find angle between them
+        float forwardAngle = Vector3.Angle(forward, terrainNormal) - 90f;
+        float sideAngle = Vector3.Angle(right, terrainNormal) - 90f;
+        return new Tuple<float, float>(forwardAngle, sideAngle);
+    }
     
     public static float MapDistance(Vector3 u, Vector3 v)
     {

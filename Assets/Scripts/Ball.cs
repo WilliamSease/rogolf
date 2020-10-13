@@ -412,6 +412,8 @@ public class Ball
         }
     }
 
+    public Tuple<float, float> GetTerrainAngle() { return MathUtil.GetTerrainAngle(terrainNormal, angle); }
+
     // TODO - public bool InAir() { return Vector3.Dot(Vector3.Normalize(MathUtil.Copy(velocity)), terrainNormal) > Mathf.PI / 24f; }
     public bool InAir() { return height > 0.01f; }
     public bool InMotion() { return velocity.magnitude > FINAL_MINIMUM_VELOCITY_THRESHOLD; }

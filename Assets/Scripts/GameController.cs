@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
     public const string NAME = "GameController";
+    private const int GEOMETRY = 2000;
 
     public GameObject cameraPrefab;
     public GameObject ballPrefab;
@@ -124,6 +125,7 @@ public class GameController : MonoBehaviour
 
         // Add ball
         game.SetBallObject(Instantiate(ballPrefab));
+        // TODO - set ball prefab's material to use shader with G-2 queue
         
         // Add freeFocus
         game.freeFocus = freeFocus;
@@ -255,7 +257,7 @@ public class GameController : MonoBehaviour
             GameObject pinTemp = pinList[i];
             if (i == pinIndex)
             {
-                Vector3? maybeHolePosition = AddProp(pinTemp, pin);
+                Vector3? maybeHolePosition = AddProp(pinTemp, pin, GEOMETRY-2);
                 holePosition = maybeHolePosition ?? nullPosition;
                 if (holePosition == nullPosition)
                 {
@@ -312,7 +314,7 @@ public class GameController : MonoBehaviour
     }
     
     // Vector3 is a non-nullable type; we need the '?' operator to be able to null it.
-    private Vector3? AddProp(GameObject gameObject, GameObject prop)
+    private Vector3? AddProp(GameObject gameObject, GameObject prop, int renderIndex)
     {
         if (gameObject == null)
         {
@@ -327,6 +329,11 @@ public class GameController : MonoBehaviour
             {
                 prop = Instantiate(prop);
                 prop.transform.position = hit.point;
+                // TODO - no renderer attached to pin?
+                //Renderer propRenderer = prop.GetComponent<Renderer>();
+                //propRenderer.material.SetOverrideTag("Queue", String.Format("Geometry-{0}", GEOMETRY - renderIndex));
+                //propRenderer.material.SetOverrideTag("RenderType", "Opaque");
+                //propRenderer.material.SetOverrideTag("PerformanceChecks", "False");
             }
             return hit.point;
         }
@@ -337,18 +344,22 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private Vector3? AddProp(GameObject gameObject, GameObject prop)
+    {
+        return AddProp(gameObject, prop, GEOMETRY);
+    }
+
     private void AddCup(Vector3 holePosition)
     {
-        Vector3 cupPosition = holePosition - new Vector3(0, 0.129f, 0);
+        Vector3 cupPosition = holePosition + new Vector3(0, -0.06f, 0);
 
         // Add cup rim
         cupRim = Instantiate(cupRim);
-        cupRim.GetComponent<Renderer>().material.renderQueue = 0;
         cupRim.transform.position = cupPosition;
 
         // Add cup 'hole'
         cupHole = Instantiate(cupHole);
-        cupHole.transform.position = cupPosition;
+        cupHole.transform.position = holePosition + new Vector3(0, -0.08f, 0);
     }
 
     private RaycastHit RaycastVertical(GameObject gameObject)

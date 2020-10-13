@@ -114,7 +114,7 @@ public class GodOfUI : MonoBehaviour
                 gameRef.GetCameraObject().transform.eulerAngles.x);*/
         windText.text = "" + tWind.GetSpeed().ToString().Substring(0, Math.Min(3, tWind.GetSpeed().ToString().Length)) + "m";
         
-        // Lieinfo update
+        // Lie percentage update
         if (gameRef.GetState() is RunningState)
         {
             float lie = gameRef.GetBall().GetLie();
@@ -125,6 +125,11 @@ public class GodOfUI : MonoBehaviour
             Tuple<float, float> lieBounds = gameRef.GetBall().GetTerrainType().GetBounds();
             lieText.text = String.Format("{0}%-{1}%", (lieBounds.Item1 * 100).ToString("F0"), (lieBounds.Item2 * 100).ToString("F0"));
         }
+
+        // Lie angle update 
+        Tuple<float, float> terrainAngle = gameRef.GetBall().GetTerrainAngle();
+        //terrainAngle.Item1.ToString("F0");
+        //terrainAngle.Item2.ToString("F0");
 
         // BonusText update
         List<Item> heldItems = gameRef.GetItemBag().GetHeldItems();
