@@ -32,6 +32,8 @@ public class GameController : MonoBehaviour
 
     public GameObject cupHole;
     public GameObject cupRim;
+    private GameObject cupHoleClone;
+    private GameObject cupRimClone;
 
     private Dictionary<MaterialType, Material> materialMap;
     public Material green;
@@ -114,6 +116,8 @@ public class GameController : MonoBehaviour
             Destroy(game.GetCameraObject());
             Destroy(game.GetBallObject());
             foreach (GameObject cursor in game.GetCursorList()) Destroy(cursor);
+            Destroy(cupHoleClone);
+            Destroy(cupRimClone);
         }
 
         /* Modify Scene */
@@ -354,19 +358,19 @@ public class GameController : MonoBehaviour
         Vector3 cupPosition = holePosition + new Vector3(0, -0.12999f, 0);
 
         // Add cup rim
-        cupRim = Instantiate(cupRim);
-        cupRim.transform.position = cupPosition;
+        cupRimClone = Instantiate(cupRim);
+        cupRimClone.transform.position = cupPosition;
 
         // Add cup 'hole'
-        cupHole = Instantiate(cupHole);
-        cupHole.transform.position = cupPosition;
+        cupHoleClone = Instantiate(cupHole);
+        cupHoleClone.transform.position = cupPosition;
 
         // Rotate cup rim and hole according to slope
         Vector3 terrainNormal = RaycastVertical(cupPosition + Vector3.up).normal;
         Tuple<float, float> terrainAngle = MathUtil.GetTerrainAngle(terrainNormal, 0f);
         Vector3 cupRotation = new Vector3(terrainAngle.Item1, 0f, -terrainAngle.Item2);
-        cupRim.transform.eulerAngles = cupRotation;
-        cupHole.transform.eulerAngles = cupRotation;
+        cupRimClone.transform.eulerAngles = cupRotation;
+        cupHoleClone.transform.eulerAngles = cupRotation;
     }
 
     private RaycastHit RaycastVertical(Vector3 source)
