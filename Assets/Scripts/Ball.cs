@@ -225,6 +225,51 @@ public class Ball
         System.IO.File.WriteAllText(filename, info + outputString.ToString());
     }
 
+    private string SimulateFramerate(Club club, float dt)
+    {
+        List<Tuple<Vector3, Vector3, Vector3, float>> output = new List<Tuple<Vector3, Vector3, Vector3, float>>();
+
+        Reset();
+        Strike(club, 1f, 0f, true);
+        terrainNormal = Vector3.up;
+        // Set holePosition to be unreachable
+        holePosition = Vector3.down;
+        while (true)
+        {
+            deltaTime = dt;
+            if (IsMoving())
+            {
+                UpdatePhysicsVectors();
+                height = position.y;
+                CalculateBounce(true);
+                CalculateFriction(true);
+
+                output.Add(new Tuple<Vector3, Vector3, Vector3, float>(velocity/dt, fnet/dt, spin/dt, dtheta/dt));
+            }
+            else { break; }
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        foreach (Tuple<Vector3, Vector3, Vector3, float> item in output)
+        {
+            sb.Append(String.Format("{0},{1},{2},{3}\n",
+                    MathUtil.Vector3ToString(item.Item1), MathUtil.Vector3ToString(item.Item2), MathUtil.Vector3ToString(item.Item3), item.Item4.ToString()));
+        }
+        return sb.ToString();
+    }
+
+    public void TestFramerateTies()
+    {
+        Club club = game.GetBag().GetClub();
+
+        string outputSlow = SimulateFramerate(club, 0.05f);
+        string outputFast = SimulateFramerate(club, 0.005f);
+
+        string date = DateTime.Now.ToString("yyyyMMddTHHmmss");
+        System.IO.File.WriteAllText(String.Format("{0}-{1}-{2}.csv", date, "framerateTest", "slow"), outputSlow);
+        System.IO.File.WriteAllText(String.Format("{0}-{1}-{2}.csv", date, "framerateTest", "fast"), outputFast);
+    }
+
     public void Tick()
     {
         SetDeltaTime();

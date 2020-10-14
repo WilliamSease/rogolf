@@ -35,6 +35,8 @@ public static class MathUtil
         float sideAngle = Vector3.Angle(right, terrainNormal) - 90f;
         return new Tuple<float, float>(forwardAngle, sideAngle);
     }
+
+    public static string Vector3ToString(Vector3 v) { return String.Format("{0},{1},{2}", v.x, v.y, v.z); }
     
     public static float MapDistance(Vector3 u, Vector3 v)
     {
