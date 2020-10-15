@@ -37,5 +37,7 @@ public class Cursor
         // Else don't do anything -- cursor is already at ball height
     }
 
+    public float GetRelativeHeight() { return position.y - game.GetBall().GetPosition().y; }
+
     public Vector3 GetPosition() { return new Vector3(position.x, position.y, position.z); }
 }

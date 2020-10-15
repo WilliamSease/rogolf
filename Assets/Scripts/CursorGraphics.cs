@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -13,6 +14,11 @@ public class CursorGraphics
     private MouseOrbitImproved orbitalControls;
     private List<GameObject> cursorList;
     private GameObject cursorTextObject;
+    private GameObject cursorSubtextObject;
+
+    private readonly Color32 WHITE = new Color32(255, 255, 255, 255);
+    private readonly Color32 BLUE = new Color32(128, 128, 255, 255);
+    private readonly Color32 RED = new Color32(255, 128, 128, 255);
 
     public CursorGraphics(Game game)
     {
@@ -21,18 +27,21 @@ public class CursorGraphics
         orbitalControls = game.orbitalControls;
         cursorList = game.GetCursorList();
         cursorTextObject = game.GetCursorTextObject();
+        cursorSubtextObject = game.GetCursorSubtextObject();
     }
 
     public void Enable()
     {
         foreach (GameObject cursor in game.GetCursorList()) { cursor.SetActive(true); }
         cursorTextObject.SetActive(true);
+        cursorSubtextObject.SetActive(true);
     }
 
     public void Disable()
     {
         foreach (GameObject cursor in game.GetCursorList()) { cursor.SetActive(false); }
         cursorTextObject.SetActive(false);
+        cursorSubtextObject.SetActive(true);
     }
 
     public void Tick()
@@ -48,7 +57,14 @@ public class CursorGraphics
 
         // Update cursor text
         cursorTextObject.GetComponent<TextMeshPro>().text = MathUtil.ToYardsRounded(game.GetBag().GetClub().GetDistance()) + "y";
-        cursorTextObject.transform.localPosition = new Vector3(cursorPosition.x, cursorPosition.y + (4 * CURSOR_SEGMENT_HEIGHT), cursorPosition.z);
+        cursorTextObject.transform.localPosition = new Vector3(cursorPosition.x, cursorPosition.y + (5f * CURSOR_SEGMENT_HEIGHT), cursorPosition.z);
         cursorTextObject.transform.LookAt(game.GetCameraObject().transform);
+
+        TextMeshPro cursorSubtext = cursorSubtextObject.GetComponent<TextMeshPro>();
+        float relativeHeight = cursor.GetRelativeHeight();
+        cursorSubtext.text = relativeHeight.ToString("F1") + "y";
+        cursorSubtext.color = relativeHeight == 0f ? WHITE : relativeHeight < 0f ? BLUE : RED;
+        cursorSubtextObject.transform.localPosition = new Vector3(cursorPosition.x, cursorPosition.y + (3.75f * CURSOR_SEGMENT_HEIGHT), cursorPosition.z);
+        cursorSubtextObject.transform.LookAt(game.GetCameraObject().transform);
     }
 }

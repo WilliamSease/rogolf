@@ -159,6 +159,17 @@ public class GameController : MonoBehaviour
         cursorTextObject.transform.localScale = new Vector3(-.25f,.25f,.25f);
         game.SetCursorTextObject(cursorTextObject);
 
+        GameObject cursorSubtextObject = new GameObject();
+        cursorSubtextObject.AddComponent<TextMeshPro>();
+        TextMeshPro cursorSubtext = cursorSubtextObject.GetComponent<TextMeshPro>();
+        cursorSubtext.fontSize = 64;
+        cursorSubtext.alignment = TextAlignmentOptions.Center;
+        cursorSubtext.outlineColor = Color.black;
+        cursorSubtext.outlineWidth = 0.075f;
+        cursorSubtext.fontSharedMaterial.EnableKeyword("OUTLINE_ON");
+        cursorSubtextObject.transform.localScale = new Vector3(-.25f,.25f,.25f);
+        game.SetCursorSubtextObject(cursorSubtextObject);
+
         // Grab reference to orbital controls
         GameObject cameraCopy = Instantiate(cameraPrefab);
         game.SetCameraObject(cameraCopy);

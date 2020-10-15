@@ -25,6 +25,7 @@ public class Game : MonoBehaviour
     private List<GameObject> cursorList;
     public GameObject freeFocus;
     public GameObject cursorTextObject;
+    public GameObject cursorSubtextObject;
 
     public Target target;
     public MouseOrbitImproved orbitalControls;
@@ -161,10 +162,12 @@ public class Game : MonoBehaviour
     public GameObject GetBallObject() { return ballObject; }
     public List<GameObject> GetCursorList() { return cursorList; }
     public GameObject GetCursorTextObject() { return cursorTextObject; }
+    public GameObject GetCursorSubtextObject() { return cursorSubtextObject; }
     public void SetCameraObject(GameObject cameraObject) { this.cameraObject = cameraObject; }
     public void SetBallObject(GameObject ballObject) { this.ballObject = ballObject; }
     public void SetCursorList(List<GameObject> cursorList) { this.cursorList = cursorList; }
     public void SetCursorTextObject(GameObject to) { this.cursorTextObject = to; }
+    public void SetCursorSubtextObject(GameObject cursorSubtextObject) { this.cursorSubtextObject = cursorSubtextObject; }
 
     public State GetState() { return state; }
     
