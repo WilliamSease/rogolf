@@ -17,7 +17,7 @@ public class RunningState : State
     public override void Tick()
     {
 		godOfUI.renderPowerbar = false;
-        if (ball.IsMoving())
+        if (ball.IsRunning())
         {
             ball.Tick();
             currentDistance.Tick();

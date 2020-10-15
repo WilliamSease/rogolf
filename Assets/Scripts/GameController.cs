@@ -371,17 +371,18 @@ public class GameController : MonoBehaviour
         // Add cup rim
         cupRimClone = Instantiate(cupRim);
         cupRimClone.transform.position = cupPosition;
+        cupRimClone.AddComponent<MeshCollider>();
 
         // Add cup 'hole'
-        cupHoleClone = Instantiate(cupHole);
-        cupHoleClone.transform.position = cupPosition;
+        //cupHoleClone = Instantiate(cupHole);
+        //cupHoleClone.transform.position = cupPosition;
 
         // Rotate cup rim and hole according to slope
         Vector3 terrainNormal = RaycastVertical(cupPosition + Vector3.up).normal;
         Tuple<float, float> terrainAngle = MathUtil.GetTerrainAngle(terrainNormal, 0f);
         Vector3 cupRotation = new Vector3(terrainAngle.Item1, 0f, -terrainAngle.Item2);
         cupRimClone.transform.eulerAngles = cupRotation;
-        cupHoleClone.transform.eulerAngles = cupRotation;
+        //cupHoleClone.transform.eulerAngles = cupRotation;
     }
 
     private RaycastHit RaycastVertical(Vector3 source)
