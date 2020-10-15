@@ -41,7 +41,7 @@ public class CursorGraphics
     {
         foreach (GameObject cursor in game.GetCursorList()) { cursor.SetActive(false); }
         cursorTextObject.SetActive(false);
-        cursorSubtextObject.SetActive(true);
+        cursorSubtextObject.SetActive(false);
     }
 
     public void Tick()
