@@ -28,6 +28,8 @@ public class GodOfUI : MonoBehaviour
 
     // Golfbag elements
     public Text clubText;
+    public Text remYdText;
+    public Text clubMaxText;
 
     // Holeinfo elements
     public Text holeText;
@@ -96,6 +98,8 @@ public class GodOfUI : MonoBehaviour
 
         // Bag update
         clubText.text = gameRef.GetBag().GetClub().GetName();
+        remYdText.text = "Pin: " + (int)gameRef.GetBall().DistanceToHole() + "y";
+        clubMaxText.text =  maxVal + "y";
         // Holeinfo update
         HoleInfo holeInfo = gameRef.GetHoleInfo();
         HoleData holeData = gameRef.GetHoleBag().GetCurrentHoleData();
