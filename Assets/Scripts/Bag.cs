@@ -35,14 +35,16 @@ public class Bag
         this.bagList.Add(new Club(ClubType.SAND_WEDGE, 67f, 0.147f));
         this.bagList.Add(new Club(ClubType.LOB_WEDGE, 49f, 0.185f));
         this.bagList.Add(new Club(ClubType.PUTTER,  35f, 1.0E-7f));
+        
+        this.current = 0;
+    }
 
-        // Calculate distances
+    public void UpdateDistances()
+    {
         foreach (Club club in bagList)
         {
             game.GetBall().SimulateDistance(club);
         }
-
-        this.current = 0;
     }
 
     /// <summary>

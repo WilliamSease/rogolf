@@ -578,6 +578,7 @@ public class DevConsole : MonoBehaviour
                     Reply(errorMessage);
                     break;
             }
+            game.GetBag().UpdateDistances();
             return true;
         }
         Reply(errorMessage);

@@ -308,6 +308,8 @@ public class GameController : MonoBehaviour
             throw new InvalidOperationException("Back tee not found. Is there no TeeBack object in the .blender file, or is the Raycast not working?");
         }
 
+        game.GetBag().UpdateDistances();
+
         // Set HoleInfo
         game.SetHoleInfo(new HoleInfo(game, Tee.FRONT, teeFrontPosition, teeBackPosition, holePosition));
         game.GetHoleInfo().AddCurrentHole();

@@ -367,6 +367,9 @@ public class Ball
     #region Simulation
     public Tuple<float,float,string> SimulateDistance(Club club, bool debug = false)
     {
+        Vector3 oldPosition = position;
+        Vector3 oldHolePosition = holePosition;
+
         float carry = 0;
         bool set = false;
 
@@ -406,6 +409,9 @@ public class Ball
             else { break; }
         }
         club.SetDistance(position.magnitude);
+
+        Reset(oldPosition);
+        holePosition = oldHolePosition;
 
         return new Tuple<float,float,string>(carry, maxHeight, outputString.ToString());
     }
