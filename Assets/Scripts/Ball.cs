@@ -250,7 +250,7 @@ public class Ball
             if (Physics.Raycast(new Ray(position, velocity), out hit))
             {
 
-                UnityEngine.Debug.Log(hit.transform.gameObject.name);
+                //UnityEngine.Debug.Log(hit.transform.gameObject.name);
                 /*
                 float cupFaceDistance = position.y - hit.point.y;
                 if (cupFaceDistance < 0.01f)

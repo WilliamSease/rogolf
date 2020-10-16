@@ -24,9 +24,6 @@ public class ItemBag
         }
         else
         {
-            string hl = "";
-            foreach (Item i in itemList) { hl += i.GetName()+", "; }
-            UnityEngine.Debug.Log(hl);
             // Get random item
             int index = UnityEngine.Random.Range(0, itemList.Count);
             Item item = itemList[index];

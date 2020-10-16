@@ -37,9 +37,6 @@ public class HoleBag
         }
         else
         {
-            string hl = "";
-            foreach (HoleItem i in holeList) { hl += i.name+", "; }
-            UnityEngine.Debug.Log(hl);
             // Get random hole
             int index = UnityEngine.Random.Range(0, holeList.Count);
             holeName = holeList[index].name;
