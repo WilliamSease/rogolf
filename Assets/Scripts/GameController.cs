@@ -461,9 +461,6 @@ public class GameController : MonoBehaviour
         //Destroy(game.ballObject);
         game.GetCursorGraphics().Disable();
 
-        // Get next hole
-        string nextHole = game.GetHoleBag().GetHole();
-
         // TODO - reset any Game 'state' here
 
         // Load scoreboard

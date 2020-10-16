@@ -24,8 +24,11 @@ public class ItemBag
         }
         else
         {
+            string hl = "";
+            foreach (Item i in itemList) { hl += i.GetName()+", "; }
+            UnityEngine.Debug.Log(hl);
             // Get random item
-            int index = 0;
+            int index = UnityEngine.Random.Range(0, itemList.Count);
             Item item = itemList[index];
             // Remove hole from list
             itemList.RemoveAt(index);
@@ -52,6 +55,8 @@ public class ItemBag
         itemList.Add(new ControlUp());
         itemList.Add(new ImpactUp());
         itemList.Add(new SpinUp());
+        itemList.Add(new FlashFlood());
+        itemList.Add(new Drought());
     }
 
     public List<Item> GetHeldItems() { return heldItems; }

@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Xml.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -9,12 +11,13 @@ public class HoleBag
 {
     public const string PREFIX = ".\\Assets\\Data\\";
 
-    public const string ROGOLF_HOLES = "rogolf_holes.txt";
-    public const string TEST_HOLES = "test_holes.txt";
+    public const string ROGOLF_HOLES = "rogolf_holes.xml";
+    public const string TEST_HOLES = "test_holes.xml";
+    public const string RANGE_HOLES = "range_holes.xml";
 
     private string holeName;
     private string holeListPath;
-    private List<string> holeList;
+    private List<HoleItem> holeList;
     private List<HoleData> holesPlayed;
 
     public HoleBag()
@@ -34,9 +37,12 @@ public class HoleBag
         }
         else
         {
+            string hl = "";
+            foreach (HoleItem i in holeList) { hl += i.name+", "; }
+            UnityEngine.Debug.Log(hl);
             // Get random hole
-            int index = 0;
-            holeName = holeList[index];
+            int index = UnityEngine.Random.Range(0, holeList.Count);
+            holeName = holeList[index].name;
             // Remove hole from list
             holeList.RemoveAt(index);
             return holeName;
@@ -48,21 +54,35 @@ public class HoleBag
     /// </summary>
     private void NewHoleList()
     {
-        holeList = new List<string>();
-        var lines = File.ReadLines(PREFIX + holeListPath);
-        foreach (var line in lines)
+        try
         {
-            holeList.Add(line);
+            XDocument xml = XDocument.Load(PREFIX + holeListPath);
+            holeList = (from holeItem in xml.Root.Elements("hole")
+                        select new HoleItem()
+                        {
+                            name = (string) holeItem.Element("name"),
+                            hcp = (float) holeItem.Element("hcp"),
+                        }).ToList();
+        }
+        catch
+        {
+            throw new Exception(String.Format("Hole list parse error ({0})", holeListPath));
         }
     }
 
     public void AddHole(HoleData holeData) { holesPlayed.Add(holeData); }
 
     public int GetCurrentHoleNumber() { return holesPlayed.Count; }
-    public HoleData GetCurrentHoleData() { 
-        if (holesPlayed.Count > 0) return holesPlayed[holesPlayed.Count - 1];
-        else return null;
+    public HoleData GetCurrentHoleData()
+    {
+        return holesPlayed.Count > 0 ? holesPlayed[holesPlayed.Count - 1] : null;
     }
     public int GetHoleCount() { return holesPlayed.Count; }
     public List<HoleData> GetHolesPlayed() { return holesPlayed; }
+}
+
+public class HoleItem
+{
+    public string name { get; set; }
+    public float hcp { get; set; }
 }
