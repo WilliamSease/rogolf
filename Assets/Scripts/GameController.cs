@@ -373,7 +373,7 @@ public class GameController : MonoBehaviour
         // Add cup rim
         cupRimClone = Instantiate(cupRim);
         cupRimClone.transform.position = cupPosition;
-        cupRimClone.AddComponent<MeshCollider>();
+        cupRimClone.GetComponent<MeshCollider>().enabled = true;
 
         // Add cup 'hole'
         //cupHoleClone = Instantiate(cupHole);

@@ -84,6 +84,8 @@ public class TerrainAttributes
                 return terrainMap[GetSwap(MaterialType.ROUGH)];
             case 'W':
                 return terrainMap[GetSwap(MaterialType.WATER)];
+            case 'C':
+                return terrainMap[GetSwap(MaterialType.GREEN)];
             default:
                 throw new InvalidOperationException("Cannot not get TerrainType for name " + name);
         }

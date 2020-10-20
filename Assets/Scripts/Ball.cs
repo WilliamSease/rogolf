@@ -198,7 +198,7 @@ public class Ball
     {   
         float distanceToHole = DistanceToHole();
         // If ball is in or right above the cup
-        if (distanceToHole < cupRadius || (distanceToHole < CUP_DEPTH && height < 0))
+        if (distanceToHole < cupRadius || (distanceToHole < CUP_DEPTH && height <= -cupRadius))
         {
             //cupEffect = cupEffectMagnitude/deltaTime * Vector3.Normalize(new Vector3(holePosition.x, holePosition.y-CUP_DEPTH, holePosition.z) - position);
             //velocity += cupEffect;
@@ -250,7 +250,7 @@ public class Ball
             if (Physics.Raycast(new Ray(position, velocity), out hit))
             {
 
-                //UnityEngine.Debug.Log(hit.transform.gameObject.name);
+                UnityEngine.Debug.Log(hit.transform.gameObject.name);
                 /*
                 float cupFaceDistance = position.y - hit.point.y;
                 if (cupFaceDistance < 0.01f)
@@ -264,8 +264,8 @@ public class Ball
 
     private void WasOnCupBounce()
     {
-        //velocity = CUP_BOUNCE * Vector3.Reflect(velocity, new Vector3(holePosition.x, position.y, holePosition.z));
-        //onCup = true;
+        velocity = CUP_BOUNCE * Vector3.Reflect(velocity, new Vector3(holePosition.x, position.y, holePosition.z));
+        onCup = true;
     }
 
     private void CalculateFriction(bool debug = false)
