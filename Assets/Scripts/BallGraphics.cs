@@ -27,8 +27,7 @@ public class BallGraphics
         ballObject.transform.localPosition = new Vector3(position.x, position.y + radius, position.z);
         
         // Update ball graphical size
-        if (cameraDistance > 50) radius *= 7.0f;
-        else if (cameraDistance > 10) radius *= 3.5f;
+        if (cameraDistance > 5) radius *= Mathf.Pow(cameraDistance, 0.75f);
         ballObject.transform.localScale = new Vector3(radius, radius, radius);
     }
 }

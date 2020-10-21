@@ -20,6 +20,10 @@ public static class MathUtil
         return v;
     }
 
+    /// <returns>
+    /// (angle between terrain and flat in direction of ballAngle in degrees, 
+    ///         angle between terrain and flat in direction to the right of ballAngle in degrees)
+    /// </returns>
     public static Tuple<float, float> GetTerrainAngle(Vector3 terrainNormal, float ballAngle)
     {
         // Get 'forward' vector in ball direction
@@ -34,6 +38,21 @@ public static class MathUtil
         float forwardAngle = Vector3.Angle(forward, terrainNormal) - 90f;
         float sideAngle = Vector3.Angle(right, terrainNormal) - 90f;
         return new Tuple<float, float>(forwardAngle, sideAngle);
+    }
+
+    public static Vector3 GetGroundVector(Vector3 terrainNormal, Vector3 velocity)
+    {
+        Vector3 groundVector = Vector3.ProjectOnPlane(velocity, terrainNormal);
+        groundVector.Normalize();
+        return groundVector;
+    }
+
+    /// <returns>
+    /// angle between terrain and ball velocity in direction of velocity
+    /// </returns>
+    public static float GetVelocityAngle(Vector3 terrainNormal, Vector3 velocity)
+    {
+        return Vector3.Angle(velocity, GetGroundVector(terrainNormal, velocity));
     }
 
     public static string Vector3ToString(Vector3 v) { return String.Format("{0},{1},{2}", v.x, v.y, v.z); }

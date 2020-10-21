@@ -21,20 +21,20 @@ public class Bag
 
         // Add default clubs
         // name, power, shot loft (radians)
-        this.bagList.Add(new Club(ClubType.ONE_WOOD, 776f, 0.047f));
-        this.bagList.Add(new Club(ClubType.THREE_WOOD, 465f, 0.054f));
-        this.bagList.Add(new Club(ClubType.FIVE_WOOD, 371f, 0.059f));
-        this.bagList.Add(new Club(ClubType.THREE_IRON, 297f, 0.059f));
-        this.bagList.Add(new Club(ClubType.FOUR_IRON, 251f, 0.065f));
-        this.bagList.Add(new Club(ClubType.FIVE_IRON, 211f, 0.077f));
-        this.bagList.Add(new Club(ClubType.SIX_IRON, 181f, 0.081f));
-        this.bagList.Add(new Club(ClubType.SEVEN_IRON, 149f, 0.095f));
-        this.bagList.Add(new Club(ClubType.EIGHT_IRON, 125f, 0.101f));
-        this.bagList.Add(new Club(ClubType.NINE_IRON, 105f, 0.109f));
-        this.bagList.Add(new Club(ClubType.PITCHING_WEDGE, 89f, 0.119f));
-        this.bagList.Add(new Club(ClubType.SAND_WEDGE, 67f, 0.147f));
-        this.bagList.Add(new Club(ClubType.LOB_WEDGE, 49f, 0.185f));
-        this.bagList.Add(new Club(ClubType.PUTTER,  35f, 1.0E-7f));
+        this.bagList.Add(new Club(ClubType.ONE_WOOD,       401f, 0.010f));
+        this.bagList.Add(new Club(ClubType.THREE_WOOD,     300f, 0.011f));
+        this.bagList.Add(new Club(ClubType.FIVE_WOOD,      254f, 0.014f));
+        this.bagList.Add(new Club(ClubType.THREE_IRON,     230f, 0.012f));
+        this.bagList.Add(new Club(ClubType.FOUR_IRON,      200f, 0.014f));
+        this.bagList.Add(new Club(ClubType.FIVE_IRON,      170f, 0.018f));
+        this.bagList.Add(new Club(ClubType.SIX_IRON,       150f, 0.018f));
+        this.bagList.Add(new Club(ClubType.SEVEN_IRON,     132f, 0.022f));
+        this.bagList.Add(new Club(ClubType.EIGHT_IRON,     116f, 0.022f));
+        this.bagList.Add(new Club(ClubType.NINE_IRON,      102f, 0.024f));
+        this.bagList.Add(new Club(ClubType.PITCHING_WEDGE,  90f, 0.026f));
+        this.bagList.Add(new Club(ClubType.SAND_WEDGE,      72f, 0.032f));
+        this.bagList.Add(new Club(ClubType.LOB_WEDGE,       56f, 0.040f));
+        this.bagList.Add(new Club(ClubType.PUTTER,          10f, 1.0E-8f));
         
         this.current = 0;
     }

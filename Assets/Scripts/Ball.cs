@@ -40,9 +40,9 @@ public class Ball
     // Physics parameters
     private float rate = 1f;
     private float inaccuracyRate = 3.0E-5f;
-    private float mass = 0.25f;
+    private float mass = 0.04593f;
     private Vector3 gravity = new Vector3(0, -GRAVITATIONAL_ACCELERATION, 0);
-    private float radius = 0.0625f;
+    private float radius = 0.021335f;
     private float c = 0.5f;
     private float rho = 1.2f;
     private float A;
@@ -228,9 +228,17 @@ public class Ball
         else if (wasOnCup && !debug) { WasOnCupBounce(); }
         else if (height <= 0)
         {
-            position.y -= height;
-            velocity = Vector3.Reflect(velocity, terrainNormal);
-            velocity.y *= GetBounce(debug);
+            if (IsRolling())
+            {
+                position.y -= height;
+                velocity = velocity.magnitude * GetGroundVector();
+            }
+            else
+            {
+                position.y -= height;
+                velocity = Vector3.Reflect(velocity, terrainNormal);
+                velocity.y *= GetBounce(debug);
+            }
 
             // Calculate spin
             velocity += spin;
@@ -270,7 +278,7 @@ public class Ball
 
     private void CalculateFriction(bool debug = false)
     {
-        if (!InAir())
+        if (IsRolling())
         {
             // N = mgcos(theta)
             // normal_force = mass * gravity * vertical_component
@@ -278,6 +286,7 @@ public class Ball
             // f_k = C*N
             // kinetic_friction = friction_coef * (normal_force * -unit_velocity)
             Vector3 frictionForce = GetFriction(debug) * (-normalForce * Vector3.Normalize(MathUtil.Copy(velocity)));
+            //frictionForce *= deltaTime;
             // If ball 'overcomes' friction
             if (velocity.magnitude > INITIAL_MINIMUM_VELOCITY_THRESHOLD) { velocity += frictionForce; }
             else { velocity += (velocity.magnitude > (frictionForce*100f).magnitude) ? frictionForce*100f : -velocity; }
@@ -318,8 +327,9 @@ public class Ball
     }
 
     public Tuple<float, float> GetTerrainAngle() { return MathUtil.GetTerrainAngle(terrainNormal, angle); }
+    public float GetVelocityAngle() { return MathUtil.GetVelocityAngle(terrainNormal, velocity); }
 
-    // TODO - public bool InAir() { return Vector3.Dot(Vector3.Normalize(MathUtil.Copy(velocity)), terrainNormal) > Mathf.PI / 24f; }
+    public bool IsRolling() { return !InAir() && GetVelocityAngle() < MathUtil.RadsToDeg(Mathf.PI / 10f); }
     public bool InAir() { return height > 0.005f; }
     public bool InMotion() { return velocity.magnitude > FINAL_MINIMUM_VELOCITY_THRESHOLD; }
     public bool IsMoving() { return InAir() || InMotion(); }
@@ -363,6 +373,7 @@ public class Ball
     public Vector3 GetFnet() { return fnet; }
     public float GetHeight() { return height; }
     public Vector3 GetCupEffect() { return cupEffect; }
+    public Vector3 GetGroundVector() { return MathUtil.GetGroundVector(terrainNormal, velocity); }
 
     #region Simulation
     public Tuple<float,float,string> SimulateDistance(Club club, bool debug = false)
