@@ -11,7 +11,7 @@ public class Ball
     private const float SPIN_RATE = 4.5f;
     private const float SPIN_DECAY = 0.5f;
     private const float NO_HEIGHT_TIME_OUT = 5f;
-    private const float INITIAL_MINIMUM_VELOCITY_THRESHOLD = 0.1f;
+    private const float INITIAL_MINIMUM_VELOCITY_THRESHOLD = 0.05f;
     private const float FINAL_MINIMUM_VELOCITY_THRESHOLD = 0.005f;
     private const float GRAVITATIONAL_ACCELERATION = 9.8f;
     private const float CUP_DEPTH = 0.12f;
@@ -286,7 +286,7 @@ public class Ball
             // f_k = C*N
             // kinetic_friction = friction_coef * (normal_force * -unit_velocity)
             Vector3 frictionForce = GetFriction(debug) * (-normalForce * Vector3.Normalize(MathUtil.Copy(velocity)));
-            //frictionForce *= deltaTime;
+            frictionForce *= deltaTime;
             // If ball 'overcomes' friction
             if (velocity.magnitude > INITIAL_MINIMUM_VELOCITY_THRESHOLD) { velocity += frictionForce; }
             else { velocity += (velocity.magnitude > (frictionForce*100f).magnitude) ? frictionForce*100f : -velocity; }
