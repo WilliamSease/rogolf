@@ -15,4 +15,8 @@
         <name>a04</name>
         <hcp>1</hcp>
     </hole>
+    <hole>
+        <name>a05</name>
+        <hcp>2</hcp>
+    </hole>
 </holes>
