@@ -11,7 +11,7 @@ public class Wind
     private const float MAX_INITIAL_SPEED = 0.5f;
     private const float SPEED_RATE = 0.1f;
     private const float ANGLE_RATE = 1f;
-    private const float RATIO = 1f/256f;
+    private const float RATIO = 3.5E-4f;
 
     private Game game;
 
@@ -68,6 +68,7 @@ public class Wind
         UpdateVector();
     }
 
+    public float GetVisualSpeed() { return speed * 12f; }
     public float GetSpeed() { return speed; }
     public float GetAngle() { return angle; }
 }

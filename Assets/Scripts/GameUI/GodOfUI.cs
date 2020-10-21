@@ -118,7 +118,7 @@ public class GodOfUI : MonoBehaviour
         /*transform.RotateAround(arrowParent.transform.position, 
             windCamera.transform.right, 
                 gameRef.GetCameraObject().transform.eulerAngles.x);*/
-        windText.text = "" + tWind.GetSpeed().ToString().Substring(0, Math.Min(3, tWind.GetSpeed().ToString().Length)) + "m";
+        windText.text = String.Format("{0}m", tWind.GetVisualSpeed().ToString("F0"));
         
         // Lie percentage update
         if (gameRef.GetState() is RunningState)
