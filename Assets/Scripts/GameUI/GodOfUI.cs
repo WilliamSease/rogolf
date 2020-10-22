@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TargetEnum;
 using UnityEngine;
 using UnityEngine.UI;
+using ShotModeEnum;
 
 public class GodOfUI : MonoBehaviour
 {
@@ -16,12 +17,14 @@ public class GodOfUI : MonoBehaviour
     public GameObject powerbarParent;
     public Image fillBar;
     public Image negBar;
+    public Image barBackground;
     public Slider powerMarker;
     public Slider accMarker;
     public Slider accMarkerNeg;
     private float current;
     private float power;
     private float accuracy;
+    private Color barColor;
     public Text[] underText = new Text[4];
     public bool renderPowerbar = true;
     
@@ -86,6 +89,14 @@ public class GodOfUI : MonoBehaviour
             powerbarParent.SetActive(true);
             distanceDisplay.SetActive(false);
         }
+        //ShotMode
+        Mode m = gameRef.GetShotMode().GetShotMode();
+        if (m == Mode.NORMAL) barColor = Color.yellow;
+        if (m == Mode.APPROACH) barColor = Color.green;
+        if (m == Mode.POWER) barColor = Color.red;
+        fillBar.color = barColor;
+        negBar.color = barColor;
+        barBackground.color =  Color.Lerp(barColor, Color.black, .5f);
         // Powerbar update. Do this every frame. Rest can be done whenever
         current = (float) gameRef.GetPowerbar().GetCurrent();
         power = (float) gameRef.GetPowerbar().GetPower();
@@ -97,6 +108,7 @@ public class GodOfUI : MonoBehaviour
         else              {  accMarker.gameObject.SetActive(false); accMarkerNeg.gameObject.SetActive(true); }
         accMarker.value = (accuracy == 0) ? current : accMarker.value;
         accMarkerNeg.value = (accuracy == 0) ? -current : accMarkerNeg.value;
+        
         
         int maxVal = (int) MathUtil.ToYardsRounded(gameRef.GetBag().GetClub().GetDistance());
         underText[0].text = (int)((float)maxVal) + "y";
