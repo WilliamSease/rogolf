@@ -129,7 +129,9 @@ public class GodOfUI : MonoBehaviour
         else
         {
             Tuple<float, float> lieBounds = gameRef.GetBall().GetTerrainType().GetBounds();
-            lieText.text = String.Format("{0}%-{1}%", (lieBounds.Item1 * 100).ToString("F0"), (lieBounds.Item2 * 100).ToString("F0"));
+            lieText.text = (lieBounds.Item1 == lieBounds.Item2) ? 
+                    String.Format("{0}%", (lieBounds.Item1 * 100).ToString("F0")) : 
+                    String.Format("{0}%-{1}%", (lieBounds.Item1 * 100).ToString("F0"), (lieBounds.Item2 * 100).ToString("F0"));
         }
 
         // Lie angle update 

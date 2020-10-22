@@ -15,6 +15,16 @@ public static class ItemFactory
             case "SpinUp": return new SpinUp();
             case "FlashFlood": return new FlashFlood();
             case "Drought": return new Drought();
+            case "TurfRoller": return new TurfRoller();
+            case "Links": return new Links();
+            case "Rake": return new Rake();
+            case "SandSaver": return new SandSaver();
+            case "PristineFairways": return new PristineFairways();
+            case "SharpBlades": return new SharpBlades();
+            case "PerformanceTees": return new PerformanceTees();
+            case "RedDice": return new RedDice();
+            case "BlueDice": return new BlueDice();
+            case "GreenDice": return new GreenDice();
             default: throw new Exception(String.Format("Item {0} does not exist in the lookup", name)); 
         }
     }

@@ -34,15 +34,15 @@ public class PlayerAttributes
     public float GetImpact() { return impact; }
     public float GetSpin() { return spin; }
 
-    public void SetPower(float power) { this.power = power; }
-    public void SetControl(float control) { this.control = control; }
-    public void SetImpact(float impact) { this.impact = impact; }
-    public void SetSpin(float spin) { this.spin = spin; }
+    public void SetPower(float power) { this.power = Mathf.Clamp(power, 0f, 1f); }
+    public void SetControl(float control) { this.control = Mathf.Clamp(control, 0f, 1f); }
+    public void SetImpact(float impact) { this.impact = Mathf.Clamp(impact, 0f, 1f); }
+    public void SetSpin(float spin) { this.spin = Mathf.Clamp(spin, 0f, 1f); }
 
-    public void IncreasePower(float increase) { this.power += increase; }
-    public void IncreaseControl(float increase) { this.control += increase; }
-    public void IncreaseImpact(float increase) { this.impact += increase; }
-    public void IncreaseSpin(float increase) { this.spin += increase; }
+    public void IncreasePower(float increase) { SetPower(power + increase); }
+    public void IncreaseControl(float increase) { SetControl(control + increase); }
+    public void IncreaseImpact(float increase) { SetImpact(impact + increase); }
+    public void IncreaseSpin(float increase) { SetSpin(spin + increase); }
 
     public override string ToString()
     {

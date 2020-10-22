@@ -626,15 +626,9 @@ public class DevConsole : MonoBehaviour
     {
         if (arr.Length == 1)
         {
-            Dictionary<string, Func<Item>> itemMap = new Dictionary<string, Func<Item>>();
-            itemMap.Add("FlashFlood", () => { return new FlashFlood(); });
-            itemMap.Add("Drought", () => { return new Drought(); });
-
             string itemName = arr[0];
-            Func<Item> itemCreator;
-            bool exists = itemMap.TryGetValue(itemName, out itemCreator);
-            if (exists) { game.GetItemBag().ApplyItem(game, itemCreator()); }
-            else { Reply(String.Format("{0} does not exist in item map.", itemName)); }
+            try { game.GetItemBag().ApplyItem(game, ItemFactory.Create(itemName)); }
+            catch { Reply(String.Format("{0} does not exist in lookup.", itemName)); }
         }
         else
         {

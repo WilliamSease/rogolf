@@ -41,17 +41,17 @@ public class TerrainType
     public float GetLieRange() { return lieRange; }
     public float GetLie()
     {
-        return Mathf.Lerp(lieRate - lieRange / 2, lieRate + lieRange / 2, UnityEngine.Random.Range(0.0f, 1.0f));
+        return Math.Max(Mathf.Lerp(lieRate - lieRange / 2, lieRate + lieRange / 2, UnityEngine.Random.Range(0.0f, 1.0f)), 0f);
     }
 	
 	public Tuple<float, float> GetBounds()
 	{
-		return new Tuple<float, float>(GetLieRate() - GetLieRange() / 2f, GetLieRate() + GetLieRange() / 2f);
+		return new Tuple<float, float>(Mathf.Max(GetLieRate() - GetLieRange() / 2f, 0f), GetLieRate() + GetLieRange() / 2f);
 	}
 
-    public void SetFriction(float friction) { this.friction = friction; }
-    public void SetBounce(float bounce) { this.bounce = bounce; }
-    public void SetLieRate(float lieRate) { this.lieRate = lieRate; }
-    public void SetLieRange(float lieRange) { this.lieRange = lieRange; }
+    public void SetFriction(float friction) { this.friction = Mathf.Clamp(friction, 0.01f, 1f); }
+    public void SetBounce(float bounce) { this.bounce = Mathf.Clamp(bounce, 0f, 0.99f); }
+    public void SetLieRate(float lieRate) { this.lieRate = Mathf.Max(lieRate, 0.05f); }
+    public void SetLieRange(float lieRange) { this.lieRange = Mathf.Max(lieRange, 0f); }
 
 }
