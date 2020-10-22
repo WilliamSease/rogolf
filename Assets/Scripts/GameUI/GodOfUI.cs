@@ -31,6 +31,7 @@ public class GodOfUI : MonoBehaviour
     public Texture powerSprite;
     public Texture normalSprite;
     public Texture approachSprite;
+    public Text powerShotsRemaining;
     
     //Distance Display Elements
     public GameObject distanceDisplay;
