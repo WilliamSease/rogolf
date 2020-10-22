@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class Powerbar
 {
-    private const double RATE = 1;
-    private const double BAR_MIN = -0.12;
+    public const float NEGATIVE_PART = 0.2f;
+    public const float BAR_MIN = -NEGATIVE_PART;
+    private const float RATE = 1f;
 
     Game game;
 
-    private double current;
+    private float current;
     private Direction direction;
-    private double power;
-    private double accuracy;
+    private float power;
+    private float accuracy;
 
     public enum Direction
     {
@@ -29,15 +30,15 @@ public class Powerbar
 
     public void Reset()
     {
-        current = 0;
+        current = 0f;
         direction = Direction.INCREASING;
-        power = 0;
-        accuracy = 0;
+        power = 0f;
+        accuracy = 0f;
     }
 
     public void Tick()
     {
-        double time = Time.deltaTime * RATE;
+        float time = Time.deltaTime * RATE;
 
         if (direction == Direction.INCREASING)
         {
@@ -68,8 +69,8 @@ public class Powerbar
 
     public void SetPower() { power = current; }
     public void SetAccuracy() { accuracy = current; }
-    public double GetCurrent() { return current; }
-    public double GetPower() { return power; }
-    public double GetAccuracyInternal() { return accuracy; }
-    public double GetAccuracy() { return accuracy / -BAR_MIN; }
+    public float GetCurrent() { return current; }
+    public float GetPower() { return power; }
+    public float GetAccuracyInternal() { return accuracy; }
+    public float GetAccuracy() { return accuracy / -BAR_MIN; }
 }

@@ -91,7 +91,7 @@ public class GodOfUI : MonoBehaviour
         power = (float) gameRef.GetPowerbar().GetPower();
         accuracy = (float) gameRef.GetPowerbar().GetAccuracy();
         fillBar.fillAmount = current;
-        negBar.fillAmount = (current >= -.20f) ? -current : .20f;
+        negBar.fillAmount = (current >= -Powerbar.NEGATIVE_PART) ? -current : Powerbar.NEGATIVE_PART;
         powerMarker.value = (power == 0) ? current : power;
         if (current >= 0) {  accMarker.gameObject.SetActive(true); accMarkerNeg.gameObject.SetActive(false); }
         else              {  accMarker.gameObject.SetActive(false); accMarkerNeg.gameObject.SetActive(true); }

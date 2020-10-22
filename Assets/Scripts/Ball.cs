@@ -39,7 +39,7 @@ public class Ball
 
     // Physics parameters
     private float rate = 1f;
-    private float inaccuracyRate = 3.0E-5f;
+    private float inaccuracyRate = 1.0E-1f;
     private float mass = 0.04593f;
     private Vector3 gravity = new Vector3(0, -GRAVITATIONAL_ACCELERATION, 0);
     private float radius = 0.021335f;
@@ -148,7 +148,7 @@ public class Ball
         // Update position
         position += velocity * (deltaTime / mass);
         // Apply inaccuracy - TODO
-        //if (!hasBounced) velocity = MathUtil.Rotate(velocity, dtheta/deltaTime);
+        if (!hasBounced) velocity = MathUtil.Rotate(velocity, dtheta * deltaTime);
         // Update drag
         fnet = (gravity * mass) - ((velocity * (0.5f*c*rho*A * Mathf.Pow(velocity.magnitude / mass, 2))) / velocity.magnitude);
         fnet *= deltaTime;
@@ -351,7 +351,7 @@ public class Ball
     public void SetDeltaTime() { this.deltaTime = Time.deltaTime * rate; }
     public void SetRate(float rate) { this.rate = rate; }
     public void SetInaccuracyRate(float inaccuracyRate) { this.inaccuracyRate = inaccuracyRate; }
-    public void SetPosition(Vector3 v) { UnityEngine.Debug.Log("set position"); position = MathUtil.Copy(v); }
+    public void SetPosition(Vector3 v) { position = MathUtil.Copy(v); }
     public void SetPosition(float x, float y, float z) { UnityEngine.Debug.Log("set position"); position = new Vector3(x, y, z); }
     public void SetRelativePosition(Vector3 v) { position = position + v; }
     public void SetRelativePosition(float x, float y, float z) { SetRelativePosition(new Vector3(x, y, z)); }
