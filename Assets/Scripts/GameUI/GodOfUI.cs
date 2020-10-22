@@ -27,6 +27,10 @@ public class GodOfUI : MonoBehaviour
     private Color barColor;
     public Text[] underText = new Text[4];
     public bool renderPowerbar = true;
+    public RawImage powerBarIcon;
+    public Texture powerSprite;
+    public Texture normalSprite;
+    public Texture approachSprite;
     
     //Distance Display Elements
     public GameObject distanceDisplay;
@@ -91,9 +95,9 @@ public class GodOfUI : MonoBehaviour
         }
         //ShotMode
         Mode m = gameRef.GetShotMode().GetShotMode();
-        if (m == Mode.NORMAL) barColor = Color.yellow;
-        if (m == Mode.APPROACH) barColor = Color.green;
-        if (m == Mode.POWER) barColor = Color.red;
+        if (m == Mode.NORMAL) {barColor = Color.yellow; powerBarIcon.texture = normalSprite; }
+        if (m == Mode.APPROACH) {barColor = Color.green; powerBarIcon.texture = approachSprite;}
+        if (m == Mode.POWER) {barColor = Color.red; powerBarIcon.texture = powerSprite;}
         fillBar.color = barColor;
         negBar.color = barColor;
         barBackground.color =  Color.Lerp(barColor, Color.black, .5f);
