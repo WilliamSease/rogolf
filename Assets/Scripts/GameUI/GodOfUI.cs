@@ -16,9 +16,12 @@ public class GodOfUI : MonoBehaviour
     public GameObject powerbarParent;
     public Image fillBar;
     public Image negBar;
-    public Slider marker;
+    public Slider powerMarker;
+    public Slider accMarker;
+    public Slider accMarkerNeg;
     private float current;
     private float power;
+    private float accuracy;
     public Text[] underText = new Text[4];
     public bool renderPowerbar = true;
     
@@ -86,9 +89,14 @@ public class GodOfUI : MonoBehaviour
         // Powerbar update. Do this every frame. Rest can be done whenever
         current = (float) gameRef.GetPowerbar().GetCurrent();
         power = (float) gameRef.GetPowerbar().GetPower();
+        accuracy = (float) gameRef.GetPowerbar().GetAccuracy();
         fillBar.fillAmount = current;
-        negBar.fillAmount = (current >= -.12f) ? -current : .12f;
-        marker.value = (power == 0) ? current : power;
+        negBar.fillAmount = (current >= -.20f) ? -current : .20f;
+        powerMarker.value = (power == 0) ? current : power;
+        if (current >= 0) {  accMarker.gameObject.SetActive(true); accMarkerNeg.gameObject.SetActive(false); }
+        else              {  accMarker.gameObject.SetActive(false); accMarkerNeg.gameObject.SetActive(true); }
+        accMarker.value = (accuracy == 0) ? current : accMarker.value;
+        accMarkerNeg.value = (accuracy == 0) ? -current : accMarkerNeg.value;
         
         int maxVal = (int) MathUtil.ToYardsRounded(gameRef.GetBag().GetClub().GetDistance());
         underText[0].text = (int)((float)maxVal) + "y";
