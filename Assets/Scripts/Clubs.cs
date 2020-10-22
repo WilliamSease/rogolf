@@ -132,5 +132,7 @@ namespace Clubs
                     return "N";
             }
         }
+
+        public static bool IsNotPutter(this ClubType clubType) { return clubType != ClubType.PUTTER; }
     }
 }

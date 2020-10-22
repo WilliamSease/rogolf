@@ -48,6 +48,7 @@ public class Game : MonoBehaviour
     private CurrentDistance currentDistance;
     private Bag bag;
     private Powerbar powerbar;
+    private ShotMode shotMode;
 
     // Graphical-related helper classes
     private BallGraphics ballGraphics;
@@ -77,6 +78,7 @@ public class Game : MonoBehaviour
         currentDistance = new CurrentDistance(this);
         bag = new Bag(this);
         powerbar = new Powerbar(this);
+        shotMode = new ShotMode(this);
 
         // Send Game reference to other objects
         GodOfUI ui = GameObject.Find(GodOfUI.NAME).GetComponent<GodOfUI>();
@@ -190,6 +192,7 @@ public class Game : MonoBehaviour
     public CurrentDistance GetCurrentDistance() { return currentDistance; }
     public Bag GetBag() { return bag; }
     public Powerbar GetPowerbar() { return powerbar; }
+    public ShotMode GetShotMode() { return shotMode; }
 
     public CursorGraphics GetCursorGraphics() { return cursorGraphics; }
 }

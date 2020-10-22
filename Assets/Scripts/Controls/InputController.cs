@@ -30,6 +30,7 @@ public class InputController
         keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.D, delegate() { game.GetState().OnKeyD(); }));
         keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.Q, delegate() { game.GetState().OnKeyQ(); }));
         keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.E, delegate() { game.GetState().OnKeyE(); }));
+        keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.R, delegate() { game.GetState().OnKeyR(); }));
         keyboard.Add(new Tuple<KeyCode, Action>(KeyCode.Return, delegate() { game.GetState().OnKeyReturn(); }));
 
         pressTimes = new float[keyboard.Count];

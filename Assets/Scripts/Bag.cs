@@ -89,6 +89,7 @@ public class Bag
         {
             current = 0;
         }
+        game.GetShotMode().Validate();
     }
 
     public void DecrementBag()
@@ -98,6 +99,7 @@ public class Bag
         {
             current = bagList.Count - 1;
         }
+        game.GetShotMode().Validate();
     }
 
     public Club GetClub() { return bagList[current]; }

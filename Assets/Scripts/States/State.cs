@@ -28,5 +28,6 @@ public abstract class State
     public virtual void OnKeyD() { }
     public virtual void OnKeyQ() { }
     public virtual void OnKeyE() { }
+    public virtual void OnKeyR() { }
     public virtual void OnKeyReturn() { }
 }
