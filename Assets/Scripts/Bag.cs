@@ -34,7 +34,7 @@ public class Bag
         this.bagList.Add(new Club(ClubType.PITCHING_WEDGE,  90f, 0.026f));
         this.bagList.Add(new Club(ClubType.SAND_WEDGE,      72f, 0.032f));
         this.bagList.Add(new Club(ClubType.LOB_WEDGE,       56f, 0.040f));
-        this.bagList.Add(new Club(ClubType.PUTTER,          10f, 1.0E-8f));
+        this.bagList.Add(new Club(ClubType.PUTTER,          30f, 1.0E-8f));
         
         this.current = 0;
     }
