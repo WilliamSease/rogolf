@@ -102,6 +102,8 @@ public class GodOfUI : MonoBehaviour
         fillBar.color = barColor;
         negBar.color = barColor;
         barBackground.color =  Color.Lerp(barColor, Color.black, .5f);
+        if (m == Mode.APPROACH) powerShotsRemaining.text = "";
+        else powerShotsRemaining.text = "ER"; //todo implement this
         // Powerbar update. Do this every frame. Rest can be done whenever
         current = (float) gameRef.GetPowerbar().GetCurrent();
         power = (float) gameRef.GetPowerbar().GetPower();
