@@ -199,7 +199,7 @@ public class DevConsole : MonoBehaviour
                 Report(ToHole());
                 break;
             case "nexthole":
-                Report(NextHole(Tail(arr)[0]));
+                Report(NextHole(Tail(arr)));
                 break;
             case "endhole":
                 Report(EndHole());
@@ -510,9 +510,15 @@ public class DevConsole : MonoBehaviour
         return true;
     }
     
-    public bool NextHole(string name)
+    public bool NextHole(string[] name)
     {
-        GameObject.Find("GameController").GetComponent<Game>().GetHoleBag().SetQueueUp(name);
+        string errorMessage = "nexthole name";
+        if (name.Length == 1)
+        {
+            GameObject.Find("GameController").GetComponent<Game>().GetHoleBag().SetQueueUp(name[0]);
+            return true;
+        }
+        Reply(errorMessage);
         return true;
     }
 
