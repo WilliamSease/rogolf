@@ -14,6 +14,10 @@ public class HoleBag
     public const string ROGOLF_HOLES = "rogolf_holes.xml";
     public const string TEST_HOLES = "test_holes.xml";
     public const string RANGE_HOLES = "range_holes.xml";
+    
+    //Nexthole [string] in console will set this.
+    private bool queueUp = false;
+    private string queueHole = "";
 
     private string holeName;
     private string holeListPath;
@@ -30,20 +34,32 @@ public class HoleBag
     public string GetHole()
     {
         // If holeList is empty, create a new one and try again
+        Start:
         if (holeList.Count == 0)
         {
             NewHoleList();
-            return GetHole();
+            goto Start; //easier than recursive :/
         }
-        else
+        // If a hole has been queued, find, remove, and serve the name.
+        if(queueUp)
         {
-            // Get random hole
-            int index = UnityEngine.Random.Range(0, holeList.Count);
-            holeName = holeList[index].name;
-            // Remove hole from list
-            holeList.RemoveAt(index);
-            return holeName;
+            //UnityEngine.Debug.Log("I'm Here!");
+            for (int i = 0; i < holeList.Count; i++)
+                if (queueHole.Equals(holeList[i].name.ToLower()))
+                {
+                    //UnityEngine.Debug.Log("I found it!");
+                    string o = holeList[i].name;
+                    holeList.RemoveAt(i);
+                    queueUp = false;
+                    return o;
+                }
         }
+        // Get random hole
+        int index = UnityEngine.Random.Range(0, holeList.Count);
+        holeName = holeList[index].name;
+        // Remove hole from list
+        holeList.RemoveAt(index);
+        return holeName;
     }
 
     /// <summary>
@@ -76,7 +92,16 @@ public class HoleBag
     }
     public int GetHoleCount() { return holesPlayed.Count; }
     public List<HoleData> GetHolesPlayed() { return holesPlayed; }
+    
+    public bool SetQueueUp(string name)
+    {
+        queueUp = true;
+        queueHole = name;
+        return true;
+    }
 }
+
+
 
 public class HoleItem
 {

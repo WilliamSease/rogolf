@@ -41,6 +41,7 @@ public class DevConsole : MonoBehaviour
         "SetWind: Set wind speed and angle.",
         "GetHoleData: Gets info about the current hole.",
         "GiveItem: Gives the player item of specified name.",
+        "NextHole: Sets the next hole.",
         "EndHole: End current hole."
     };
 
@@ -196,6 +197,9 @@ public class DevConsole : MonoBehaviour
                 break;
             case "tohole":
                 Report(ToHole());
+                break;
+            case "nexthole":
+                Report(NextHole(Tail(arr)[0]));
                 break;
             case "endhole":
                 Report(EndHole());
@@ -503,6 +507,12 @@ public class DevConsole : MonoBehaviour
     public bool ToHole()
     {
         game.GetBall().SetPosition(game.GetHoleInfo().GetHolePosition());
+        return true;
+    }
+    
+    public bool NextHole(string name)
+    {
+        GameObject.Find("GameController").GetComponent<Game>().GetHoleBag().SetQueueUp(name);
         return true;
     }
 
