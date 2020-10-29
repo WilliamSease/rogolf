@@ -38,6 +38,7 @@ public class Game : MonoBehaviour
     // Game data objects
     private HoleBag holeBag;
     private ItemBag itemBag;
+    private ItemBag badItemBag;
     private PlayerAttributes playerAttributes;
     private TerrainAttributes terrainAttributes;
 
@@ -66,7 +67,8 @@ public class Game : MonoBehaviour
         
         // Initialize fields
         this.holeBag = new HoleBag();
-        this.itemBag = new ItemBag();
+        this.itemBag = new ItemBag("good");
+        this.badItemBag = new ItemBag("bad");
         this.playerAttributes = new PlayerAttributes();
         this.terrainAttributes = new TerrainAttributes();
 
@@ -176,10 +178,12 @@ public class Game : MonoBehaviour
     
     public HoleBag GetHoleBag() { return holeBag; }
     public ItemBag GetItemBag() { return itemBag; }
+    public ItemBag GetBadItemBag() { return badItemBag; }
     public PlayerAttributes GetPlayerAttributes() { return playerAttributes; }
     public TerrainAttributes GetTerrainAttributes() { return terrainAttributes; }
     public void SetHoleBag(HoleBag holeBag) { this.holeBag = holeBag; }
     public void SetItemBag(ItemBag itemBag) { this.itemBag = itemBag; }
+    public void SetBadItemBag(ItemBag badItemBag) {this.badItemBag = badItemBag;}
     public void SetPlayerAttributes(PlayerAttributes playerAttributes) { this.playerAttributes = playerAttributes; }
     public void SetTerrainAttributes(TerrainAttributes terrainAttributes) { this.terrainAttributes = terrainAttributes; }
     public void SetHoleInfo(HoleInfo holeInfo) { this.holeInfo = holeInfo; }

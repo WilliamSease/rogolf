@@ -15,9 +15,9 @@ public class ItemBag
     private string itemListPath;
     private List<Item> itemList;
 
-    public ItemBag()
+    public ItemBag(string prefix)
     {
-        itemListPath = ITEMS;
+        itemListPath = prefix + ITEMS;
         NewItemList();
     }
 

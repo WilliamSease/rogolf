@@ -25,6 +25,7 @@ public static class ItemFactory
             case "RedDice": return new RedDice();
             case "BlueDice": return new BlueDice();
             case "GreenDice": return new GreenDice();
+            case "PowerDown": return new PowerDown();
             default: throw new Exception(String.Format("Item {0} does not exist in the lookup", name)); 
         }
     }

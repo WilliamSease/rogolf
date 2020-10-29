@@ -9,10 +9,12 @@ public class ShopController : MonoBehaviour
     private Game gameRef;
     private PlayerAttributes plrAttr;
     private ItemBag itemBag;
+    private ItemBag badItemBag;
     public const string SCENE_NAME = "ShopScene";
     public Button[] positives = new Button[9];
     public Text[] negatives = new Text[9];
     private Item[] positiveItems = new Item[9];
+    private Item[] negativeItems = new Item[3];
     private Club[] clubTrades = new Club[3];
     public RawImage[] pluses = new RawImage[9];
     public RawImage[] botBGs = new RawImage[3];
@@ -27,6 +29,7 @@ public class ShopController : MonoBehaviour
         gameRef = GameObject.Find("GameController").GetComponent<Game>();
         plrAttr = gameRef.GetPlayerAttributes();
         itemBag = gameRef.GetItemBag();
+        badItemBag = gameRef.GetBadItemBag();
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++)
             {
@@ -49,7 +52,9 @@ public class ShopController : MonoBehaviour
                 }
                 if (i == 2)
                 {
-                    
+                    SetBadItem(j, badItemBag.GetItem());
+                    writeNegative(i, j, GetBadItem(j).GetName()); 
+                    writeNegativeExplanation(i, j, GetBadItem(j).GetDescription());
                 }
                 int x = i; int y = j;
                 positives[i * 3 + j].onClick.AddListener(() => clicked(x,y)); //Ay Dios Mio...
@@ -80,6 +85,8 @@ public class ShopController : MonoBehaviour
         if (row == 2)
         {
             plrAttr.ApplyItem(gameRef, GetItem(row, column));
+            plrAttr.ApplyItem(gameRef, GetBadItem(column));
+            markChecked(row, column);
         }
     }
     
@@ -88,7 +95,9 @@ public class ShopController : MonoBehaviour
     void writeNegative(int row, int column, string text) { negatives[row * 3 + column].text = text; }
     
     void SetItem(int row, int column, Item item){ positiveItems[row * 3 + column] = item; }
-    Item GetItem(int row, int column) { return positiveItems[row * 3 + column]; } 
+    Item GetItem(int row, int column) { return positiveItems[row * 3 + column]; }
+    void SetBadItem(int column, Item item){ negativeItems[column] = item; }
+    Item GetBadItem(int column) { return negativeItems[column]; } 
 
     
     void markChecked(int row, int column) //Disables a button and displays appropriate green checkmark.
