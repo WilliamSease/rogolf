@@ -368,23 +368,23 @@ public class GameController : MonoBehaviour
 
     private void AddCup(Vector3 holePosition)
     {
-        Vector3 cupPosition = holePosition + new Vector3(0, -0.12999f, 0);
+        Vector3 cupPosition = holePosition + new Vector3(0, -0.14f, 0);
 
         // Add cup rim
         cupRimClone = Instantiate(cupRim);
         cupRimClone.transform.position = cupPosition;
-        cupRimClone.AddComponent<MeshCollider>();
+        cupRimClone.GetComponent<MeshCollider>().enabled = true;
 
         // Add cup 'hole'
-        //cupHoleClone = Instantiate(cupHole);
-        //cupHoleClone.transform.position = cupPosition;
+        cupHoleClone = Instantiate(cupHole);
+        cupHoleClone.transform.position = cupPosition + new Vector3(0, 0.005f, 0);
 
         // Rotate cup rim and hole according to slope
         Vector3 terrainNormal = RaycastVertical(cupPosition + Vector3.up).normal;
         Tuple<float, float> terrainAngle = MathUtil.GetTerrainAngle(terrainNormal, 0f);
         Vector3 cupRotation = new Vector3(terrainAngle.Item1, 0f, -terrainAngle.Item2);
         cupRimClone.transform.eulerAngles = cupRotation;
-        //cupHoleClone.transform.eulerAngles = cupRotation;
+        cupHoleClone.transform.eulerAngles = cupRotation;
     }
 
     private RaycastHit RaycastVertical(Vector3 source)
@@ -474,4 +474,6 @@ public class GameController : MonoBehaviour
     {
         return boomBox.GCPlay(str);
     }
+
+    public GameObject GetCupHole() { return cupHoleClone; }
 }

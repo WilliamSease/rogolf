@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8265504419007561585}
   - component: {fileID: 7779974086424171731}
+  - component: {fileID: -2575029909602575392}
   m_Layer: 0
   m_Name: Cup
   m_TagString: Untagged
@@ -73,6 +74,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &-2575029909602575392
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2551504519817734279}
+  m_Material: {fileID: 13400000, guid: c437715898ecfe542a59b00532e12fae, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4119317738140548247, guid: b3d66e693cad0454b8f74b8600af617b, type: 3}
 --- !u!1001 &3262101643320091910
 PrefabInstance:
   m_ObjectHideFlags: 0

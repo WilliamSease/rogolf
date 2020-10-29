@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 
@@ -11,10 +12,10 @@ public class Ball
     private const float SPIN_RATE = 4.5f;
     private const float SPIN_DECAY = 0.5f;
     private const float NO_HEIGHT_TIME_OUT = 5f;
-    private const float INITIAL_MINIMUM_VELOCITY_THRESHOLD = 0.05f;
+    private const float INITIAL_MINIMUM_VELOCITY_THRESHOLD = 0.03f;
     private const float FINAL_MINIMUM_VELOCITY_THRESHOLD = 0.005f;
     private const float GRAVITATIONAL_ACCELERATION = 9.8f;
-    private const float CUP_DEPTH = 0.12f;
+    private const float CUP_DEPTH = 0.14f;
     private const float CUP_BOUNCE = 0.5f;
 
     private Game game;
@@ -33,6 +34,7 @@ public class Ball
     private float height = 0;
     private Vector3 terrainNormal = MathUtil.Vector3NaN;
     private RaycastHit terrainHit;
+    private RaycastHit cupHit;
     private bool hasBounced;
     private Vector3 lastPosition;
     private Vector3 holePosition;
@@ -50,11 +52,12 @@ public class Ball
     // Cup parameters
     private bool wasOnCup = false;
     private bool onCup = false;
+    private bool inHole = false;
     private float cupEffectMagnitude = 1E-5f;
     private float cupEffectRadius = 0.2f;
     private Vector3 cupEffect;
     private float cupLipRadius;
-    private float cupRadius = 0.108f;
+    private float cupRadius = 0.11f;
 
     public Ball(Game game)
     {
@@ -78,6 +81,7 @@ public class Ball
 
         spin = Vector3.zero;
 
+        inHole = false;
         wasOnCup = false;
     }
 
@@ -123,6 +127,7 @@ public class Ball
 
         // Set other
         hasBounced = false;
+        inHole = false;
         wasOnCup = false;
     }
 
@@ -165,14 +170,9 @@ public class Ball
     {
         RaycastHit hit;
         Vector3 positionHigh = new Vector3(position.x, position.y + 1000, position.z);
-        if (Physics.Raycast(new Ray(position, Vector3.down), out hit))
-        {
-            noHeightTime = 0;
-            height = position.y - hit.point.y;
-            terrainNormal = hit.normal;
-            terrainHit = hit;
-        }
-        else if (Physics.Raycast(new Ray(positionHigh, Vector3.down), out hit))
+        bool hasHit = Physics.Raycast(new Ray(position, Vector3.down), out hit);
+        bool hitCup = hasHit ? hit.transform.gameObject.name[0] == 'C' : false;
+        if (hasHit && !hitCup)
         {
             noHeightTime = 0;
             height = position.y - hit.point.y;
@@ -181,14 +181,29 @@ public class Ball
         }
         else
         {
-            if (noHeightTime < NO_HEIGHT_TIME_OUT)
+            RaycastHit[] hits = Physics.RaycastAll(new Ray(positionHigh, Vector3.down));
+            // TODO - debug
+            //string[] ss = (from h in hits select h.transform.gameObject.name).ToArray();
+            //UnityEngine.Debug.Log(string.Join(", ", ss));
+            if (hits.Length > 0)
             {
-                noHeightTime += deltaTime;
-                height = Single.PositiveInfinity;
+                hit = hits[0];
+                noHeightTime = 0;
+                height = position.y - hit.point.y;
+                terrainNormal = hit.normal;
+                terrainHit = hit;
+                foreach (RaycastHit h in hits)
+                    if (h.transform.gameObject.name[0] == 'C')
+                        cupHit = h;
             }
             else
             {
-                throw new InvalidOperationException("Ball height not found");
+                if (noHeightTime < NO_HEIGHT_TIME_OUT)
+                {
+                    noHeightTime += deltaTime;
+                    height = Single.PositiveInfinity;
+                }
+                else throw new InvalidOperationException("Ball height not found");
             }
         }
     }
@@ -198,7 +213,7 @@ public class Ball
     {   
         float distanceToHole = DistanceToHole();
         // If ball is in or right above the cup
-        if (distanceToHole < cupRadius || (distanceToHole < CUP_DEPTH && height < 0))
+        if ((distanceToHole < cupRadius && height <= 0) || (distanceToHole < CUP_DEPTH && height <= -cupRadius))
         {
             //cupEffect = cupEffectMagnitude/deltaTime * Vector3.Normalize(new Vector3(holePosition.x, holePosition.y-CUP_DEPTH, holePosition.z) - position);
             //velocity += cupEffect;
@@ -212,7 +227,8 @@ public class Ball
             return false;
         }
         // If ball is outside AoE
-        else { 
+        else
+        { 
             cupEffect = Vector3.zero;
             return false;
         }
@@ -252,26 +268,29 @@ public class Ball
     {
         // TODO - see ball go in hole
         terrainHit.transform.gameObject.GetComponent<MeshRenderer>().enabled = false;
-        
-        {
-            RaycastHit hit;
-            if (Physics.Raycast(new Ray(position, velocity), out hit))
-            {
+        game.GetGameController().GetCupHole().GetComponent<MeshRenderer>().enabled = false;
 
-                //UnityEngine.Debug.Log(hit.transform.gameObject.name);
-                /*
-                float cupFaceDistance = position.y - hit.point.y;
-                if (cupFaceDistance < 0.01f)
-                {
-                    velocity = 0.5f * Vector3.Reflect(velocity, terrainNormal);
-                }
-                */
+        RaycastHit hit;
+        if (Physics.Raycast(new Ray(position, velocity), out hit))
+        {
+            float cupFaceDistance = Vector3.Distance(position, hit.point);
+            /*
+            UnityEngine.Debug.Log(cupFaceDistance.ToString());
+            if (cupFaceDistance < 0.01f)
+            {
+                velocity = 0.5f * Vector3.Reflect(velocity, hit.normal);
             }
+            */
+            velocity = Vector3.zero;
+            position = position + new Vector3(0, -CUP_DEPTH/2f, 0);
+            inHole = true;
         }
+        else UnityEngine.Debug.Log("Hit not found");
     }
 
     private void WasOnCupBounce()
     {
+        //velocity = Vector3.zero;
         //velocity = CUP_BOUNCE * Vector3.Reflect(velocity, new Vector3(holePosition.x, position.y, holePosition.z));
         //onCup = true;
     }
@@ -341,7 +360,8 @@ public class Ball
         try { return game.GetTerrainAttributes().GetTerrainType(terrainHit); }
         catch { return game.GetTerrainAttributes().GetTeeTerrain(); }
     }
-    public bool InHole() { return DistanceToHole() < CUP_DEPTH && height < -CUP_DEPTH * 0.75; }
+    //public bool InHole() { return DistanceToHole() <= CUP_DEPTH-0.01f && height < -CUP_DEPTH * 0.75; }
+    public bool InHole() { return inHole; }
     public bool OnGreen() { 
         try { return game.GetTerrainAttributes().OnGreen(terrainHit); }
         catch { return false; };
