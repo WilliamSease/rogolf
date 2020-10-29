@@ -95,8 +95,9 @@ public class ScoreCard : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
         {
-            // Load shop scene
-            SceneManager.LoadScene(ShopController.SCENE_NAME);
+            // Load next scene
+            int holesPlayed = gcObject.GetComponent<Game>().GetHoleBag().GetHoleCount();
+            SceneManager.LoadScene(holesPlayed % 3 == 0 ? ShopController.SCENE_NAME : ItemSelector.SCENE_NAME);
         }
     }
 }
