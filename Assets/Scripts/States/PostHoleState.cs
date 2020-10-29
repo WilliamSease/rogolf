@@ -19,12 +19,12 @@ public class PostHoleState : State
 
     public override void OnStateEnter()
     {
-        // TODO - This is where you'd display 'Par' or 'Birdie' in the middle of the screen
+        GameObject.Find("UICanvas").GetComponent<GodOfUI>().ShowVictory();
     }
 
     public override void OnStateExit()
     {
-        // TODO - hide everything that we just created
+        GameObject.Find("UICanvas").GetComponent<GodOfUI>().HideVictory();
     }
 
     public override void Tick()

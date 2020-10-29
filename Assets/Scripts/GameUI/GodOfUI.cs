@@ -72,9 +72,14 @@ public class GodOfUI : MonoBehaviour
     public Text camToggleText;
     public Text normalToggleText;
     
+    //HoleWin elements
+    public GameObject holeWinDisplay;
+    public Text holeWinText;
+    
     void Start()
     {
         arrowTarget.transform.parent = arrowParent.transform;
+        holeWinDisplay.SetActive(false);
         //devConsole.enabled = false;
     }
 
@@ -141,10 +146,7 @@ public class GodOfUI : MonoBehaviour
         camAngles[1] = -camAngles[1] - MathUtil.RadsToDeg((float) tWind.GetAngle()) + 90; //Orient arrow correctly
 		camAngles[1] += UnityEngine.Random.Range(-tWind.GetSpeed(), tWind.GetSpeed()) * 5; //Random jittering according to speed. second value is a multiplier
         camAngles[0] = 0;
-        arrowParent.transform.eulerAngles = camAngles;
-        /*transform.RotateAround(arrowParent.transform.position, 
-            windCamera.transform.right, 
-                gameRef.GetCameraObject().transform.eulerAngles.x);*/
+        arrowParent.transform.eulerAngles = camAngles; 
         windText.text = String.Format("{0}m", tWind.GetVisualSpeed().ToString("F0"));
         
         // Lie percentage update
@@ -187,5 +189,12 @@ public class GodOfUI : MonoBehaviour
         if (target == Target.BALL || target == Target.FREE) camToggleText.text = "View Cursor";
         else camToggleText.text = "Reset Camera";
         normalToggleText.text = gc.greenNormalMap ? "Reset Green" : "View Green Normals";
+        
+        // Victoryprogress update
+        holeWinText.text = MathUtil.GolfTerms(MathUtil.Intify(holeData.GetStrokes().ToString()), MathUtil.Intify(holeInfo.GetPar().ToString()));
     }
+    
+    public void ShowVictory() { holeWinDisplay.SetActive(true); }
+    
+    public void HideVictory() { holeWinDisplay.SetActive(false); }
 }

@@ -68,4 +68,32 @@ public static class MathUtil
     public static float ToYardsRounded(float m) { return Mathf.Round(ToYards(m)); }
     public static float ToMeters(float y) { return y * 0.9144f; }
 	public static float RadsToDeg(float r) { return r * 57.2958f; }
+    
+    public static string GolfTerms(int strokes, int par)
+    {
+        if (strokes == 1) return "ace";
+        int score = strokes - par;
+        switch(score)
+        {
+            case -3:
+                return "albatross";
+            case -2:
+                return "eagle";
+            case -1:
+                return "birdie";
+            case 0:
+                return "par";
+            case 1:
+                return "bogey";
+            case 2:
+                return "double bogey";
+            case 3:
+                return "triple bogey";
+        }
+        if(score < 0) return score + " under par";
+        else return score + " over par";
+    }
+    
+    public static int Intify(string to) { return int.Parse(to); }
+    public static float Floatify(string to) { return float.Parse(to); }
 }

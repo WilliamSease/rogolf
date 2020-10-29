@@ -9,7 +9,6 @@ public class IdleState : State
 
     public override void Tick() {
         game.GetCursor().Tick();
-        game.GetPowerbar().Reset();
     }
 
     public override void OnKeySpace()
