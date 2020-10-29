@@ -14,6 +14,7 @@ public class BlimpBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //dunno why it's gotta be like this but it do :^)
         thisBlimp.transform.Rotate(Vector3.up * Time.deltaTime * 2f);
         thisBlimp.transform.Translate(Vector3.right * Time.deltaTime * 5f);
     }
