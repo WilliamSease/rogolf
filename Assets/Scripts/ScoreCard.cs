@@ -23,6 +23,8 @@ public class ScoreCard : MonoBehaviour
     public Text[] Gir = new Text[18];
     public Text[] tot = new Text[18];
     
+    public Text moneyText;
+    
     void Start()
     {
         gcObject = GameObject.Find(GameController.NAME);
@@ -60,6 +62,8 @@ public class ScoreCard : MonoBehaviour
                 Fir[i].text = "";
                 Gir[i].text = "";
             }
+            
+            moneyText.text = "Score: " + game.GetPlayerAttributes().GetCredits();//why dosen't this work.
         }
 
         foreach (Text t in tot) t.fontStyle = FontStyle.Bold;

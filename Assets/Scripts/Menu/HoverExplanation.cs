@@ -19,7 +19,7 @@ public class HoverExplanation : MonoBehaviour, IPointerEnterHandler, IPointerExi
     // Update is called once per frame
     public void OnPointerEnter(PointerEventData eventData)
     {
-        UnityEngine.Debug.Log("Detected!");
+        //UnityEngine.Debug.Log("Detected!");
         displayable.gameObject.SetActive(true);
     }
 

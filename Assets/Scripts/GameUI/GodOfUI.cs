@@ -75,6 +75,7 @@ public class GodOfUI : MonoBehaviour
     //HoleWin elements
     public GameObject holeWinDisplay;
     public Text holeWinText;
+    public Text holeWinPayout;
     
     void Start()
     {
@@ -194,7 +195,11 @@ public class GodOfUI : MonoBehaviour
         holeWinText.text = MathUtil.GolfTerms(MathUtil.Intify(holeData.GetStrokes().ToString()), MathUtil.Intify(holeInfo.GetPar().ToString()));
     }
     
-    public void ShowVictory() { holeWinDisplay.SetActive(true); }
+    public void ShowVictory(int payout) 
+    { 
+        holeWinDisplay.SetActive(true); 
+        holeWinPayout.text = "+" + payout;
+    }
     
     public void HideVictory() { holeWinDisplay.SetActive(false); }
 }

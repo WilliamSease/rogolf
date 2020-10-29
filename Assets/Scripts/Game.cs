@@ -180,6 +180,7 @@ public class Game : MonoBehaviour
     public ItemBag GetItemBag() { return itemBag; }
     public ItemBag GetBadItemBag() { return badItemBag; }
     public PlayerAttributes GetPlayerAttributes() { return playerAttributes; }
+    public void PayPlayer(int n) {GetPlayerAttributes().Earn(n); }
     public TerrainAttributes GetTerrainAttributes() { return terrainAttributes; }
     public void SetHoleBag(HoleBag holeBag) { this.holeBag = holeBag; }
     public void SetItemBag(ItemBag itemBag) { this.itemBag = itemBag; }

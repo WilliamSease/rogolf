@@ -71,6 +71,7 @@ public static class MathUtil
     
     public static string GolfTerms(int strokes, int par)
     {
+        if (strokes == 0) return "hole skipped";
         if (strokes == 1) return "ace";
         int score = strokes - par;
         switch(score)
@@ -90,8 +91,27 @@ public static class MathUtil
             case 3:
                 return "triple bogey";
         }
-        if(score < 0) return score + " under par";
+        if(score < 0) return (-score) + " under par";
         else return score + " over par";
+    }
+    
+    public static int Payouts(int strokes, int par)
+    {
+        if (strokes == 0) return 9000;
+        if (strokes == 1) return 6000;
+        int score = strokes - par;
+        switch(score)
+        {
+            case -3:
+                return 4000;
+            case -2:
+                return 3000;
+            case -1:
+                return 2000;
+            case 0:
+                return 1000;
+        }
+        return 0;
     }
     
     public static int Intify(string to) { return int.Parse(to); }
