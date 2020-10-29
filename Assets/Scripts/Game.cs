@@ -24,6 +24,7 @@ public class Game : MonoBehaviour
     private GameObject ballObject;
     private List<GameObject> cursorList;
     public GameObject freeFocus;
+    public float panSensitivity = 1; //for FreeFocus
     public GameObject cursorTextObject;
     public GameObject cursorSubtextObject;
 
@@ -115,7 +116,7 @@ public class Game : MonoBehaviour
             orbitalControls.targetPosition = freeFocus.transform.position;
 
             freeFocus.transform.LookAt(cameraObject.transform);
-            freeFocus.transform.Translate(Input.GetAxis("Mouse X"), 0, Input.GetAxis("Mouse Y"));
+            freeFocus.transform.Translate(Input.GetAxis("Mouse X") * panSensitivity, 0, Input.GetAxis("Mouse Y") * panSensitivity);
             RaycastHit hit;
             Vector3 positionHigh = new Vector3(freeFocus.transform.position.x, freeFocus.transform.position.y + 1000, freeFocus.transform.position.z);
             Vector3 temp = freeFocus.transform.position;
@@ -182,6 +183,7 @@ public class Game : MonoBehaviour
     public void SetPlayerAttributes(PlayerAttributes playerAttributes) { this.playerAttributes = playerAttributes; }
     public void SetTerrainAttributes(TerrainAttributes terrainAttributes) { this.terrainAttributes = terrainAttributes; }
     public void SetHoleInfo(HoleInfo holeInfo) { this.holeInfo = holeInfo; }
+    public void SetPanSensitivity(float n) {this.panSensitivity = n;}
 
     public Target GetTarget() { return target; }
     public HoleInfo GetHoleInfo() { return holeInfo; }

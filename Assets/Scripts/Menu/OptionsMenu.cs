@@ -59,6 +59,7 @@ public class OptionsMenu : MonoBehaviour
 		//Save Settings here...
 		BoomBox.SetVolumeStat(volumeSlider.value);
         MouseOrbitImproved.SetMouseSensitivity(rotSlider.value);
+        GameObject.Find("GameController").GetComponent<Game>().SetPanSensitivity(panSlider.value);
     }
 
     void task_3()
