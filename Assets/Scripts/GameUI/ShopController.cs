@@ -79,6 +79,7 @@ public class ShopController : MonoBehaviour
         if (row == 1)
         {
             gameRef.GetBag().RemoveClub(clubTrades[column]);
+            gameRef.GetBag().DecrementBag();
             markChecked(row, column);
             plrAttr.ApplyItem(gameRef, GetItem(row, column));
         }
