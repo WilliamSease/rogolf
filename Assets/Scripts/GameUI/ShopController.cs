@@ -69,17 +69,17 @@ public class ShopController : MonoBehaviour
         {
             plrAttr.Spend(SUB_CREDITS_AMOUNT);
             markChecked(row, column);
-            itemBag.ApplyItem(gameRef, GetItem(row, column));
+            plrAttr.ApplyItem(gameRef, GetItem(row, column));
         }
         if (row == 1)
         {
             gameRef.GetBag().RemoveClub(clubTrades[column]);
             markChecked(row, column);
-            itemBag.ApplyItem(gameRef, GetItem(row, column));
+            plrAttr.ApplyItem(gameRef, GetItem(row, column));
         }
         if (row == 2)
         {
-            itemBag.ApplyItem(gameRef, GetItem(row, column));
+            plrAttr.ApplyItem(gameRef, GetItem(row, column));
         }
     }
     

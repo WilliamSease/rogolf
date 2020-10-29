@@ -14,11 +14,9 @@ public class ItemBag
 
     private string itemListPath;
     private List<Item> itemList;
-    private List<Item> heldItems;
 
     public ItemBag()
     {
-        heldItems = new List<Item>();
         itemListPath = ITEMS;
         NewItemList();
     }
@@ -42,11 +40,7 @@ public class ItemBag
         }
     }
 
-    public void ApplyItem(Game game, Item item)
-    {
-        item.Apply(game.GetPlayerAttributes(), game.GetTerrainAttributes());
-        heldItems.Add(item);
-    }
+    
 
     /// <summary>
     /// Generates a full item list with all possible items
@@ -66,5 +60,4 @@ public class ItemBag
         }
     }
 
-    public List<Item> GetHeldItems() { return heldItems; }
 }

@@ -78,7 +78,7 @@ public class ItemSelector : MonoBehaviour
         if (selected != Selected.NONE && (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space)))
         {
             // Add and apply item
-            game.GetItemBag().ApplyItem(game, selected == Selected.LEFT ? leftItem : rightItem);
+            game.GetPlayerAttributes().ApplyItem(game, selected == Selected.LEFT ? leftItem : rightItem);
 
             // Get next hole
             MoveOn();
@@ -88,8 +88,8 @@ public class ItemSelector : MonoBehaviour
 	public void clickSelect(bool left, bool right)
 	{
 		if (left && right) return; //Shouldn't happen anyway but paranoid programmer
-		if (left) game.GetItemBag().ApplyItem(game, leftItem);
-		if (right) game.GetItemBag().ApplyItem(game, rightItem);
+		if (left) game.GetPlayerAttributes().ApplyItem(game, leftItem);
+		if (right) game.GetPlayerAttributes().ApplyItem(game, rightItem);
 		MoveOn();
 	}
 	

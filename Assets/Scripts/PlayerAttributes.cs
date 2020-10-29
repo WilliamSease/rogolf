@@ -12,10 +12,13 @@ public class PlayerAttributes
     private float spin;
     private int credits;
     private int debits;
+    
+    private List<Item> heldItems;
 
     // Default constructor
     public PlayerAttributes()
     {
+        heldItems = new List<Item>();
         this.power = 0.20f;
         this.control = 0.20f;
         this.impact = 0.20f;
@@ -64,4 +67,12 @@ public class PlayerAttributes
     
     public int TotalEarnings() { return credits + debits; }
     public int GetCredits() { return credits; }
+    
+    public void ApplyItem(Game game, Item item)
+    {
+        item.Apply(game.GetPlayerAttributes(), game.GetTerrainAttributes());
+        heldItems.Add(item);
+    }
+    
+    public List<Item> GetHeldItems() { return heldItems; }
 }

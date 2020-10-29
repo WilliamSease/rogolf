@@ -167,7 +167,7 @@ public class GodOfUI : MonoBehaviour
         bAngle.text = terrainAngle.Item2.ToString("F0")+"º";
 
         // BonusText update
-        List<Item> heldItems = gameRef.GetItemBag().GetHeldItems();
+        List<Item> heldItems = gameRef.GetPlayerAttributes().GetHeldItems();
         bonusText.text = "";
         foreach (Item i in heldItems)
         {

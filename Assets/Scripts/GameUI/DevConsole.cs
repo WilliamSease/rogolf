@@ -659,7 +659,7 @@ public class DevConsole : MonoBehaviour
         if (arr.Length == 1)
         {
             string itemName = arr[0];
-            try { game.GetItemBag().ApplyItem(game, ItemFactory.Create(itemName)); }
+            try { game.GetPlayerAttributes().ApplyItem(game, ItemFactory.Create(itemName)); }
             catch { Reply(String.Format("{0} does not exist in lookup.", itemName)); }
         }
         else
