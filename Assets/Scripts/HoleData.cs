@@ -12,19 +12,21 @@ public class HoleData
     private float lengthFront;
     private float lengthBack;
     private int par;
+    private float hcp;
 
     private int strokes;
     private int putts;
     private bool fir;
     private bool gir;
 
-    public HoleData(string name, Tee tee, float lengthFront, float lengthBack, int par)
+    public HoleData(string name, Tee tee, float lengthFront, float lengthBack, int par, float hcp)
     {
         this.name = name;
         this.tee = tee;
         this.lengthFront = lengthFront;
         this.lengthBack = lengthBack;
         this.par = par;
+        this.hcp = hcp;
 
         strokes = 0;
         putts = 0;
@@ -47,6 +49,7 @@ public class HoleData
     public float GetLengthFront() { return lengthFront; }
     public float GetLengthBack() { return lengthBack; }
     public int GetPar() { return par; }
+    public float GetHandicap() { return hcp; }
     public int GetStrokes() { return strokes; }
     public int GetPutts() { return putts; }
     public bool GetFir() { return fir; }

@@ -45,7 +45,7 @@ public class ScoreCard : MonoBehaviour
                 else { Front[i].fontStyle = FontStyle.Bold; }
                 Par[i].text = h.GetPar().ToString();
                 Par[i].fontStyle = FontStyle.Bold;
-                Hcp[i].text = "";
+                Hcp[i].text = h.GetHandicap().ToString("F1");
                 Strokes[i].text = h.GetStrokes().ToString();
                 Putts[i].text = h.GetPutts().ToString();
                 Fir[i].text = h.GetFir() ? "X" : "";
@@ -73,7 +73,7 @@ public class ScoreCard : MonoBehaviour
         tot[1].text = (front.Sum(h => MathUtil.ToYardsRounded(h.GetLengthBack()))).ToString();
         tot[2].text = (front.Sum(h => MathUtil.ToYardsRounded(h.GetLengthFront()))).ToString();
         tot[3].text = (front.Sum(h => h.GetPar())).ToString();
-        tot[4].text = "AvgHcp";
+        tot[4].text = front.Count > 0 ? (front.Average(h => h.GetHandicap())).ToString("F1") : "";
         tot[5].text = (front.Sum(h => h.GetStrokes())).ToString();
         tot[6].text = (front.Sum(h => h.GetPutts())).ToString();
         tot[7].text = (front.Sum(h => h.GetFir() ? 1 : 0)).ToString();
@@ -84,7 +84,7 @@ public class ScoreCard : MonoBehaviour
         tot[10].text = (back.Sum(h => MathUtil.ToYardsRounded(h.GetLengthBack()))).ToString();
         tot[11].text = (back.Sum(h => MathUtil.ToYardsRounded(h.GetLengthFront()))).ToString();
         tot[12].text = (back.Sum(h => h.GetPar())).ToString();
-        tot[13].text = "AvgHcp";
+        tot[13].text = back.Count > 0 ? (back.Average(h => h.GetHandicap())).ToString("F1") : "";
         tot[14].text = (back.Sum(h => h.GetStrokes())).ToString();
         tot[15].text = (back.Sum(h => h.GetPutts())).ToString();
         tot[16].text = (back.Sum(h => h.GetFir() ? 1 : 0)).ToString();

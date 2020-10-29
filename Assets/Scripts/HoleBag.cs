@@ -15,7 +15,7 @@ public class HoleBag
     public const string TEST_HOLES = "test_holes.xml";
     public const string RANGE_HOLES = "range_holes.xml";
     
-    //Nexthole [string] in console will set this.
+    // Nexthole [string] in console will set this.
     private bool queueUp = false;
     private string queueHole = "";
 
@@ -41,13 +41,11 @@ public class HoleBag
             goto Start; //easier than recursive :/
         }
         // If a hole has been queued, find, remove, and serve the name.
-        if(queueUp)
+        if (queueUp)
         {
-            //UnityEngine.Debug.Log("I'm Here!");
             for (int i = 0; i < holeList.Count; i++)
                 if (queueHole.Equals(holeList[i].name.ToLower()))
                 {
-                    //UnityEngine.Debug.Log("I found it!");
                     string o = holeList[i].name;
                     holeList.RemoveAt(i);
                     queueUp = false;
@@ -62,15 +60,22 @@ public class HoleBag
         return holeName;
     }
 
+    public float GetHandicap(string holeName)
+    {
+        return CreateHoleList().Find(holeItem => holeItem.name == holeName).hcp;
+    }
+
     /// <summary>
     /// Generates a full hole list with all possible holes
     /// </summary>
-    private void NewHoleList()
+    private void NewHoleList() { holeList = CreateHoleList(); }
+
+    private List<HoleItem> CreateHoleList()
     {
         try
         {
             XDocument xml = XDocument.Load(PREFIX + holeListPath);
-            holeList = (from holeItem in xml.Root.Elements("hole")
+            return (from holeItem in xml.Root.Elements("hole")
                         select new HoleItem()
                         {
                             name = (string) holeItem.Element("name"),
@@ -100,8 +105,6 @@ public class HoleBag
         return true;
     }
 }
-
-
 
 public class HoleItem
 {

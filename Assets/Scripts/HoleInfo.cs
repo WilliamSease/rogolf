@@ -53,7 +53,10 @@ public class HoleInfo
 
     public void AddCurrentHole()
     {
-        game.GetHoleBag().AddHole(new HoleData(SceneManager.GetActiveScene().name, tee, lengthFront, lengthBack, par));
+        HoleBag holeBag = game.GetHoleBag();
+        string holeName = SceneManager.GetActiveScene().name;
+        float hcp = holeBag.GetHandicap(holeName);
+        holeBag.AddHole(new HoleData(holeName, tee, lengthFront, lengthBack, par, hcp));
     }
 
     public void CalculateHoleLength()
