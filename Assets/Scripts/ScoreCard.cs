@@ -91,8 +91,8 @@ public class ScoreCard : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
         {
-            // Load item scene
-            SceneManager.LoadScene(ItemSelector.SCENE_NAME);
+            // Load shop scene
+            SceneManager.LoadScene(ShopController.SCENE_NAME);
         }
     }
 }

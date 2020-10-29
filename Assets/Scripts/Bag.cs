@@ -104,4 +104,8 @@ public class Bag
 
     public Club GetClub() { return bagList[current]; }
     private int GetPutterIndex() { return bagList.Count - 1; }
+    
+    public int GetRandomClubIndex() { return (int) UnityEngine.Random.Range(0f, bagList.Count - 2f);}
+    public Club GetRandomClub() { return bagList[GetRandomClubIndex()]; }
+    public void RemoveClub(Club i) { bagList.Remove(i); }
 }

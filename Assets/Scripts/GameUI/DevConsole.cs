@@ -37,6 +37,7 @@ public class DevConsole : MonoBehaviour
     private string[] helpGame =
     {   "GetPlayer: Get player attribute",
         "SetPlayer: Set player attribute",
+        "PayPlayer: Give player some money",
         "GetWind: Get wind speed and angle.",
         "SetWind: Set wind speed and angle.",
         "GetHoleData: Gets info about the current hole.",
@@ -212,6 +213,9 @@ public class DevConsole : MonoBehaviour
                 break;
             case "setplayer":
                 Report(SetPlayer(Tail(arr)));
+                break;
+            case "payplayer":
+                Report(PayPlayer(Tail(arr)));
                 break;
 			case "playsound":
 				Report(PlaySound(Tail(arr)));
@@ -595,6 +599,18 @@ public class DevConsole : MonoBehaviour
                     break;
             }
             game.GetBag().UpdateDistances();
+            return true;
+        }
+        Reply(errorMessage);
+        return true;
+    }
+    
+    public bool PayPlayer(string[] arr)
+    {
+        string errorMessage = "payplayer n";
+        if (arr.Length == 1)
+        {
+            game.GetPlayerAttributes().Earn(Intify(arr[0]));
             return true;
         }
         Reply(errorMessage);
