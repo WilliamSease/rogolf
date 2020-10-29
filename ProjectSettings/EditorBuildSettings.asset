@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Terrain&Levels/a05.unity
     guid: b397973463de641478434e47d55e1061
+  - enabled: 1
+    path: Assets/Scenes/ShopScene.unity
+    guid: 8b4e4a771070f3c41900bcc39c75a13f
   m_configObjects: {}
