@@ -35,5 +35,15 @@ public class Club
 
     public void SetPower(float power) { this.power = power; }
     public void SetLoft(float loft) { this.loft = loft; }
-    public void SetDistance(Mode mode, float distance) { distances.Add(mode, distance); }
+    public void SetDistance(Mode mode, float distance)
+    { 
+        if (distances.ContainsKey(mode))
+        {
+            distances[mode] = distance;
+        }
+        else
+        {
+            distances.Add(mode, distance);
+        }
+    }
 }

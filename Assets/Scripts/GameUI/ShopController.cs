@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,13 +21,13 @@ public class ShopController : MonoBehaviour
     public RawImage[] botBGs = new RawImage[3];
     public GameObject[] hoverExplanations = new GameObject[9];
     public Texture checkmark;
-    private int SUB_CREDITS_AMOUNT = 3000;
+    private int SUB_CREDITS_AMOUNT = 300;
     public Text creditsText;
     
     // Start is called before the first frame update
     void Start()
     {
-        gameRef = GameObject.Find("GameController").GetComponent<Game>();
+        gameRef = GameObject.Find(GameController.NAME).GetComponent<Game>();
         plrAttr = gameRef.GetPlayerAttributes();
         itemBag = gameRef.GetItemBag();
         badItemBag = gameRef.GetBadItemBag();
@@ -39,16 +40,16 @@ public class ShopController : MonoBehaviour
                     
                 if (i == 0) 
                 {
-                    writeNegative(i, j, SUB_CREDITS_AMOUNT + ""); 
-                    writeNegativeExplanation(i, j, "Costs " + SUB_CREDITS_AMOUNT + " Credits.");
+                    writeNegative(i, j, SUB_CREDITS_AMOUNT.ToString()); 
+                    writeNegativeExplanation(i, j, String.Format("Costs {0} credits", SUB_CREDITS_AMOUNT));
                 }
                 if (i == 1)
                 {
                     SELECT:
                     clubTrades[j] = gameRef.GetBag().GetRandomClub();
                     for (int k = j - 1; k >= 0; k--) if (clubTrades[j] == clubTrades[k]) goto SELECT; //NO duplicate clubs.
-                    writeNegative(i, j, clubTrades[j].GetName() + "");
-                    writeNegativeExplanation(i, j, "Lose Your " + clubTrades[j].GetName() + ".");
+                    writeNegative(i, j, clubTrades[j].GetName());
+                    writeNegativeExplanation(i, j, String.Format("Lose {0}", clubTrades[j].GetName()));
                 }
                 if (i == 2)
                 {
@@ -57,7 +58,7 @@ public class ShopController : MonoBehaviour
                     writeNegativeExplanation(i, j, GetBadItem(j).GetDescription());
                 }
                 int x = i; int y = j;
-                positives[i * 3 + j].onClick.AddListener(() => clicked(x,y)); //Ay Dios Mio...
+                positives[i * 3 + j].onClick.AddListener(() => clicked(x,y));
             }
     }
     
@@ -65,10 +66,10 @@ public class ShopController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
             SceneManager.LoadScene(ItemSelector.SCENE_NAME);
-        creditsText.text = plrAttr.GetCredits() + ""; //credits is updated every frame. I'll leave the implemenation in the air.
+        creditsText.text = plrAttr.GetCredits() + "";
     }
     
-    void clicked (int row, int column) //I don't know what needs to happen here.
+    void clicked (int row, int column)
     {
         if (row == 0 && plrAttr.GetCredits() >= SUB_CREDITS_AMOUNT)
         {

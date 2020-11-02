@@ -10,6 +10,7 @@ public class PlayerAttributes
     private float control;
     private float impact;
     private float spin;
+    
     private int credits;
     private int debits;
     

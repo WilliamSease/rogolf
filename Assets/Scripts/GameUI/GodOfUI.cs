@@ -191,15 +191,15 @@ public class GodOfUI : MonoBehaviour
         else camToggleText.text = "Reset Camera";
         normalToggleText.text = gc.greenNormalMap ? "Reset Green" : "View Green Normals";
         
-        // Victoryprogress update
-        holeWinText.text = MathUtil.GolfTerms(MathUtil.Intify(holeData.GetStrokes().ToString()), MathUtil.Intify(holeInfo.GetPar().ToString()));
+        // Post hole text
+        holeWinText.text = MathUtil.GolfTerms(holeData.GetStrokes(), holeInfo.GetPar());
     }
     
-    public void ShowVictory(int payout) 
+    public void ShowHoleResult(int payout) 
     { 
         holeWinDisplay.SetActive(true); 
         holeWinPayout.text = "+" + payout;
     }
     
-    public void HideVictory() { holeWinDisplay.SetActive(false); }
+    public void HideHoleResult() { holeWinDisplay.SetActive(false); }
 }
