@@ -100,16 +100,35 @@ public class GodOfUI : MonoBehaviour
             powerbarParent.SetActive(true);
             distanceDisplay.SetActive(false);
         }
-        //ShotMode
+
+        // ShotMode
         Mode m = gameRef.GetShotMode().GetShotMode();
-        if (m == Mode.NORMAL) {barColor = Color.yellow; powerBarIcon.texture = normalSprite; }
-        if (m == Mode.APPROACH) {barColor = Color.green; powerBarIcon.texture = approachSprite;}
-        if (m == Mode.POWER) {barColor = Color.red; powerBarIcon.texture = powerSprite;}
+        switch (m)
+        {
+            case Mode.NORMAL:
+                barColor = Color.yellow;
+                powerBarIcon.texture = normalSprite;
+                powerShotsRemaining.color = Color.gray;
+                powerShotsRemaining.text = gameRef.GetShotMode().GetPowerShots().ToString();
+                break;
+            case Mode.POWER:
+                barColor = Color.red;
+                powerBarIcon.texture = powerSprite;
+                powerShotsRemaining.color = Color.white;
+                powerShotsRemaining.text = gameRef.GetShotMode().GetPowerShots().ToString();
+                break;
+            case Mode.APPROACH:
+                barColor = Color.green;
+                powerBarIcon.texture = approachSprite;
+                powerShotsRemaining.text = "A";
+                break;
+            default:
+                throw new Exception(String.Format("Unsupported shot mode {0}", m));
+        }
         fillBar.color = barColor;
         negBar.color = barColor;
         barBackground.color =  Color.Lerp(barColor, Color.black, .5f);
-        if (m == Mode.APPROACH) powerShotsRemaining.text = "A";
-        else powerShotsRemaining.text = gameRef.GetShotMode().GetPowerShots().ToString();
+
         // Powerbar update. Do this every frame. Rest can be done whenever
         current = (float) gameRef.GetPowerbar().GetCurrent();
         power = (float) gameRef.GetPowerbar().GetPower();
@@ -133,7 +152,7 @@ public class GodOfUI : MonoBehaviour
         clubText.text = gameRef.GetBag().GetClub().GetName();
         remYdText.text = "Pin: " + (int)gameRef.GetBall().DistanceToHole() + "y";
         clubMaxText.text =  maxVal + "y";
-        // Holeinfo update
+        // Hole info update
         HoleInfo holeInfo = gameRef.GetHoleInfo();
         HoleData holeData = gameRef.GetHoleBag().GetCurrentHoleData();
         holeText.text = gameRef.GetHoleBag().GetCurrentHoleNumber().ToString();
@@ -141,11 +160,13 @@ public class GodOfUI : MonoBehaviour
         yardText.text = MathUtil.ToYardsRounded(holeInfo.GetLength()).ToString() + "y";
         strokeText.text = holeData != null ? holeData.GetStrokes().ToString() : "";
 
-        //Windinfo update
+        // Wind info update
         Wind tWind = gameRef.GetWind();
         Vector3 camAngles = gameRef.GetCameraObject().transform.rotation.eulerAngles;
-        camAngles[1] = -camAngles[1] - MathUtil.RadsToDeg((float) tWind.GetAngle()) + 90; //Orient arrow correctly
-		camAngles[1] += UnityEngine.Random.Range(-tWind.GetSpeed(), tWind.GetSpeed()) * 5; //Random jittering according to speed. second value is a multiplier
+        // Orient arrow correctly
+        camAngles[1] = -camAngles[1] - MathUtil.RadsToDeg((float) tWind.GetAngle()) + 90;
+        //Random jittering according to speed. second value is a multiplier
+		camAngles[1] += UnityEngine.Random.Range(-tWind.GetSpeed(), tWind.GetSpeed()) * 5;
         camAngles[0] = 0;
         arrowParent.transform.eulerAngles = camAngles; 
         windText.text = String.Format("{0}m", tWind.GetVisualSpeed().ToString("F0"));
@@ -166,8 +187,8 @@ public class GodOfUI : MonoBehaviour
 
         // Lie angle update 
         Tuple<float, float> terrainAngle = gameRef.GetBall().GetTerrainAngle();
-        aAngle.text = terrainAngle.Item1.ToString("F0")+"º";
-        bAngle.text = terrainAngle.Item2.ToString("F0")+"º";
+        aAngle.text = terrainAngle.Item1.ToString("F0")+"°";
+        bAngle.text = terrainAngle.Item2.ToString("F0")+"°";
 
         // BonusText update
         List<Item> heldItems = gameRef.GetPlayerAttributes().GetHeldItems();
