@@ -13,7 +13,7 @@ public class IdleState : State
 
     public override void OnKeySpace()
     {
-        if (game.GetTarget() == Target.BALL)
+        if (game.GetTarget() == Target.BALL && game.GetShotMode().CanStrike())
         {
             game.GetCursorGraphics().Disable();
 

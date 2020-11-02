@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShotModeEnum;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -87,7 +88,7 @@ public class Ball
 
     public void Reset() { Reset(Vector3.zero); }
 
-    public void Strike(Club club, float power, float accuracy, bool debug = false)
+    public void Strike(Mode shotMode, Club club, float power, float accuracy, bool debug = false)
     {
         // Get player attributes
         PlayerAttributes playerAttributes = game.GetPlayerAttributes();
@@ -99,6 +100,21 @@ public class Ball
         lie = !debug ? GetTerrainType().GetLie() : 1f;
         float clubPower = club.GetPower() * power * Mathf.Lerp(0.5f, 1.0f, playerAttributes.GetPower() * lie);
         float clubLoft = club.GetLoft();
+
+        // Adjust for shot mode
+        switch (shotMode)
+        {
+            case Mode.NORMAL:
+                break;
+            case Mode.POWER:
+                clubPower *= 1.25f;
+                break;
+            case Mode.APPROACH:
+            clubPower *= 0.5f;
+                break;
+            default:
+                throw new Exception(String.Format("Unsupported shot mode {0}", shotMode));
+        }
 
         SetLastPosition();
 
@@ -396,7 +412,14 @@ public class Ball
     public Vector3 GetGroundVector() { return MathUtil.GetGroundVector(terrainNormal, velocity); }
 
     #region Simulation
-    public Tuple<float,float,string> SimulateDistance(Club club, bool debug = false)
+    public void SimulateDistances(Club club)
+    {
+        SimulateDistance(Mode.NORMAL, club);
+        SimulateDistance(Mode.POWER, club);
+        SimulateDistance(Mode.APPROACH, club);
+    }
+
+    public Tuple<float,float,string> SimulateDistance(Mode shotMode, Club club, bool debug = false)
     {
         Vector3 oldPosition = position;
         Vector3 oldHolePosition = holePosition;
@@ -413,7 +436,7 @@ public class Ball
         }
 
         Reset();
-        Strike(club, 1f, 0f, true);
+        Strike(shotMode, club, 1f, 0f, true);
         terrainNormal = Vector3.up;
         // Set holePosition to be unreachable
         holePosition = Vector3.down;
@@ -439,7 +462,7 @@ public class Ball
             }
             else { break; }
         }
-        club.SetDistance(position.magnitude);
+        club.SetDistance(shotMode, position.magnitude);
 
         Reset(oldPosition);
         holePosition = oldHolePosition;
@@ -458,7 +481,7 @@ public class Ball
         string outputString = "";
         for (int i = 0; i < iterations; i++)
         {
-            result = SimulateDistance(club, true);
+            result = SimulateDistance(Mode.NORMAL, club, true);
             distance = result.Item1;
             maxHeight = result.Item2;
             outputString = result.Item3;
@@ -497,7 +520,7 @@ public class Ball
         List<Tuple<Vector3, Vector3, Vector3, float>> output = new List<Tuple<Vector3, Vector3, Vector3, float>>();
 
         Reset();
-        Strike(club, 1f, 0f, true);
+        Strike(Mode.NORMAL, club, 1f, 0f, true);
         terrainNormal = Vector3.up;
         // Set holePosition to be unreachable
         holePosition = Vector3.down;

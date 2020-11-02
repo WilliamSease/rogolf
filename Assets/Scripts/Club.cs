@@ -1,4 +1,5 @@
 ﻿using Clubs;
+using ShotModeEnum;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,18 +7,21 @@ using UnityEngine;
 
 public class Club
 {
+    private Game game;
+
     private ClubType type;
     private float power;
     private float loft;
-    private float distance;
+    private Dictionary<Mode, float> distances;
 
-    public Club(ClubType type, float power, float loft)
+    public Club(Game game, ClubType type, float power, float loft)
     {
+        this.game = game;
         this.type = type;
         this.power = power;
         this.loft = loft;
-        // Distance gets simulated by the bag
-        this.distance = Single.NaN;
+        // Distances get simulated by the bag
+        this.distances = new Dictionary<Mode, float>();
     }
 
     public ClubType GetClubType() { return type; }
@@ -25,15 +29,11 @@ public class Club
     public string GetName() { return type.GetClubName(); }
     public float GetPower() { return power; }
     public float GetLoft() { return loft; }
-    public float GetDistance()
-    {
-        if (distance == Single.NaN) { 
-            throw new InvalidOperationException("Can't get club distance before we've calculated it!");
-        }
-        return distance;
-    }
+
+    public float GetDistance(Mode mode) { return distances[mode]; }
+    public float GetDistance() { return GetDistance(game.GetShotMode().GetShotMode()); }
 
     public void SetPower(float power) { this.power = power; }
     public void SetLoft(float loft) { this.loft = loft; }
-    public void SetDistance(float distance) { this.distance = distance; }
+    public void SetDistance(Mode mode, float distance) { distances.Add(mode, distance); }
 }

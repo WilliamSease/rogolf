@@ -22,7 +22,7 @@ public class ShotMode
     public ShotMode(Game game)
     {
         this.game = game;
-        powerShots = 0;
+        powerShots = DEFAULT_POWER_SHOTS;
         Reset();
     }
 
@@ -65,8 +65,16 @@ public class ShotMode
         }
     }
 
+    public void Strike()
+    {
+        if (mode == Mode.POWER) powerShots--;
+    }
+
+    public bool CanStrike() { return !(mode == Mode.POWER && powerShots <= 0); }
+    public void IncreasePowerShots(int increase) { powerShots += increase; }
     public void SetPowerShots(int powerShots) { this.powerShots = powerShots; }
     public void SetPowerShots() { powerShots = DEFAULT_POWER_SHOTS; }
 
     public Mode GetShotMode() { return mode; }
+    public int GetPowerShots() { return powerShots; }
 }
