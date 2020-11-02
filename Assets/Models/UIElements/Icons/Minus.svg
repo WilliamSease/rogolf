@@ -26,7 +26,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="2.8"
-     inkscape:cx="157.92055"
+     inkscape:cx="97.027693"
      inkscape:cy="48.297322"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -44,7 +44,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -62,17 +62,17 @@
        inkscape:export-ydpi="959.99994" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:23.85583115px;line-height:1.25;font-family:Consolas;-inkscape-font-specification:'Consolas, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#f00000;fill-opacity:1;stroke:none;stroke-width:0.59639573;"
-       x="0.13229069"
-       y="297.77039"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:19.41739273px;line-height:1.25;font-family:Consolas;-inkscape-font-specification:'Consolas, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#f00000;fill-opacity:1;stroke:none;stroke-width:0.4854348"
+       x="0.10767767"
+       y="363.14688"
        id="text4524"
        inkscape:export-xdpi="959.99994"
        inkscape:export-ydpi="959.99994"
-       transform="scale(1.0030849,0.99692459)"><tspan
+       transform="scale(1.2323706,0.81144422)"><tspan
          sodipodi:role="line"
          id="tspan4522"
-         x="0.13229069"
-         y="297.77039"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:23.85583115px;font-family:Consolas;-inkscape-font-specification:'Consolas, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#f00000;fill-opacity:1;stroke-width:0.59639573;">-</tspan></text>
+         x="0.10767767"
+         y="363.14688"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:19.41739273px;font-family:Consolas;-inkscape-font-specification:'Consolas, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#f00000;fill-opacity:1;stroke-width:0.4854348">-</tspan></text>
   </g>
 </svg>
