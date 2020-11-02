@@ -92,12 +92,12 @@ public class ShopController : MonoBehaviour
         }
     }
     
-    void WritePositive(int row, int column, string text) { positives[row * 3 + column].GetComponentInChildren<Text>().text = text; }
+    void WritePositive(int row, int column, string text) { positives[GetIndex(row, column)].GetComponentInChildren<Text>().text = text; }
     
-    void WriteNegative(int row, int column, string text) { negatives[row * 3 + column].text = text; }
+    void WriteNegative(int row, int column, string text) { negatives[GetIndex(row, column)].text = text; }
     
-    void SetItem(int row, int column, Item item){ positiveItems[row * 3 + column] = item; }
-    Item GetItem(int row, int column) { return positiveItems[row * 3 + column]; }
+    void SetItem(int row, int column, Item item){ positiveItems[GetIndex(row, column)] = item; }
+    Item GetItem(int row, int column) { return positiveItems[GetIndex(row, column)]; }
     void SetBadItem(int column, Item item){ negativeItems[column] = item; }
     Item GetBadItem(int column) { return negativeItems[column]; } 
 
@@ -106,11 +106,13 @@ public class ShopController : MonoBehaviour
     /// </summary>
     void MarkChecked(int row, int column)
     {
-        positives[row * 3 + column].interactable = false;
-        pluses[row * 3 + column].texture = checkmark;
+        positives[GetIndex(row, column)].interactable = false;
+        pluses[GetIndex(row, column)].texture = checkmark;
         if (row == 2) botBGs[column].color = new Color(1.0f, 1.0f, 1.0f, 0.4f);
     }
     
-    void WritePositiveExplanation(int row, int column, string text) { hoverExplanations[row * 3 + column].transform.GetChild(1).GetComponent<Text>().text = text; }
-    void WriteNegativeExplanation(int row, int column, string text) { hoverExplanations[row * 3 + column].transform.GetChild(2).GetComponent<Text>().text = text; }
+    void WritePositiveExplanation(int row, int column, string text) { hoverExplanations[GetIndex(row, column)].transform.GetChild(1).GetComponent<Text>().text = text; }
+    void WriteNegativeExplanation(int row, int column, string text) { hoverExplanations[GetIndex(row, column)].transform.GetChild(2).GetComponent<Text>().text = text; }
+
+    int GetIndex(int row, int column) { return row * 3 + column; }
 }
