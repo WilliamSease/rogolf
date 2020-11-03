@@ -1,4 +1,5 @@
-﻿using ShotModeEnum;
+﻿using MaterialTypeEnum;
+using ShotModeEnum;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -372,13 +373,23 @@ public class Ball
     public bool IsRunning() { return onCup ? !InHole() : IsMoving(); }
 
     public float DistanceToHole() { return Vector3.Distance(position, holePosition); }
-    public TerrainType GetTerrainType() {
+
+    public MaterialType GetMaterialType()
+    {
+        try { return game.GetTerrainAttributes().GetMaterialType(terrainHit); }
+        catch { return MaterialType.NONE; }
+    }
+
+    public TerrainType GetTerrainType()
+    {
         try { return game.GetTerrainAttributes().GetTerrainType(terrainHit); }
         catch { return game.GetTerrainAttributes().GetTeeTerrain(); }
     }
+
     //public bool InHole() { return DistanceToHole() <= CUP_DEPTH-0.01f && height < -CUP_DEPTH * 0.75; }
     public bool InHole() { return inHole; }
-    public bool OnGreen() { 
+    public bool OnGreen()
+    { 
         try { return game.GetTerrainAttributes().OnGreen(terrainHit); }
         catch { return false; };
     }

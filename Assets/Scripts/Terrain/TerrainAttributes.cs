@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace MaterialTypeEnum
 {
-    public enum MaterialType { GREEN, FAIRWAY, ROUGH, BUNKER, WATER }
+    public enum MaterialType { GREEN, FAIRWAY, ROUGH, BUNKER, WATER, NONE }
 }
 
 [System.Serializable]
@@ -68,28 +68,38 @@ public class TerrainAttributes
     }
 
     /// <summary>
-    /// Gets the TerrainType of a surface given a string name.
+    /// Gets the MaterialType of a surface given a string name.
     /// </summary>
-    public TerrainType GetTerrainType(string name)
+    public MaterialType GetMaterialType(string name)
     {
         switch (name[0])
         {
             case 'B':
-                return terrainMap[GetSwap(MaterialType.BUNKER)];
+                return GetSwap(MaterialType.BUNKER);
             case 'F':
-                return terrainMap[GetSwap(MaterialType.FAIRWAY)];
+                return GetSwap(MaterialType.FAIRWAY);
             case 'G':
-                return terrainMap[GetSwap(MaterialType.GREEN)];
+                return GetSwap(MaterialType.GREEN);
             case 'R':
-                return terrainMap[GetSwap(MaterialType.ROUGH)];
+                return GetSwap(MaterialType.ROUGH);
             case 'W':
-                return terrainMap[GetSwap(MaterialType.WATER)];
+                return GetSwap(MaterialType.WATER);
             case 'C':
-                return terrainMap[GetSwap(MaterialType.GREEN)];
+                return GetSwap(MaterialType.GREEN);
             default:
-                throw new InvalidOperationException("Cannot not get TerrainType for name " + name);
+                throw new Exception("Cannot not get TerrainType for name " + name);
         }
     }
+
+    /// <summary>
+    /// Gets the TerrainType of a surface given a string name.
+    /// </summary>
+    public TerrainType GetTerrainType(string name) { return terrainMap[GetMaterialType(name)]; }
+
+    /// <summary>
+    /// Gets the MaterialType of a surface given a RaycastHit.
+    /// </summary>
+    public MaterialType GetMaterialType(RaycastHit terrainHit) { return GetMaterialType(terrainHit.transform.gameObject.name); }
 
     /// <summary>
     /// Gets the TerrainType of a surface given a RaycastHit.

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialTypeEnum;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,6 +37,7 @@ public class Score
     public int AddHoleScore()
     {
         int holeScore = 0;
+
         int strokes = game.GetHoleBag().GetCurrentHoleData().GetStrokes();
         int par = game.GetHoleInfo().GetPar();
 
@@ -62,7 +64,22 @@ public class Score
 
     public int AddShotScore()
     {
-        throw new Exception("pls implement");
+        int shotScore = 0;
+
+        int strokes = game.GetHoleBag().GetCurrentHoleData().GetStrokes();
+        int par = game.GetHoleInfo().GetPar();
+        MaterialType terrain = game.GetBall().GetMaterialType();
+
+        // Check FIR
+        // Check under GIR
+        // Check GIR
+        // Check approach
+        // Check long drive
+        // Check bunker
+        // Check water
+        // ...
+
+        return shotScore;
     }
 
     /// <summary>

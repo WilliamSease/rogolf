@@ -15,14 +15,19 @@ public class EvaluateState : State
         if (ball.InHole())
         {
             game.SetState(new PostHoleState(game));
-            return;
         }
-        else if (ball.InWater())
+        else
         {
-            game.GetHoleBag().GetCurrentHoleData().IncrementStrokes();
-            // TODO - reset the ball
+            int shotScore = game.GetScore().AddShotScore();
+            UnityEngine.Debug.Log(shotScore);
+
+            if (ball.InWater())
+            {
+                game.GetHoleBag().GetCurrentHoleData().IncrementStrokes();
+                // TODO - reset the ball
+            }
+
+            game.SetState(new PrepareState(game));
         }
-        //game.GetScore().AddShotCredits();
-        game.SetState(new PrepareState(game));
     }
 }
