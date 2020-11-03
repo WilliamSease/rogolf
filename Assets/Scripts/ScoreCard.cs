@@ -63,7 +63,7 @@ public class ScoreCard : MonoBehaviour
                 Gir[i].text = "";
             }
             
-            moneyText.text = "Score: " + game.GetPlayerAttributes().GetCredits();//why dosen't this work.
+            moneyText.text = game.GetScore().GetCredits().ToString();
         }
 
         foreach (Text t in tot) t.fontStyle = FontStyle.Bold;

@@ -8,19 +8,23 @@ using System.Diagnostics;
 
 public class ShopController : MonoBehaviour
 {
+    private const int ROWS = 3;
+    private const int COLS = 3;
     private Game game;
+
+    private Score score;
     private PlayerAttributes playerAttributes;
     private ItemBag itemBag;
     private ItemBag badItemBag;
     public const string SCENE_NAME = "ShopScene";
-    public Button[] positives = new Button[9];
-    public Text[] negatives = new Text[9];
-    private Item[] positiveItems = new Item[9];
-    private Item[] negativeItems = new Item[3];
-    private Club[] clubTrades = new Club[3];
-    public RawImage[] pluses = new RawImage[9];
-    public RawImage[] botBGs = new RawImage[3];
-    public GameObject[] hoverExplanations = new GameObject[9];
+    public Button[] positives = new Button[ROWS * COLS];
+    public Text[] negatives = new Text[ROWS * COLS];
+    private Item[] positiveItems = new Item[ROWS * COLS];
+    private Item[] negativeItems = new Item[COLS];
+    private Club[] clubTrades = new Club[COLS];
+    public RawImage[] pluses = new RawImage[ROWS * COLS];
+    public RawImage[] botBGs = new RawImage[COLS];
+    public GameObject[] hoverExplanations = new GameObject[ROWS * COLS];
     public Texture checkmark;
     private int SUB_CREDITS_AMOUNT = 300;
     public Text creditsText;
@@ -28,11 +32,18 @@ public class ShopController : MonoBehaviour
     void Start()
     {
         game = GameObject.Find(GameController.NAME).GetComponent<Game>();
+
+        score = game.GetScore();
         playerAttributes = game.GetPlayerAttributes();
         itemBag = game.GetItemBag();
         badItemBag = game.GetBadItemBag();
-        for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 3; j++)
+
+        // Set club trades
+        clubTrades = game.GetBag().GetRandomClubs(COLS).ToArray();
+
+        for (int i = 0; i < ROWS; i++)
+        {
+            for (int j = 0; j < COLS; j++)
             {
                 SetItem(i, j, itemBag.GetItem());
                 WritePositive(i, j, GetItem(i, j).GetName()); 
@@ -45,9 +56,6 @@ public class ShopController : MonoBehaviour
                 }
                 if (i == 1)
                 {
-                    SELECT:
-                    clubTrades[j] = game.GetBag().GetRandomClub();
-                    for (int k = j - 1; k >= 0; k--) if (clubTrades[j] == clubTrades[k]) goto SELECT; //NO duplicate clubs.
                     WriteNegative(i, j, clubTrades[j].GetName());
                     WriteNegativeExplanation(i, j, String.Format("Lose {0}", clubTrades[j].GetName()));
                 }
@@ -58,33 +66,34 @@ public class ShopController : MonoBehaviour
                     WriteNegativeExplanation(i, j, GetBadItem(j).GetDescription());
                 }
                 int x = i; int y = j;
-                positives[i * 3 + j].onClick.AddListener(() => Clicked(x,y));
+                positives[GetIndex(i, j)].onClick.AddListener(() => Clicked(x,y));
             }
+        }
     }
     
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
             SceneManager.LoadScene(ItemSelector.SCENE_NAME);
-        creditsText.text = playerAttributes.GetCredits().ToString();
+        creditsText.text = score.GetCredits().ToString();
     }
     
     void Clicked(int row, int column)
     {
-        if (row == 0 && playerAttributes.GetCredits() >= SUB_CREDITS_AMOUNT)
+        if (row == 0 && score.GetCredits() >= SUB_CREDITS_AMOUNT)
         {
-            playerAttributes.Spend(SUB_CREDITS_AMOUNT);
+            score.AddDebit(SUB_CREDITS_AMOUNT);
             MarkChecked(row, column);
             playerAttributes.ApplyItem(game, GetItem(row, column));
         }
-        if (row == 1)
+        else if (row == 1)
         {
             game.GetBag().RemoveClub(clubTrades[column]);
             game.GetBag().DecrementBag();
             MarkChecked(row, column);
             playerAttributes.ApplyItem(game, GetItem(row, column));
         }
-        if (row == 2)
+        else if (row == 2)
         {
             playerAttributes.ApplyItem(game, GetItem(row, column));
             playerAttributes.ApplyItem(game, GetBadItem(column));
@@ -114,5 +123,5 @@ public class ShopController : MonoBehaviour
     void WritePositiveExplanation(int row, int column, string text) { hoverExplanations[GetIndex(row, column)].transform.GetChild(1).GetComponent<Text>().text = text; }
     void WriteNegativeExplanation(int row, int column, string text) { hoverExplanations[GetIndex(row, column)].transform.GetChild(2).GetComponent<Text>().text = text; }
 
-    int GetIndex(int row, int column) { return row * 3 + column; }
+    int GetIndex(int row, int column) { return row * COLS + column; }
 }

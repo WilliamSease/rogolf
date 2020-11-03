@@ -11,9 +11,6 @@ public class PlayerAttributes
     private float impact;
     private float spin;
     
-    private int credits;
-    private int debits;
-    
     private List<Item> heldItems;
 
     // Default constructor
@@ -54,20 +51,6 @@ public class PlayerAttributes
     {
         return String.Format("P:{0}, C:{1}, I:{2}, S:{3}", power, control, impact, spin);
     }
-    
-    public void Earn(int n)
-    {
-        credits += n;
-    }
-    
-    public void Spend(int n)
-    {
-        credits -= n;
-        debits += n;
-    }
-    
-    public int TotalEarnings() { return credits + debits; }
-    public int GetCredits() { return credits; }
     
     public void ApplyItem(Game game, Item item)
     {

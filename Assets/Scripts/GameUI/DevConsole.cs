@@ -610,7 +610,7 @@ public class DevConsole : MonoBehaviour
         string errorMessage = "payplayer n";
         if (arr.Length == 1)
         {
-            game.GetPlayerAttributes().Earn(Intify(arr[0]));
+            game.GetScore().AddCredit(Intify(arr[0]));
             return true;
         }
         Reply(errorMessage);

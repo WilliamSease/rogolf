@@ -19,9 +19,8 @@ public class PostHoleState : State
 
     public override void OnStateEnter()
     {
-        int payout = (MathUtil.GetHolePayout(game.GetHoleBag().GetCurrentHoleData().GetStrokes(), game.GetHoleInfo().GetPar()));
-        game.PayPlayer(payout);
-        GameObject.Find("UICanvas").GetComponent<GodOfUI>().ShowHoleResult(payout);
+        int holeScore = game.GetScore().AddHoleScore();
+        GameObject.Find("UICanvas").GetComponent<GodOfUI>().ShowHoleResult(holeScore);
     }
 
     public override void OnStateExit()

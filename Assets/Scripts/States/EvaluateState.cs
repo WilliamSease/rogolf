@@ -22,6 +22,7 @@ public class EvaluateState : State
             game.GetHoleBag().GetCurrentHoleData().IncrementStrokes();
             // TODO - reset the ball
         }
+        //game.GetScore().AddShotCredits();
         game.SetState(new PrepareState(game));
     }
 }

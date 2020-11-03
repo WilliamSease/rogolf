@@ -3,6 +3,7 @@ using ShotModeEnum;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Bag
@@ -105,8 +106,15 @@ public class Bag
 
     public Club GetClub() { return bagList[current]; }
     private int GetPutterIndex() { return bagList.Count - 1; }
-    
-    public int GetRandomClubIndex() { return (int) UnityEngine.Random.Range(0f, bagList.Count - 2f);}
-    public Club GetRandomClub() { return bagList[GetRandomClubIndex()]; }
+
+    public List<Club> GetRandomClubs(int n) {
+        // Generate random, unique list of n indices.
+        // Do not include the final index: the putter.
+        List<int> indexList = Enumerable.Range(0, bagList.Count - 1).OrderBy(x => Guid.NewGuid()).Take(n).ToList();
+
+        // Index into bag list using generated indices.
+        return bagList.Where((item, index) => indexList.Contains(index)).ToList();
+    }
+
     public void RemoveClub(Club i) { bagList.Remove(i); }
 }

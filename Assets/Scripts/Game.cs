@@ -51,6 +51,7 @@ public class Game : MonoBehaviour
     private Bag bag;
     private Powerbar powerbar;
     private ShotMode shotMode;
+    private Score score;
 
     // Graphical-related helper classes
     private BallGraphics ballGraphics;
@@ -82,6 +83,7 @@ public class Game : MonoBehaviour
         bag = new Bag(this);
         powerbar = new Powerbar(this);
         shotMode = new ShotMode(this);
+        score = new Score(this);
 
         // Send Game reference to other objects
         GodOfUI ui = GameObject.Find(GodOfUI.NAME).GetComponent<GodOfUI>();
@@ -180,7 +182,6 @@ public class Game : MonoBehaviour
     public ItemBag GetItemBag() { return itemBag; }
     public ItemBag GetBadItemBag() { return badItemBag; }
     public PlayerAttributes GetPlayerAttributes() { return playerAttributes; }
-    public void PayPlayer(int n) {GetPlayerAttributes().Earn(n); }
     public TerrainAttributes GetTerrainAttributes() { return terrainAttributes; }
     public void SetHoleBag(HoleBag holeBag) { this.holeBag = holeBag; }
     public void SetItemBag(ItemBag itemBag) { this.itemBag = itemBag; }
@@ -200,6 +201,7 @@ public class Game : MonoBehaviour
     public Bag GetBag() { return bag; }
     public Powerbar GetPowerbar() { return powerbar; }
     public ShotMode GetShotMode() { return shotMode; }
+    public Score GetScore() { return score; }
 
     public CursorGraphics GetCursorGraphics() { return cursorGraphics; }
 }
