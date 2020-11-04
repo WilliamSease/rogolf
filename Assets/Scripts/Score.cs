@@ -16,6 +16,8 @@ public class Score
 
     private Game game;
 
+    private List<Tuple<ShotCondition, int>> conditions;
+
     /// <summary>
     /// Total score earned.
     /// </summary>
@@ -29,6 +31,11 @@ public class Score
     public Score(Game game)
     {
         this.game = game;
+
+        conditions = new List<Tuple<ShotCondition, int>>();
+        conditions.Add(new Tuple<ShotCondition, int>(new Fir(), 5));
+        conditions.Add(new Tuple<ShotCondition, int>(new UnderGir(), 20));
+        conditions.Add(new Tuple<ShotCondition, int>(new Gir(), 10));
 
         credit = 0;
         debit = 0;
@@ -78,7 +85,13 @@ public class Score
         // Check bunker
         // Check water
         // ...
+        foreach (Tuple<ShotCondition, int> c in conditions)
+        {
+            if (c.Item1.Check(par, strokes, terrain, game))
+                shotScore += c.Item2;
+        }
 
+        AddCredit(shotScore);
         return shotScore;
     }
 
