@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     public const string NAME = "GameController";
     private const int GEOMETRY = 2000;
 
+    public GameObject directionalLightPrefab;
     public GameObject cameraPrefab;
     public GameObject ballPrefab;
     public GameObject cursorPrefab;
@@ -124,7 +125,7 @@ public class GameController : MonoBehaviour
         greenNormalMap = false;
 
         //  Add lighting
-        // TODO - we're just using stock lighting for now
+        Instantiate(directionalLightPrefab);
         RenderSettings.skybox = skyboxMaterial;
 
         // Add ball
