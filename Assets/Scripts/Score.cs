@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Score
@@ -16,7 +17,7 @@ public class Score
 
     private Game game;
 
-    private List<Tuple<ShotCondition, int>> conditions;
+    private List<ShotConditional> conditionals;
 
     /// <summary>
     /// Total score earned.
@@ -32,10 +33,10 @@ public class Score
     {
         this.game = game;
 
-        conditions = new List<Tuple<ShotCondition, int>>();
-        conditions.Add(new Tuple<ShotCondition, int>(new Fir(), 5));
-        conditions.Add(new Tuple<ShotCondition, int>(new UnderGir(), 20));
-        conditions.Add(new Tuple<ShotCondition, int>(new Gir(), 10));
+        conditionals = new List<ShotConditional>();
+        conditionals.Add(new Fir());
+        conditionals.Add(new UnderGir());
+        conditionals.Add(new Gir());
 
         credit = 0;
         debit = 0;
@@ -69,41 +70,44 @@ public class Score
         return holeScore;
     }
 
-    public int AddShotScore()
+    public List<Tuple<string, int>> AddShotScore()
     {
-        int shotScore = 0;
+        List<Tuple<string, int>> output = new List<Tuple<string, int>>();
 
         int strokes = game.GetHoleBag().GetCurrentHoleData().GetStrokes();
         int par = game.GetHoleInfo().GetPar();
         MaterialType terrain = game.GetBall().GetMaterialType();
 
-        // Check FIR
-        // Check under GIR
-        // Check GIR
         // Check approach
         // Check long drive
         // Check bunker
         // Check water
         // ...
-        foreach (Tuple<ShotCondition, int> c in conditions)
+        foreach (ShotConditional conditional in conditionals)
         {
-            if (c.Item1.Check(par, strokes, terrain, game))
-                shotScore += c.Item2;
+            output.Add(conditional.Execute(par, strokes, terrain, game));
         }
 
-        AddCredit(shotScore);
-        return shotScore;
+        return (from item in output where item != null select item).ToList();
     }
 
     /// <summary>
-    /// Earn score.
+    /// Earn score. Returns score earned.
     /// </summary>
-    public void AddCredit(int credit) { this.credit += credit; }
+    public int AddCredit(int credit)
+    {
+        this.credit += credit;
+        return credit;
+    }
 
     /// <summary>
-    /// Spend score.
+    /// Spend score. Returns score spent.
     /// </summary>
-    public void AddDebit(int debit) { this.debit += debit; }
+    public int AddDebit(int debit)
+    {
+        this.debit += debit;
+        return debit;
+    }
 
     /// <summary>
     /// Get the total score ('credits') earned. 

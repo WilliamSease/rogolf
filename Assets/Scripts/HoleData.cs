@@ -41,6 +41,8 @@ public class HoleData
 
     public void SetStrokes(int strokes) { this.strokes = strokes; }
     public void SetPutts(int putts) { this.putts = putts; }
+    public void SetFir() { this.fir = true; }
+    public void SetGir() { this.gir = true; }
     public void SetFir(bool fir) { this.fir = fir; }
     public void SetGir(bool gir) { this.gir = gir; }
 

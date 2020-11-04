@@ -1,5 +1,6 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EvaluateState : State
@@ -18,8 +19,14 @@ public class EvaluateState : State
         }
         else
         {
-            int shotScore = game.GetScore().AddShotScore();
-            UnityEngine.Debug.Log(shotScore);
+            // TODO - debug
+            List<Tuple<string, int>> scoreInfo = game.GetScore().AddShotScore();
+            string s = string.Join(", ", 
+                    (from item in scoreInfo select String.Format("{0}: {1}", item.Item1, item.Item2.ToString())));
+            UnityEngine.Debug.Log(s);
+
+            int shotScore = (from item in scoreInfo select item.Item2).Sum();
+            game.GetScore().AddCredit(shotScore);
 
             if (ball.InWater())
             {
