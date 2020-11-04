@@ -373,6 +373,7 @@ public class Ball
     public bool IsRunning() { return onCup ? !InHole() : IsMoving(); }
 
     public float DistanceToHole() { return Vector3.Distance(position, holePosition); }
+    public float DistanceFromTee() { return Vector3.Distance(position, game.GetHoleInfo().GetTeePosition()); }
 
     public MaterialType GetMaterialType()
     {

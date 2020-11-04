@@ -39,10 +39,8 @@ public class Score
         conditionals.Add(new Gir());
         conditionals.Add(new Bunker());
         conditionals.Add(new Water());
-        // TODO
+        conditionals.Add(new LongDrive());
         // Check approach
-        // Check long drive
-        // ...
 
         credit = 0;
         debit = 0;
