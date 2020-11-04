@@ -278,9 +278,9 @@ public class Ball
 
     private void OnCupBounce()
     {
-        // TODO - see ball go in hole
-        terrainHit.transform.gameObject.GetComponent<MeshRenderer>().enabled = false;
-        game.GetGameController().GetCupHole().GetComponent<MeshRenderer>().enabled = false;
+        // TODO - debug - see ball go in hole
+        //terrainHit.transform.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        //game.GetGameController().GetCupHole().GetComponent<MeshRenderer>().enabled = false;
 
         RaycastHit hit;
         if (Physics.Raycast(new Ray(position, velocity), out hit))
@@ -297,7 +297,7 @@ public class Ball
             position = position + new Vector3(0, -CUP_DEPTH/2f, 0);
             inHole = true;
         }
-        else UnityEngine.Debug.Log("Hit not found");
+        //else UnityEngine.Debug.Log("Hit not found");
     }
 
     private void CalculateFriction(bool debug = false)
