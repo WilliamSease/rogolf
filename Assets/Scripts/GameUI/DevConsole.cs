@@ -63,7 +63,6 @@ public class DevConsole : MonoBehaviour
 
     private string[] helpTools =
     {   "GenerateClubs: Send optimal club parameters to .csv.",
-        "TestFramerateTies: Simulate shots at different FPS",
         "GraphicDebug: Toggle graphic debug.",
 		"PlaySound [name]: Play a sound.",
 		"SetVolume [0.0 - 1.0]: Set game volume."
@@ -231,9 +230,6 @@ public class DevConsole : MonoBehaviour
 				break;
             case "giveitem":
                 Report(GiveItem(Tail(arr)));
-                break;
-            case "testframerateties":
-                Report(TestFramerateTies());
                 break;
             default:
                 Reply("'" + arr[0] + "' doesn't appear to be a command");
@@ -666,13 +662,6 @@ public class DevConsole : MonoBehaviour
         {
             Reply("GiveItem itemName");
         }
-        return true;
-    }
-
-    public bool TestFramerateTies()
-    {
-        game.GetBall().TestFramerateTies();
-        Reply("Done.");
         return true;
     }
 

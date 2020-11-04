@@ -52,7 +52,6 @@ public class Ball
     private float A;
 
     // Cup parameters
-    private bool wasOnCup = false;
     private bool onCup = false;
     private bool inHole = false;
     private float cupEffectMagnitude = 1E-5f;
@@ -84,7 +83,6 @@ public class Ball
         spin = Vector3.zero;
 
         inHole = false;
-        wasOnCup = false;
     }
 
     public void Reset() { Reset(Vector3.zero); }
@@ -145,7 +143,6 @@ public class Ball
         // Set other
         hasBounced = false;
         inHole = false;
-        wasOnCup = false;
     }
 
     public void Tick()
@@ -253,12 +250,10 @@ public class Ball
 
     private void CalculateBounce(bool debug = false)
     {
-        wasOnCup = onCup;
         onCup = false;
         if (!debug) { onCup = CalculateCup(); }
 
         if (onCup && !debug) { OnCupBounce(); }
-        else if (wasOnCup && !debug) { WasOnCupBounce(); }
         else if (height <= 0)
         {
             if (IsRolling())
@@ -303,13 +298,6 @@ public class Ball
             inHole = true;
         }
         else UnityEngine.Debug.Log("Hit not found");
-    }
-
-    private void WasOnCupBounce()
-    {
-        //velocity = Vector3.zero;
-        //velocity = CUP_BOUNCE * Vector3.Reflect(velocity, new Vector3(holePosition.x, position.y, holePosition.z));
-        //onCup = true;
     }
 
     private void CalculateFriction(bool debug = false)
@@ -525,51 +513,6 @@ public class Ball
         string filename = String.Format("{0}-{1}-{2}.csv", DateTime.Now.ToString("yyyyMMddTHHmmss"), clubIndex, club.GetName());
         string info = String.Format("Distance:,{0}y\nMax Height:,{1}y\n", MathUtil.ToYards(distance), MathUtil.ToYards(maxHeight));
         System.IO.File.WriteAllText(filename, info + outputString.ToString());
-    }
-
-    private string SimulateFramerate(Club club, float dt)
-    {
-        List<Tuple<Vector3, Vector3, Vector3, float>> output = new List<Tuple<Vector3, Vector3, Vector3, float>>();
-
-        Reset();
-        Strike(Mode.NORMAL, club, 1f, 0f, true);
-        terrainNormal = Vector3.up;
-        // Set holePosition to be unreachable
-        holePosition = Vector3.down;
-        while (true)
-        {
-            deltaTime = dt;
-            if (IsMoving())
-            {
-                UpdatePhysicsVectors();
-                height = position.y;
-                CalculateBounce(true);
-                CalculateFriction(true);
-
-                output.Add(new Tuple<Vector3, Vector3, Vector3, float>(velocity/dt, fnet/dt, spin/dt, dtheta/dt));
-            }
-            else { break; }
-        }
-        
-        StringBuilder sb = new StringBuilder();
-        foreach (Tuple<Vector3, Vector3, Vector3, float> item in output)
-        {
-            sb.Append(String.Format("{0},{1},{2},{3}\n",
-                    MathUtil.Vector3ToString(item.Item1), MathUtil.Vector3ToString(item.Item2), MathUtil.Vector3ToString(item.Item3), item.Item4.ToString()));
-        }
-        return sb.ToString();
-    }
-
-    public void TestFramerateTies()
-    {
-        Club club = game.GetBag().GetClub();
-
-        string outputSlow = SimulateFramerate(club, 0.05f);
-        string outputFast = SimulateFramerate(club, 0.005f);
-
-        string date = DateTime.Now.ToString("yyyyMMddTHHmmss");
-        System.IO.File.WriteAllText(String.Format("{0}-{1}-{2}.csv", date, "framerateTest", "slow"), outputSlow);
-        System.IO.File.WriteAllText(String.Format("{0}-{1}-{2}.csv", date, "framerateTest", "fast"), outputFast);
     }
     #endregion
 }
