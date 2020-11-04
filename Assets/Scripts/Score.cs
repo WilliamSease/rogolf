@@ -37,6 +37,12 @@ public class Score
         conditionals.Add(new Fir());
         conditionals.Add(new UnderGir());
         conditionals.Add(new Gir());
+        conditionals.Add(new Bunker());
+        conditionals.Add(new Water());
+        // TODO
+        // Check approach
+        // Check long drive
+        // ...
 
         credit = 0;
         debit = 0;
@@ -78,11 +84,6 @@ public class Score
         int par = game.GetHoleInfo().GetPar();
         MaterialType terrain = game.GetBall().GetMaterialType();
 
-        // Check approach
-        // Check long drive
-        // Check bunker
-        // Check water
-        // ...
         foreach (ShotConditional conditional in conditionals)
         {
             output.Add(conditional.Execute(par, strokes, terrain, game));

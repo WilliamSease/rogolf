@@ -18,6 +18,8 @@ public class HoleData
     private int putts;
     private bool fir;
     private bool gir;
+    private bool bunker;
+    private bool water;
 
     public HoleData(string name, Tee tee, float lengthFront, float lengthBack, int par, float hcp)
     {
@@ -32,6 +34,8 @@ public class HoleData
         putts = 0;
         fir = false;
         gir = false;
+        bunker = false;
+        water = false;
     }
 
     public void IncrementStrokes() { strokes++; }
@@ -41,10 +45,16 @@ public class HoleData
 
     public void SetStrokes(int strokes) { this.strokes = strokes; }
     public void SetPutts(int putts) { this.putts = putts; }
+    
     public void SetFir() { this.fir = true; }
     public void SetGir() { this.gir = true; }
+    public void SetBunker() { this.bunker = true; }
+    public void SetWater() { this.water = true; }
+
     public void SetFir(bool fir) { this.fir = fir; }
     public void SetGir(bool gir) { this.gir = gir; }
+    public void SetBunker(bool bunker) { this.bunker = bunker; }
+    public void SetWater(bool water) { this.water = water; }
 
     public string GetName() { return name; }
     public Tee GetTee() { return tee; }
@@ -56,6 +66,8 @@ public class HoleData
     public int GetPutts() { return putts; }
     public bool GetFir() { return fir; }
     public bool GetGir() { return gir; }
+    public bool GetBunker() { return bunker; }
+    public bool GetWater() { return water; }
 
     public override string ToString()
     {
