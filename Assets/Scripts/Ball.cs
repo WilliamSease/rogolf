@@ -15,7 +15,7 @@ public class Ball
     private const float SPIN_DECAY = 0.5f;
     private const float NO_HEIGHT_TIME_OUT = 5f;
     private const float INITIAL_MINIMUM_VELOCITY_THRESHOLD = 0.03f;
-    private const float FINAL_MINIMUM_VELOCITY_THRESHOLD = 0.005f;
+    private const float FINAL_MINIMUM_VELOCITY_THRESHOLD = 0.001f;
     private const float GRAVITATIONAL_ACCELERATION = 9.8f;
     private const float CUP_DEPTH = 0.14f;
     private const float CUP_BOUNCE = 0.5f;
@@ -111,7 +111,7 @@ public class Ball
                 clubPower *= 1.25f;
                 break;
             case Mode.APPROACH:
-            clubPower *= 0.5f;
+                clubPower *= 0.5f;
                 break;
             default:
                 throw new Exception(String.Format("Unsupported shot mode {0}", shotMode));
@@ -169,7 +169,7 @@ public class Ball
     {
         // Update position
         position += velocity * (deltaTime / mass);
-        // Apply inaccuracy - TODO
+        // Apply inaccuracy
         if (!hasBounced) velocity = MathUtil.Rotate(velocity, dtheta * deltaTime);
         // Update drag
         fnet = (gravity * mass) - ((velocity * (0.5f*c*rho*A * Mathf.Pow(velocity.magnitude / mass, 2))) / velocity.magnitude);
@@ -325,7 +325,7 @@ public class Ball
             frictionForce *= deltaTime;
             // If ball 'overcomes' friction
             if (velocity.magnitude > INITIAL_MINIMUM_VELOCITY_THRESHOLD) { velocity += frictionForce; }
-            else { velocity += (velocity.magnitude > (frictionForce*100f).magnitude) ? frictionForce*100f : -velocity; }
+            else { velocity += (velocity.magnitude > (frictionForce*5f).magnitude) ? frictionForce*5f : -velocity; }
         }
     }
 

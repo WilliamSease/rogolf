@@ -12,8 +12,8 @@ namespace MaterialTypeEnum
 [System.Serializable]
 public class TerrainAttributes
 {
-    public const float SIMULATED_FRICTION = 0.35f;
-    public const float SIMULATED_BOUNCE = 0.3f;
+    public const float SIMULATED_FRICTION = 0.50f;
+    public const float SIMULATED_BOUNCE = 0.25f;
 
     private TerrainType tee;
     private TerrainType green;
@@ -27,12 +27,12 @@ public class TerrainAttributes
 
     public TerrainAttributes() {
         //                     friction,bounce,lieRate,lieRange
-        tee = new TerrainType(    0.35f, 0.30f, 0.99f, 0.02f);
-        green = new TerrainType(  0.35f, 0.30f, 0.99f, 0.02f);
-        fairway = new TerrainType(0.36f, 0.30f, 0.99f, 0.02f);
-        rough = new TerrainType(  0.60f, 0.25f, 0.80f, 0.16f);
+        tee = new TerrainType(    0.45f, 0.25f, 0.99f, 0.01f);
+        green = new TerrainType(  0.45f, 0.25f, 0.99f, 0.02f);
+        fairway = new TerrainType(0.50f, 0.25f, 0.99f, 0.02f);
+        rough = new TerrainType(  0.60f, 0.20f, 0.80f, 0.16f);
         bunker = new TerrainType( 0.75f, 0.10f, 0.70f, 0.20f);
-        water = new TerrainType(  0.95f, 0.00f, 0.20f, 0.10f); 
+        water = new TerrainType(  0.99f, 0.00f, 0.20f, 0.10f); 
 
         // Initialize swap map
         swapMap = new Dictionary<MaterialType, MaterialType>();
