@@ -12,9 +12,12 @@ public class StrikingState : State
         Mode shotMode = game.GetShotMode().GetShotMode();
         // Hit the damn thing
         game.GetBall().Strike(shotMode, game.GetBag().GetClub(), (float) game.GetPowerbar().GetPower(), (float) game.GetPowerbar().GetAccuracy());
-
         game.GetShotMode().Strike();
-        game.GetHoleBag().GetCurrentHoleData().IncrementStrokes();
+
+        HoleData hole = game.GetHoleBag().GetCurrentHoleData();
+        hole.IncrementStrokes();
+        if (game.GetBag().IsPutter()) { hole.IncrementPutts(); }
+
         game.SetState(new RunningState(game));
     }
 }

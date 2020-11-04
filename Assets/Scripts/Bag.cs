@@ -104,6 +104,8 @@ public class Bag
         game.GetShotMode().Validate();
     }
 
+    public bool IsPutter() { return current == GetPutterIndex(); }
+
     public Club GetClub() { return bagList[current]; }
     private int GetPutterIndex() { return bagList.Count - 1; }
 
