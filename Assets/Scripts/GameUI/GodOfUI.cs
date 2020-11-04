@@ -77,10 +77,20 @@ public class GodOfUI : MonoBehaviour
     public Text holeWinText;
     public Text holeWinPayout;
     
+    //ShotBonus elements
+    public GameObject shotBonusDisplay;
+    public Text shotBonusText;
+    private bool shotBonusActive;
+    private int shotBonusTick;
+    private int shotBonusTarget;
+    private Vector3 shotBonusDefaultPosition;
+    
     void Start()
     {
         arrowTarget.transform.parent = arrowParent.transform;
         holeWinDisplay.SetActive(false);
+        shotBonusDefaultPosition = shotBonusDisplay.transform.position;
+        shotBonusDisplay.SetActive(false);
         //devConsole.enabled = false;
     }
 
@@ -214,6 +224,23 @@ public class GodOfUI : MonoBehaviour
         
         // Post hole text
         holeWinText.text = MathUtil.GolfTerms(holeData.GetStrokes(), holeInfo.GetPar());
+        
+        // Shot Bonus update
+        if (shotBonusActive)
+        {
+            if (shotBonusTick >= shotBonusTarget)
+            {
+                shotBonusActive = false;
+                shotBonusTick = 0;
+                shotBonusDisplay.transform.position =  shotBonusDefaultPosition;
+                shotBonusDisplay.SetActive(false);
+            }
+            else
+            {
+                shotBonusTick++;
+                shotBonusDisplay.transform.position += (Vector3.up) * Time.deltaTime * 5;
+            }
+        }
     }
     
     public void ShowHoleResult(int payout) 
@@ -223,4 +250,17 @@ public class GodOfUI : MonoBehaviour
     }
     
     public void HideHoleResult() { holeWinDisplay.SetActive(false); }
+    
+    public void WriteBonus(string s)
+    {
+        shotBonusText.text = s;
+        shotBonusActive = true;
+    }
+    
+    public void InvokeBonus(int to)
+    {
+        if (shotBonusText.text.Equals("")) return;
+        shotBonusTarget = to;
+        shotBonusDisplay.SetActive(true);
+    }
 }
