@@ -438,6 +438,62 @@ public class Ball
     public Vector3 GetGroundVector() { return MathUtil.GetGroundVector(terrainNormal, velocity); }
 
     #region Simulation
+    public float Simulate(Club club, Mode shotMode, float power, float accuracy)
+    {
+        Vector3 oldPosition = position;
+        Vector3 oldHolePosition = holePosition;
+
+        Reset();
+        Strike(shotMode, club, power, accuracy, true);
+        terrainNormal = Vector3.up;
+        // Set holePosition to be unreachable
+        holePosition = Vector3.down;
+
+        while (true)
+        {
+            deltaTime = 0.03f;
+            if (IsMoving())
+            {
+                // Add point
+                // TODO - no
+
+                // Update
+                UpdatePhysicsVectors();
+                height = position.y;
+                CalculateBounce(true);
+                CalculateFriction(true);
+            }
+            else { break; }
+        }
+        float distance = position.magnitude;
+
+        Reset(oldPosition);
+        holePosition = oldHolePosition;
+
+        return distance;
+    }
+
+    public void SimulatePower()
+    {
+        var powers = Enumerable.Range(0, 101).Select(x => (float) x * 0.01f);
+        StringBuilder output = new StringBuilder();
+        output.Append(String.Format(", {0}\n", string.Join(", ", powers)));
+
+        foreach (Club club in game.GetBag().GetBagList())
+        {
+            List<float> distances = new List<float>();
+            foreach (float power in powers)
+            {
+                distances.Add(Simulate(club, Mode.NORMAL, power, 0f));
+            }
+            
+            output.Append(String.Format("{0}, {1}\n", club.GetName(), string.Join(", ", distances)));
+        }
+        
+        string filename = String.Format("{0}-{1}.csv", DateTime.Now.ToString("yyyyMMddTHHmmss"), "SimulatePower");
+        System.IO.File.WriteAllText(filename, output.ToString());
+    }
+
     public void SimulateDistances(Club club)
     {
         SimulateDistance(Mode.NORMAL, club);

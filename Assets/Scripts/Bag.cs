@@ -108,6 +108,7 @@ public class Bag
 
     public Club GetClub() { return bagList[current]; }
     private int GetPutterIndex() { return bagList.Count - 1; }
+    public List<Club> GetBagList() { return bagList; }
 
     public List<Club> GetRandomClubs(int n) {
         // Generate random, unique list of n indices.

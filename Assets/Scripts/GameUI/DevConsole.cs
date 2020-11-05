@@ -63,6 +63,7 @@ public class DevConsole : MonoBehaviour
 
     private string[] helpTools =
     {   "GenerateClubs: Send optimal club parameters to .csv.",
+        "SimulatePower: Send club power data to .csv.",
         "GraphicDebug: Toggle graphic debug.",
         "Strike: Hit ball.",
 		"PlaySound [name]: Play a sound.",
@@ -234,6 +235,9 @@ public class DevConsole : MonoBehaviour
                 break;
             case "strike":
                 Report(Strike(Tail(arr)));
+                break;
+            case "simulatepower":
+                Report(SimulatePower());
                 break;
             default:
                 Reply("'" + arr[0] + "' doesn't appear to be a command");
@@ -686,6 +690,13 @@ public class DevConsole : MonoBehaviour
             return true;
         }
         Reply(errorMessage);
+        return true;
+    }
+
+    public bool SimulatePower()
+    {
+        game.GetBall().SimulatePower();
+        Reply("Done.");
         return true;
     }
 
