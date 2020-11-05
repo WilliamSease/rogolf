@@ -69,6 +69,8 @@ public class Powerbar
 
     public void SetPower() { power = current; }
     public void SetAccuracy() { accuracy = current; }
+    public void SetPower(float power) { this.power = power; }
+    public void SetAccuracy(float accuracy) { this.accuracy = accuracy; }
     public float GetCurrent() { return current; }
     public float GetPower() { return power; }
     public float GetAccuracyInternal() { return accuracy; }

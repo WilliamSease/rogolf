@@ -64,6 +64,7 @@ public class DevConsole : MonoBehaviour
     private string[] helpTools =
     {   "GenerateClubs: Send optimal club parameters to .csv.",
         "GraphicDebug: Toggle graphic debug.",
+        "Strike: Hit ball.",
 		"PlaySound [name]: Play a sound.",
 		"SetVolume [0.0 - 1.0]: Set game volume."
     };
@@ -230,6 +231,9 @@ public class DevConsole : MonoBehaviour
 				break;
             case "giveitem":
                 Report(GiveItem(Tail(arr)));
+                break;
+            case "strike":
+                Report(Strike(Tail(arr)));
                 break;
             default:
                 Reply("'" + arr[0] + "' doesn't appear to be a command");
@@ -633,7 +637,7 @@ public class DevConsole : MonoBehaviour
 			BoomBox.SetVolumeStat(Floatify(arr[0]));
 			return true;
 		}
-		Reply (errorMessage);
+		Reply(errorMessage);
 		return true;
 	}
 
@@ -665,7 +669,27 @@ public class DevConsole : MonoBehaviour
         return true;
     }
 
-    //These are easy utility functions.
+    public bool Strike(string[] arr)
+    {
+        string errorMessage = "Strike power [accuracy]";
+        if (game.GetState() is IdleState && arr.Length < 3)
+        {
+            Powerbar powerbar = game.GetPowerbar();
+            float power = 1f;
+            float accuracy = 0f;
+            if (arr.Length == 1) power = Floatify(arr[0]);
+            if (arr.Length == 2) accuracy = Floatify(arr[1]);
+            powerbar.SetPower(power);
+            powerbar.SetAccuracy(accuracy);
+            game.GetCursorGraphics().Disable();
+            game.SetState(new StrikingState(game));
+            return true;
+        }
+        Reply(errorMessage);
+        return true;
+    }
+
+    #region utility
     public string[] Tail(string[] to) 
     {
         string[] o = new string[to.Length - 1];
@@ -675,6 +699,7 @@ public class DevConsole : MonoBehaviour
     }
     
     public int Intify(string to) { return int.Parse(to); }
-    public float Floatify(string to) { return float.Parse(to); } 
+    public float Floatify(string to) { return float.Parse(to); }
+    #endregion
 
 }
