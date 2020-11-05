@@ -25,8 +25,8 @@ public class EvaluateState : State
                     (from item in scoreInfo select String.Format("{0}: {1}", item.Item1, item.Item2.ToString())));
             GodOfUI gui = GameObject.Find("UICanvas").GetComponent<GodOfUI>();
             gui.WriteBonus(s);
-            gui.InvokeBonus(.5f);
-            UnityEngine.Debug.Log(s);
+            gui.InvokeBonus(1f);//this is in seconds
+            //UnityEngine.Debug.Log(s);
 
             int shotScore = (from item in scoreInfo select item.Item2).Sum();
             game.GetScore().AddCredit(shotScore);
