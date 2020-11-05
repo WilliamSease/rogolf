@@ -81,8 +81,7 @@ public class GodOfUI : MonoBehaviour
     public GameObject shotBonusDisplay;
     public Text shotBonusText;
     private bool shotBonusActive;
-    private int shotBonusTick;
-    private int shotBonusTarget;
+    private float shotBonusTarget;
     private Vector3 shotBonusDefaultPosition;
     
     void Start()
@@ -228,18 +227,14 @@ public class GodOfUI : MonoBehaviour
         // Shot Bonus update
         if (shotBonusActive)
         {
-            if (shotBonusTick >= shotBonusTarget)
+            if (Time.time >= shotBonusTarget)
             {
                 shotBonusActive = false;
-                shotBonusTick = 0;
                 shotBonusDisplay.transform.position =  shotBonusDefaultPosition;
                 shotBonusDisplay.SetActive(false);
             }
             else
-            {
-                shotBonusTick++;
                 shotBonusDisplay.transform.position += (Vector3.up) * Time.deltaTime * 5;
-            }
         }
     }
     
@@ -257,10 +252,10 @@ public class GodOfUI : MonoBehaviour
         shotBonusActive = true;
     }
     
-    public void InvokeBonus(int to)
+    public void InvokeBonus(float to)
     {
         if (shotBonusText.text.Equals("")) return;
-        shotBonusTarget = to;
+        shotBonusTarget = Time.time + to;
         shotBonusDisplay.SetActive(true);
     }
 }
