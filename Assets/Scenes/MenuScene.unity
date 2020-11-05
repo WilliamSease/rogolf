@@ -9421,11 +9421,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54d7220245957c042a4214c22e4d6226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  active: 0
-  tick: 0
-  toTick: 0
-  parent: {fileID: 1329423980}
-  txt: {fileID: 1493746188}
 --- !u!1 &1352665080
 GameObject:
   m_ObjectHideFlags: 0
@@ -11507,7 +11502,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -15.2, y: 15.1}
-  m_SizeDelta: {x: 200, y: 100}
+  m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1604637594
 MonoBehaviour:
