@@ -1,4 +1,5 @@
-﻿using MaterialTypeEnum;
+﻿using Clubs;
+using MaterialTypeEnum;
 using ShotModeEnum;
 using System;
 using System.Collections;
@@ -118,7 +119,32 @@ public class Ball
         SetLastPosition();
 
         // Apply control
-        //angle += TODO
+        if (!debug)
+        {
+            float angleRangeCoefficient = 0f;
+            switch (club.GetClubClass())
+            {
+                case ClubClass.WOOD:
+                    angleRangeCoefficient = 1f;
+                    break;
+                case ClubClass.HYBRID:
+                    angleRangeCoefficient = 0.75f;
+                    break;
+                case ClubClass.IRON:
+                    angleRangeCoefficient = 0.5f;
+                    break;
+                case ClubClass.WEDGE:
+                    angleRangeCoefficient = 0.25f;
+                    break;
+                case ClubClass.PUTTER:
+                    angleRangeCoefficient = 0f;
+                    break;
+                default:
+                    throw new Exception("Unsupported club class");
+            }
+            float angleRange = Mathf.Lerp(0f, angleRangeCoefficient * Mathf.PI / 24f, playerAttributes.GetControl());
+            angle += UnityEngine.Random.Range(-angleRange, angleRange);
+        }
 
         // Set velocity
         float horizontal = clubPower * Mathf.Cos(clubLoft);
