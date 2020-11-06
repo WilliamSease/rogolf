@@ -6,6 +6,8 @@ public class BlimpBehavior : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameObject thisBlimp;
+    public float rotSpeed;
+    public float traSpeed;
     void Start()
     {
         
@@ -15,7 +17,7 @@ public class BlimpBehavior : MonoBehaviour
     void Update()
     {
         //dunno why it's gotta be like this but it do :^)
-        thisBlimp.transform.Rotate(Vector3.up * Time.deltaTime * 2f);
-        thisBlimp.transform.Translate(Vector3.right * Time.deltaTime * 5f);
+        thisBlimp.transform.Rotate(Vector3.up * Time.deltaTime * rotSpeed);
+        thisBlimp.transform.Translate(Vector3.right * Time.deltaTime * traSpeed);
     }
 }

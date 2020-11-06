@@ -1,0 +1,32 @@
+﻿<records>
+    <record>
+        <name>Aaron</name>
+        <date>01/01/1960</date>
+        <stroke>0</stroke>
+        <score>2000</score>
+    </record>
+    <record>
+        <name>Buckley</name>
+        <date>01/01/1960</date>
+        <stroke>0</stroke>
+        <score>1600</score>
+    </record>
+    <record>
+        <name>Clarisse</name>
+        <date>01/01/1960</date>
+        <stroke>0</stroke>
+        <score>1200</score>
+    </record>
+    <record>
+        <name>Diana</name>
+        <date>01/01/1960</date>
+        <stroke>0</stroke>
+        <score>800</score>
+    </record>
+    <record>
+        <name>Eric</name>
+        <date>01/01/1960</date>
+        <stroke>0</stroke>
+        <score>400</score>
+    </record>
+</records>

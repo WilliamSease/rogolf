@@ -31,7 +31,7 @@ public class OptionsMenu : MonoBehaviour
         if (thisMenu.enabled)
             thisMenu.enabled = false;
         button_1.GetComponent<Button>().onClick.AddListener(task_1);
-        button_2.GetComponent<Button>().onClick.AddListener(task_2);
+        //button_2.GetComponent<Button>().onClick.AddListener(task_2);
         button_3.GetComponent<Button>().onClick.AddListener(task_3);
         /*button_4.GetComponent<Button>().onClick.AddListener(task_4);
         button_5.GetComponent<Button>().onClick.AddListener(task_5);
@@ -46,6 +46,9 @@ public class OptionsMenu : MonoBehaviour
 		volumeSliderText.text = (int) (volumeSlider.value * 100f) + "%";
         panSliderText.text = (int) (panSlider.value * 100f) + "%";
         rotSliderText.text = (int) (rotSlider.value * 100f) + "%";
+        BoomBox.SetVolumeStat(volumeSlider.value);
+        MouseOrbitImproved.SetMouseSensitivity(rotSlider.value);
+        GameObject.Find("GameController").GetComponent<Game>().SetPanSensitivity(panSlider.value);
 	}
 
     void task_1()
@@ -57,9 +60,6 @@ public class OptionsMenu : MonoBehaviour
     void task_2()
     {
 		//Save Settings here...
-		BoomBox.SetVolumeStat(volumeSlider.value);
-        MouseOrbitImproved.SetMouseSensitivity(rotSlider.value);
-        GameObject.Find("GameController").GetComponent<Game>().SetPanSensitivity(panSlider.value);
     }
 
     void task_3()
