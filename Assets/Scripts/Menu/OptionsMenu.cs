@@ -48,47 +48,57 @@ public class OptionsMenu : MonoBehaviour
         rotSliderText.text = (int) (rotSlider.value * 100f) + "%";
         BoomBox.SetVolumeStat(volumeSlider.value);
         MouseOrbitImproved.SetMouseSensitivity(rotSlider.value);
-        GameObject.Find("GameController").GetComponent<Game>().SetPanSensitivity(panSlider.value);
+        Game game = GameObject.Find("GameController").GetComponent<Game>();
+        if (game != null) game.SetPanSensitivity(panSlider.value);
 	}
 
     void task_1()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
         //UnityEngine.Debug.Log("Back to main...");
         thisMenu.enabled = false;
     }
 
     void task_2()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
 		//Save Settings here...
     }
 
     void task_3()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
 		//Volume Test...
 		BoomBox.Play(SoundEnum.Sound.TEST);
     }
 
     void task_4()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
     }
 
     void task_5()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
     }
 
     void task_6()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
     }
 
     void task_7()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
     }
 
     void task_8()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
     }
 
     void task_9()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
     }
 }

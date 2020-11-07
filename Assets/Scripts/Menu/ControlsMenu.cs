@@ -38,6 +38,7 @@ public class ControlsMenu : MonoBehaviour
     void task_1()
     {
         //UnityEngine.Debug.Log("Back to main...");
+        BoomBox.Play(SoundEnum.Sound.CLICK);
         thisMenu.enabled = false;
     }
 

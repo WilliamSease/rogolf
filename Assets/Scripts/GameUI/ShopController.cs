@@ -80,8 +80,10 @@ public class ShopController : MonoBehaviour
     
     void Clicked(int row, int column)
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
         if (row == 0 && score.GetCredits() >= SUB_CREDITS_AMOUNT)
         {
+            BoomBox.Play(SoundEnum.Sound.PURCHASE);
             score.AddDebit(SUB_CREDITS_AMOUNT);
             MarkChecked(row, column);
             playerAttributes.ApplyItem(game, GetItem(row, column));

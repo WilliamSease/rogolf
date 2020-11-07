@@ -52,43 +52,54 @@ public class PauseMenu : MonoBehaviour
 
     void task_1()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
 		optionsMenu.enabled = true;
     }
 
     void task_2()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
 		controlsMenu.enabled = true;
     }
 
     void task_3()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
 		 button_3.GetComponentInChildren<Text>().text = "Maybe someday...";
 		 button_3.interactable = false;
     }
 
     void task_4()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
 		Application.Quit();
     }
 
     void task_5()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
 		ToggleThisMenu();
+        optionsMenu.enabled = false;
+        controlsMenu.enabled = false;
     }
 
     void task_6()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
     }
 
     void task_7()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
     }
 
     void task_8()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
     }
 
     void task_9()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
     }
 }

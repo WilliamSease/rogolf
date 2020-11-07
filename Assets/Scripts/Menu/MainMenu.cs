@@ -43,6 +43,7 @@ public class MainMenu : MonoBehaviour
 
     void task_1()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
         saveState();
 
         // Get GameController and start game
@@ -53,11 +54,13 @@ public class MainMenu : MonoBehaviour
 
     void task_2()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
         saveState();
     }
 
     void task_3()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
         activeCharacter--;
         if (activeCharacter < 0) activeCharacter = 0;
         characterSel.text = "Placeholder Char " + activeCharacter;
@@ -65,12 +68,14 @@ public class MainMenu : MonoBehaviour
 
     void task_4()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
         activeCharacter++;
         characterSel.text = "Placeholder Char " + activeCharacter;
     }
 
     void task_5()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
         //UnityEngine.Debug.Log("Kicking to options menu...");
         saveState();
         optionsMenu.enabled = true;
@@ -78,6 +83,7 @@ public class MainMenu : MonoBehaviour
 
     void task_6()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
         //UnityEngine.Debug.Log("Kicking to controls menu...");
         saveState();
         controlsMenu.enabled = true;
@@ -85,12 +91,19 @@ public class MainMenu : MonoBehaviour
 
     void task_7()
     {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
         Application.Quit();
     }
 
-    void task_8() { }
+    void task_8() 
+    {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
+    }
 
-    void task_9() { }
+    void task_9() 
+    {
+        BoomBox.Play(SoundEnum.Sound.CLICK);
+    }
 
     void loadState()
     {

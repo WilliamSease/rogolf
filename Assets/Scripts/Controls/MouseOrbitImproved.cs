@@ -85,6 +85,7 @@ public class MouseOrbitImproved : MonoBehaviour
     
     public static void SetMouseSensitivity(float to)
     {
-        FindObjectOfType<MouseOrbitImproved>().mouseSensitivity = to;
+        MouseOrbitImproved MOI = FindObjectOfType<MouseOrbitImproved>();
+        if (MOI != null) MOI.mouseSensitivity = to;
     }
 }

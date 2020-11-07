@@ -90,6 +90,7 @@ public class ItemSelector : MonoBehaviour
 		if (left && right) return; //Shouldn't happen anyway but paranoid programmer
 		if (left) game.GetPlayerAttributes().ApplyItem(game, leftItem);
 		if (right) game.GetPlayerAttributes().ApplyItem(game, rightItem);
+        BoomBox.Play(SoundEnum.Sound.CLICK);
 		MoveOn();
 	}
 	
