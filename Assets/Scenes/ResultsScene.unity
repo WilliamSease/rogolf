@@ -552,6 +552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e8e2a83a7c357749a5dcd6909cf25dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreText: {fileID: 137164832}
   names:
   - {fileID: 345428247}
   - {fileID: 2030550142}
@@ -576,6 +577,8 @@ MonoBehaviour:
   - {fileID: 1798163569}
   - {fileID: 1091422169}
   - {fileID: 1729385865}
+  submitButton: {fileID: 890710661}
+  inputField: {fileID: 1644318933}
 --- !u!1 &315293039
 GameObject:
   m_ObjectHideFlags: 0

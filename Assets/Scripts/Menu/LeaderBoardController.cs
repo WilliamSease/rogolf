@@ -14,21 +14,37 @@ public class LeaderBoardController : MonoBehaviour
     public const string PREFIX = ".\\Assets\\Data\\";
     public const string LEADERBOARD = "leaderboard.xml";
     
+    public Text scoreText;
+    
     public Text[] names = new Text[5];
     public Text[] dates = new Text[5];
     public Text[] strokes = new Text[5];
     public Text[] scores = new Text[5];
     
+    private bool submitted = false;
+    public Button submitButton;
+    public InputField inputField;
+    
     // Start is called before the first frame update
     void Start()
     {
+            scoreText.text = ""; //TODO get this from GAME
             DisplayAllRecords();
+            submitButton.GetComponent<Button>().onClick.AddListener(submit);
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+    
+    void submit()
+    {
+        if (submitted) return;
+        //TODO, get these dummy values from GAME.
+        appendSubmission(inputField.text, "dummyDate", 0, 40000);
+        submitted = true;
     }
     
     public void DisplayRecord(int pos, Record r)
@@ -51,8 +67,9 @@ public class LeaderBoardController : MonoBehaviour
             }
     }
     
-    public void appendSubmission(string name, string date, string stroke, int theScore)
+    public void appendSubmission(string name, string date, int theStroke, int theScore)
     {
+        string stroke = "" + theStroke;
         string score = "" + theScore;
         Record newRecord = new Record (name, date, stroke, score);
         List<Record> current = ReadXMLFromDisk();
