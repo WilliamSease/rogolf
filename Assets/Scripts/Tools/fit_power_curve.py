@@ -11,10 +11,6 @@ from sklearn.pipeline import make_pipeline
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 
-def polynomial_regression(X, y, degree):
-    polynomial_regression = make_pipeline(PolynomialFeatures(degree), LinearRegression())
-    return polynomial_regression.fit(X, y)
-
 def get_input_and_target(df, club):
     X = df[club]
     valid_indices = ~np.isnan(X)
@@ -22,23 +18,26 @@ def get_input_and_target(df, club):
     y = df['Power'][valid_indices]
     return (X, y)
 
+def polynomial_regression(X, y, degree):
+    polynomial_regression = make_pipeline(PolynomialFeatures(degree), LinearRegression())
+    return polynomial_regression.fit(X, y)
+
 def main():
     # Read data
     cols = ['Power', '1W', '3W', '5W', '3I', '4I', '5I',
             '6I', '7I', '8I', '9I', 'PW', 'SW', 'LW', 'P']
+    clubs = cols[1:]
     df = pd.read_csv('power_data.csv', names=cols, header=0)
 
-    data = [get_input_and_target(df, club) for club in cols[1:]]
+    data = [get_input_and_target(df, club) for club in clubs]
     
     # Create models
-    regressions = [polynomial_regression(X, y, degree=7) for (X, y) in data]
+    regressions = [polynomial_regression(X, y, degree=5) for (X, y) in data]
 
     # Print models
-    for regression in regressions:   
+    for (club, regression) in zip(clubs, regressions):   
         model = regression.named_steps['linearregression']
-        equation = model.coef_
-        equation[0] = model.intercept_
-        print(equation)
+        print(f'{club}: {model.intercept_}, {model.coef_}')
     
     # Create plot
     plt.figure()
