@@ -88,7 +88,7 @@ public class Ball
 
     public void Reset() { Reset(Vector3.zero); }
 
-    public void Strike(Mode shotMode, Club club, float power, float accuracy, bool debug = false)
+    public void Strike(Mode shotMode, Club club, float power, float accuracy, bool debug = false, Flag flag = Flag.NONE)
     {
         // Get player attributes
         PlayerAttributes playerAttributes = game.GetPlayerAttributes();
@@ -98,7 +98,7 @@ public class Ball
 
         // Set power
         lie = !debug ? GetTerrainType().GetLie() : 1f;
-        float clubPower = club.GetPower() * power * Mathf.Lerp(0.5f, 1.0f, playerAttributes.GetPower() * lie);
+        float clubPower = club.GetPower() * club.GetClubType().GetForce(power) * Mathf.Lerp(0.5f, 1.0f, playerAttributes.GetPower() * lie);
         float clubLoft = club.GetLoft();
 
         // Adjust for shot mode
@@ -438,13 +438,15 @@ public class Ball
     public Vector3 GetGroundVector() { return MathUtil.GetGroundVector(terrainNormal, velocity); }
 
     #region Simulation
-    public float Simulate(Club club, Mode shotMode, float power, float accuracy)
+    public enum Flag { NONE, NO_POWER_CURVE }
+
+    public float Simulate(Club club, Mode shotMode, float power, float accuracy, Flag flag = Flag.NONE)
     {
         Vector3 oldPosition = position;
         Vector3 oldHolePosition = holePosition;
 
         Reset();
-        Strike(shotMode, club, power, accuracy, true);
+        Strike(shotMode, club, power, accuracy, true, flag);
         terrainNormal = Vector3.up;
         // Set holePosition to be unreachable
         holePosition = Vector3.down;
@@ -484,7 +486,7 @@ public class Ball
             List<float> distances = new List<float>();
             foreach (float power in powers)
             {
-                distances.Add(Simulate(club, Mode.NORMAL, power, 0f));
+                distances.Add(Simulate(club, Mode.NORMAL, power, 0f, Flag.NO_POWER_CURVE));
             }
             
             output.Append(String.Format("{0}, {1}\n", club.GetName(), string.Join(", ", distances)));

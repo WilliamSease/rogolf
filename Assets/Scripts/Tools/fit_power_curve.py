@@ -11,6 +11,37 @@ from sklearn.pipeline import make_pipeline
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 
+club_type = {
+    '1W' : 'ONE_WOOD',
+    '2W' : 'TWO_WOOD',
+    '3W' : 'THREE_WOOD',
+    '4W' : 'FOUR_WOOD',
+    '5W' : 'FIVE_WOOD',
+    '7W' : 'SEVEN_WOOD',
+    '9W' : 'NINE_WOOD',
+    '2H' : 'TWO_HYBRID',
+    '3H' : 'THREE_HYBRID',
+    '4H' : 'FOUR_HYBRID',
+    '5H' : 'FIVE_HYBRID',
+    '6H' : 'SIX_HYBRID',
+    '7H' : 'SEVEN_HYBRID',
+    '1I' : 'ONE_IRON',
+    '2I' : 'TWO_IRON',
+    '3I' : 'THREE_IRON',
+    '4I' : 'FOUR_IRON',
+    '5I' : 'FIVE_IRON',
+    '6I' : 'SIX_IRON',
+    '7I' : 'SEVEN_IRON',
+    '8I' : 'EIGHT_IRON',
+    '9I' : 'NINE_IRON',
+    'PW' : 'PITCHING_WEDGE',
+    'GW' : 'GAP_WEDGE',
+    'SW' : 'SAND_WEDGE',
+    'LW' : 'LOB_WEDGE',
+    'FW' : 'FINAL_WEDGE',
+    'P'  : 'PUTTER',
+}
+
 def get_input_and_target(df, club):
     X = df[club]
     valid_indices = ~np.isnan(X)
@@ -37,7 +68,8 @@ def main():
     # Print models
     for (club, regression) in zip(clubs, regressions):   
         model = regression.named_steps['linearregression']
-        print(f'{club}: {model.intercept_}, {model.coef_}')
+        coefficients = ', '.join([f'{str(coefficient)}f' for coefficient in model.coef_])
+        print(f'{{ ClubType.{club_type[club]}, new Polynomial({model.intercept_}f, {coefficients}) }},')
     
     # Create plot
     plt.figure()
