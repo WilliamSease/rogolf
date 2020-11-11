@@ -67,7 +67,8 @@ public class DevConsole : MonoBehaviour
         "GraphicDebug: Toggle graphic debug.",
         "Strike: Hit ball.",
 		"PlaySound [name]: Play a sound.",
-		"SetVolume [0.0 - 1.0]: Set game volume."
+		"SetVolume [0.0 - 1.0]: Set game volume.",
+        "WriteLeaderBoard: Write dummy values to leaderboard."
     };
     
     // Start is called before the first frame update
@@ -238,6 +239,9 @@ public class DevConsole : MonoBehaviour
                 break;
             case "simulatepower":
                 Report(SimulatePower());
+                break;
+            case "writeleaderboard":
+                Report(WriteLeaderBoard());
                 break;
             default:
                 Reply("'" + arr[0] + "' doesn't appear to be a command");
@@ -698,6 +702,11 @@ public class DevConsole : MonoBehaviour
         game.GetBall().SimulatePower();
         Reply("Done.");
         return true;
+    }
+    
+    public bool WriteLeaderBoard()
+    {
+        return LeaderBoardController.WriteDummies();
     }
 
     #region utility

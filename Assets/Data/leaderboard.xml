@@ -1,1 +1,32 @@
-﻿<?xml version="1.0" encoding="utf-8"?><records><record><name>doesdate</name><date>28/10/2020</date><stroke>0</stroke><score>100000</score></record><record><name>ehllo</name><date>11/10/2020</date><stroke>0</stroke><score>100000</score></record><record><name>dummyName</name><date>dummyDate</date><stroke>0</stroke><score>40000</score></record><record><name>verydummy</name><date>dummyDate</date><stroke>0</stroke><score>40000</score></record><record><name>Atom</name><date>dummyDate</date><stroke>0</stroke><score>40000</score></record></records>
+﻿<records>
+    <record>
+        <name>Aaron</name>
+        <date>01/01/1960</date>
+        <stroke>0</stroke>
+        <score>2000</score>
+    </record>
+    <record>
+        <name>Buckley</name>
+        <date>01/01/1960</date>
+        <stroke>0</stroke>
+        <score>1600</score>
+    </record>
+    <record>
+        <name>Clarisse</name>
+        <date>01/01/1960</date>
+        <stroke>0</stroke>
+        <score>1200</score>
+    </record>
+    <record>
+        <name>Diana</name>
+        <date>01/01/1960</date>
+        <stroke>0</stroke>
+        <score>800</score>
+    </record>
+    <record>
+        <name>Eric</name>
+        <date>01/01/1960</date>
+        <stroke>0</stroke>
+        <score>400</score>
+    </record>
+</records>

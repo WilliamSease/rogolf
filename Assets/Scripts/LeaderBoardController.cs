@@ -13,6 +13,7 @@ public class LeaderBoardController : MonoBehaviour
 {
     public const string PREFIX = ".\\Assets\\Data\\";
     public const string LEADERBOARD = "leaderboard.xml";
+    public const string LEADERBOARD_BACKUP = "leaderboard_backup.xml";
     
     public Text scoreText;
     
@@ -151,6 +152,15 @@ public class LeaderBoardController : MonoBehaviour
                 toProcess.Remove(tempRec);
         }
         return ret;
+    }
+    
+    public static bool WriteDummies()
+    {
+        string sourceFile = PREFIX + LEADERBOARD_BACKUP;  
+        string destinationFile = PREFIX + LEADERBOARD;
+        try { File.Copy(sourceFile, destinationFile, true); }
+        catch (IOException iox) { Console.WriteLine(iox.Message); return false;}
+        return true;
     }
 }
 
