@@ -90,6 +90,19 @@ public class ScoreCard : MonoBehaviour
         tot[15].text = (back.Sum(h => h.GetPutts())).ToString();
         tot[16].text = (back.Sum(h => h.GetFir() ? 1 : 0)).ToString();
         tot[17].text = (back.Sum(h => h.GetGir() ? 1 : 0)).ToString();
+
+
+        foreach (Text t in grndTot) t.fontStyle = FontStyle.Bold;
+
+        grndTot[0].text = "TOT";
+        grndTot[1].text = (holesPlayed.Sum(h => MathUtil.ToYardsRounded(h.GetLengthBack()))).ToString();
+        grndTot[2].text = (holesPlayed.Sum(h => MathUtil.ToYardsRounded(h.GetLengthFront()))).ToString();
+        grndTot[3].text = (holesPlayed.Sum(h => h.GetPar())).ToString();
+        grndTot[4].text = holesPlayed.Count > 0 ? (holesPlayed.Average(h => h.GetHandicap())).ToString("F1") : "";
+        grndTot[5].text = (holesPlayed.Sum(h => h.GetStrokes())).ToString();
+        grndTot[6].text = (holesPlayed.Sum(h => h.GetPutts())).ToString();
+        grndTot[7].text = (holesPlayed.Sum(h => h.GetFir() ? 1 : 0)).ToString();
+        grndTot[8].text = (holesPlayed.Sum(h => h.GetGir() ? 1 : 0)).ToString();
     }
 
     void Update()
