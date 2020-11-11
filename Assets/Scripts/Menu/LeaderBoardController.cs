@@ -43,7 +43,7 @@ public class LeaderBoardController : MonoBehaviour
     {
         if (submitted) return;
         //TODO, get these dummy values from GAME.
-        appendSubmission(inputField.text, "dummyDate", 0, 40000);
+        appendSubmission(inputField.text, System.DateTime.Now.ToString("MM/dd/yyyy"), 0, 100000);
         submitted = true;
     }
     
