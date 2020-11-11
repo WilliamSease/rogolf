@@ -34,6 +34,7 @@ public class LeaderBoardController : MonoBehaviour
     {
             Game game = GameObject.Find(GameController.NAME).GetComponent<Game>();
             score = game.GetScore().GetEarnings();
+            stroke = game.GetHoleBag().GetHolesPlayed().Sum(h => h.GetStrokes());
             scoreText.text = "" + score; //TODO get this from GAME
             DisplayAllRecords();
             submitButton.GetComponent<Button>().onClick.AddListener(submit);
@@ -49,7 +50,7 @@ public class LeaderBoardController : MonoBehaviour
     {
         if (submitted) return;
         //TODO, get these dummy values from GAME.
-        submitted = appendSubmission(inputField.text, System.DateTime.Now.ToString("MM/dd/yyyy"), 0, score);
+        submitted = appendSubmission(inputField.text, System.DateTime.Now.ToString("MM/dd/yyyy"), stroke, score);
     }
     
     public void DisplayRecord(int pos, Record r)

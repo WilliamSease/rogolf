@@ -22,6 +22,7 @@ public class ScoreCard : MonoBehaviour
     public Text[] Fir = new Text[18];
     public Text[] Gir = new Text[18];
     public Text[] tot = new Text[18];
+    public Text[] grndTot = new Text[9];
     
     public Text moneyText;
     
@@ -63,7 +64,7 @@ public class ScoreCard : MonoBehaviour
                 Gir[i].text = "";
             }
             
-            moneyText.text = game.GetScore().GetCredits().ToString();
+            moneyText.text = game.GetScore().GetEarnings().ToString();
         }
 
         foreach (Text t in tot) t.fontStyle = FontStyle.Bold;
