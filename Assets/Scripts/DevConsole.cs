@@ -43,7 +43,8 @@ public class DevConsole : MonoBehaviour
         "GetHoleData: Gets info about the current hole.",
         "GiveItem: Gives the player item of specified name.",
         "NextHole: Sets the next hole.",
-        "EndHole: End current hole."
+        "EndHole: End current hole.",
+        "EndGame: End the game. (Jump to results screen)"
     };
 
     private string[] helpBall =
@@ -242,6 +243,9 @@ public class DevConsole : MonoBehaviour
                 break;
             case "writeleaderboard":
                 Report(WriteLeaderBoard());
+                break;
+            case "endgame":
+                Report(EndGame());
                 break;
             default:
                 Reply("'" + arr[0] + "' doesn't appear to be a command");
@@ -707,6 +711,12 @@ public class DevConsole : MonoBehaviour
     public bool WriteLeaderBoard()
     {
         return LeaderBoardController.WriteDummies();
+    }
+    
+    public bool EndGame()
+    {
+        game.GetHoleBag().SetEndGame();
+        return true;
     }
 
     #region utility

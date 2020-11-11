@@ -14,7 +14,10 @@ public class LeaderBoardController : MonoBehaviour
     public const string PREFIX = ".\\Assets\\Data\\";
     public const string LEADERBOARD = "leaderboard.xml";
     public const string LEADERBOARD_BACKUP = "leaderboard_backup.xml";
+    public const string SCENE_NAME = "ResultsScene";
     
+    private int score;
+    private int stroke;
     public Text scoreText;
     
     public Text[] names = new Text[5];
@@ -29,7 +32,9 @@ public class LeaderBoardController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-            scoreText.text = ""; //TODO get this from GAME
+            Game game = GameObject.Find(GameController.NAME).GetComponent<Game>();
+            score = game.GetScore().GetEarnings();
+            scoreText.text = "" + score; //TODO get this from GAME
             DisplayAllRecords();
             submitButton.GetComponent<Button>().onClick.AddListener(submit);
     }
@@ -44,8 +49,7 @@ public class LeaderBoardController : MonoBehaviour
     {
         if (submitted) return;
         //TODO, get these dummy values from GAME.
-        appendSubmission(inputField.text, System.DateTime.Now.ToString("MM/dd/yyyy"), 0, 100000);
-        submitted = true;
+        submitted = appendSubmission(inputField.text, System.DateTime.Now.ToString("MM/dd/yyyy"), 0, score);
     }
     
     public void DisplayRecord(int pos, Record r)
@@ -68,8 +72,9 @@ public class LeaderBoardController : MonoBehaviour
             }
     }
     
-    public void appendSubmission(string name, string date, int theStroke, int theScore)
+    public bool appendSubmission(string name, string date, int theStroke, int theScore)
     {
+        if (name.Length < 1) return false;
         string stroke = "" + theStroke;
         string score = "" + theScore;
         Record newRecord = new Record (name, date, stroke, score);
@@ -106,6 +111,7 @@ public class LeaderBoardController : MonoBehaviour
         xmlWriter.WriteEndDocument();
         xmlWriter.Close();
         DisplayAllRecords();
+        return true;
     }
     
     public List<Record> ReadXMLFromDisk()

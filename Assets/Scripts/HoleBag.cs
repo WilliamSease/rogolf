@@ -17,6 +17,7 @@ public class HoleBag
     
     // Nexthole [string] in console will set this.
     private bool queueUp = false;
+    private bool endGame = false;
     private string queueHole = "";
 
     private string holeName;
@@ -95,7 +96,7 @@ public class HoleBag
     {
         return holesPlayed.Count > 0 ? holesPlayed[holesPlayed.Count - 1] : null;
     }
-    public int GetHoleCount() { return holesPlayed.Count; }
+    public int GetHoleCount() { return endGame ? 18 : holesPlayed.Count; }
     public List<HoleData> GetHolesPlayed() { return holesPlayed; }
     
     public bool SetQueueUp(string name)
@@ -103,6 +104,11 @@ public class HoleBag
         queueUp = true;
         queueHole = name;
         return true;
+    }
+    
+    public void SetEndGame()
+    {
+        endGame = true;
     }
 }
 
