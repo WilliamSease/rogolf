@@ -6963,6 +6963,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   directionalLightPrefab: {fileID: 3031059514088655469, guid: bec09d731bf0fa749adeab8e5b3fead1, type: 3}
+  areaLightPrefab: {fileID: 3031059514088655469, guid: a17e28eb8a8d8594cad453b3620d7266, type: 3}
   cameraPrefab: {fileID: 1405086373536391866, guid: 49d2d9d8dc595494fa97e46155efd2ff, type: 3}
   ballPrefab: {fileID: 311251129746609182, guid: d3c72079bd870a74984e9c9ad242b167, type: 3}
   cursorPrefab: {fileID: 4743382481015483612, guid: 4d048eace87ed4342b81970ed769fd29, type: 3}
