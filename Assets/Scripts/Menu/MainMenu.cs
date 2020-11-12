@@ -20,14 +20,19 @@ public class MainMenu : MonoBehaviour
     public Button button_7;
     public Button button_8;
     public Button button_9;
+    
+    public Text[] statText = new Text[4];
+    public Text presetText;
+    private int[] powValues = new int[]{20,15,10};
+    private int[] conValues = new int[]{20,15,10};
+    private int[] impValues = new int[]{20,15,10};
+    private int[] spiValues = new int[]{20,15,10};
 
-    int activeCharacter = 0;
-    public Text characterSel;
+    private int activeCharacter = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        loadState();
         optionsMenu.enabled = false;
         controlsMenu.enabled = false;
         button_1.GetComponent<Button>().onClick.AddListener(task_1);
@@ -39,23 +44,27 @@ public class MainMenu : MonoBehaviour
         button_7.GetComponent<Button>().onClick.AddListener(task_7);
         /*button_8.GetComponent<Button>().onClick.AddListener(task_8);
         button_9.GetComponent<Button>().onClick.AddListener(task_9);*/
+        activeCharacter = 0;
+        updateCharacterText();
     }
 
     void task_1()
     {
         BoomBox.Play(SoundEnum.Sound.CLICK);
-        saveState();
-
         // Get GameController and start game
         GameObject gameObject = GameObject.Find(GameController.NAME);
         GameController gameController = gameObject.GetComponent<GameController>();
         gameController.StartGame();
+        PlayerAttributes p = gameController.GetComponent<Game>().GetPlayerAttributes();
+        p.SetPower((float)powValues[activeCharacter]/100f);
+        p.SetControl((float)conValues[activeCharacter]/100f);
+        p.SetImpact((float)impValues[activeCharacter]/100f);
+        p.SetSpin((float)spiValues[activeCharacter]/100f);
     }
 
     void task_2()
     {
         BoomBox.Play(SoundEnum.Sound.CLICK);
-        saveState();
     }
 
     void task_3()
@@ -63,29 +72,26 @@ public class MainMenu : MonoBehaviour
         BoomBox.Play(SoundEnum.Sound.CLICK);
         activeCharacter--;
         if (activeCharacter < 0) activeCharacter = 0;
-        characterSel.text = "Placeholder Char " + activeCharacter;
+        updateCharacterText();
     }
 
     void task_4()
     {
         BoomBox.Play(SoundEnum.Sound.CLICK);
         activeCharacter++;
-        characterSel.text = "Placeholder Char " + activeCharacter;
+        if (activeCharacter >= powValues.Length) activeCharacter = powValues.Length - 1;
+        updateCharacterText();
     }
 
     void task_5()
     {
         BoomBox.Play(SoundEnum.Sound.CLICK);
-        //UnityEngine.Debug.Log("Kicking to options menu...");
-        saveState();
         optionsMenu.enabled = true;
     }
 
     void task_6()
     {
         BoomBox.Play(SoundEnum.Sound.CLICK);
-        //UnityEngine.Debug.Log("Kicking to controls menu...");
-        saveState();
         controlsMenu.enabled = true;
     }
 
@@ -104,13 +110,13 @@ public class MainMenu : MonoBehaviour
     {
         BoomBox.Play(SoundEnum.Sound.CLICK);
     }
-
-    void loadState()
+    
+    void updateCharacterText()
     {
-        activeCharacter = PlayerPrefs.GetInt("activeCharacter");
-    }
-    void saveState()
-    {
-        PlayerPrefs.SetInt("activeCharacter", activeCharacter);
+        statText[0].text ="" + powValues[activeCharacter];
+        statText[1].text ="" + conValues[activeCharacter]; 
+        statText[2].text ="" + impValues[activeCharacter]; 
+        statText[3].text ="" + spiValues[activeCharacter];
+        presetText.text ="" + "Preset " + activeCharacter;
     }
 }
