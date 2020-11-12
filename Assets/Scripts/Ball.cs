@@ -35,9 +35,10 @@ public class Ball
     private float dtheta = 0;
     private Vector3 spin;
     private float height = 0;
+    private RaycastHit collisionHit;
+    private Vector3 collisionNormal = MathUtil.Vector3NaN;
     private Vector3 terrainNormal = MathUtil.Vector3NaN;
     private RaycastHit terrainHit;
-    private RaycastHit cupHit;
     private bool hasBounced;
     private Vector3 lastPosition;
     private Vector3 holePosition;
@@ -176,10 +177,13 @@ public class Ball
         SetDeltaTime();
         if (IsMoving() || !InHole())
         {
+            SetHeight();
+
+            if (IsColliding()) CalculateBounce();
+            else UpdatePosition();
+
             UpdatePhysicsVectors();
             ApplyWind();
-            SetHeight();
-            CalculateBounce();
             CalculateFriction();
         }
         else
@@ -188,15 +192,76 @@ public class Ball
         }
     }
 
+    /// <summary>
+    /// Returns true if ball will collide with anything in the next frame.
+    /// Sets collisionHit as a side effect.
+    /// </summary>
+    public bool IsColliding(bool debug = false)
+    {
+        if (debug)
+        {
+            bool collided = (position + velocity).y < 0;
+            collisionNormal = collided ? Vector3.up : Vector3.zero;
+            return collided;
+        }
+        else
+        {
+            bool collided = Physics.Raycast(position, velocity, out collisionHit, velocity.magnitude);
+            collisionNormal = collisionHit.normal;
+            return collided;
+        }
+    }
+
+    private void CalculateBounce(bool debug = false)
+    {
+        onCup = debug ? false : CalculateCup();
+
+        if (onCup) OnCupBounce();
+        else
+        {
+            float collisionVerticalOffset = 0.00001f;
+            position = debug ? new Vector3(position.x + velocity.x,                        collisionVerticalOffset, position.z + velocity.z)
+                             : new Vector3(position.x + velocity.x, collisionHit.point.y + collisionVerticalOffset, position.z + velocity.z);
+
+            if (IsRolling())
+            {
+                velocity = velocity.magnitude * GetGroundVector();
+            }
+            else
+            {
+                velocity = Vector3.Reflect(velocity, collisionNormal);
+                velocity.y *= GetBounce(debug);
+            }
+
+            // Calculate spin
+            velocity += spin;
+            spin *= SPIN_DECAY;
+
+            hasBounced = true;
+        }
+    }
+
+    /// <summary>
+    /// Updates just the position vector.
+    /// </summary>
+    private void UpdatePosition()
+    {
+        position += velocity * (deltaTime / mass);
+    }
+
+    /// <summary>
+    /// Applies inaccuracy, updates drag, and updates velocity.
+    /// Does NOT update position.
+    /// </summary>
     private void UpdatePhysicsVectors()
     {
-        // Update position
-        position += velocity * (deltaTime / mass);
         // Apply inaccuracy
         if (!hasBounced) velocity = MathUtil.Rotate(velocity, dtheta * deltaTime);
+
         // Update drag
         fnet = (gravity * mass) - ((velocity * (0.5f*c*rho*A * Mathf.Pow(velocity.magnitude / mass, 2))) / velocity.magnitude);
         fnet *= deltaTime;
+
         // Update velocity
         velocity += fnet;
     }
@@ -206,6 +271,9 @@ public class Ball
         velocity += wind.GetWindVector(height);
     }
 
+    /// <summary>
+    /// This method doesn't do what you think it does.
+    /// </summary>
     private void SetHeight()
     {
         RaycastHit hit;
@@ -221,34 +289,30 @@ public class Ball
         }
         else
         {
-            RaycastHit[] hits = Physics.RaycastAll(new Ray(positionHigh, Vector3.down));
-            // TODO - debug
-            //string[] ss = (from h in hits select h.transform.gameObject.name).ToArray();
-            //UnityEngine.Debug.Log(string.Join(", ", ss));
-            if (hits.Length > 0)
+            if (Physics.Raycast(new Ray(positionHigh, Vector3.down), out hit))
             {
-                hit = hits[0];
                 noHeightTime = 0;
                 height = position.y - hit.point.y;
                 terrainNormal = hit.normal;
                 terrainHit = hit;
-                foreach (RaycastHit h in hits)
-                    if (h.transform.gameObject.name[0] == 'C')
-                        cupHit = h;
             }
             else
             {
                 if (noHeightTime < NO_HEIGHT_TIME_OUT)
                 {
                     noHeightTime += deltaTime;
-                    height = Single.PositiveInfinity;
+                    //height = Single.PositiveInfinity;
+                    height = 0;
                 }
-                else throw new InvalidOperationException("Ball height not found");
+                else throw new OutOfBounds();
             }
         }
     }
 
-    // TODO
+    /// <summary>
+    /// Returns true if the ball is right on top of or inside the cup.
+    /// Applies cupEffect to velocity as a side effect.
+    /// </summary>
     private bool CalculateCup()
     {   
         float distanceToHole = DistanceToHole();
@@ -274,56 +338,23 @@ public class Ball
         }
     }
 
-    private void CalculateBounce(bool debug = false)
-    {
-        onCup = false;
-        if (!debug) { onCup = CalculateCup(); }
-
-        if (onCup && !debug) { OnCupBounce(); }
-        else if (height <= 0)
-        {
-            if (IsRolling())
-            {
-                position.y -= height;
-                velocity = velocity.magnitude * GetGroundVector();
-            }
-            else
-            {
-                position.y -= height;
-                velocity = Vector3.Reflect(velocity, terrainNormal);
-                velocity.y *= GetBounce(debug);
-            }
-
-            // Calculate spin
-            velocity += spin;
-            spin *= SPIN_DECAY;
-
-            hasBounced = true;
-        }
-    }
-
     private void OnCupBounce()
     {
         // TODO - debug - see ball go in hole
         //terrainHit.transform.gameObject.GetComponent<MeshRenderer>().enabled = false;
         //game.GetGameController().GetCupHole().GetComponent<MeshRenderer>().enabled = false;
 
-        RaycastHit hit;
-        if (Physics.Raycast(new Ray(position, velocity), out hit))
+        // If ball hitting cup
+        if (collisionHit.transform.gameObject.name[0] == 'C')
         {
-            float cupFaceDistance = Vector3.Distance(position, hit.point);
-            /*
-            UnityEngine.Debug.Log(cupFaceDistance.ToString());
-            if (cupFaceDistance < 0.01f)
-            {
-                velocity = 0.5f * Vector3.Reflect(velocity, hit.normal);
-            }
-            */
+            velocity = 0.5f * Vector3.Reflect(velocity, collisionNormal);
+
+            // TODO
             velocity = Vector3.zero;
             position = position + new Vector3(0, -CUP_DEPTH/2f, 0);
             inHole = true;
         }
-        //else UnityEngine.Debug.Log("Hit not found");
+        // Else let ball fall through terrain surface
     }
 
     private void CalculateFriction(bool debug = false)
@@ -447,6 +478,7 @@ public class Ball
 
         Reset();
         Strike(shotMode, club, power, accuracy, true, flag);
+
         terrainNormal = Vector3.up;
         // Set holePosition to be unreachable
         holePosition = Vector3.down;
@@ -460,9 +492,12 @@ public class Ball
                 // TODO - no
 
                 // Update
-                UpdatePhysicsVectors();
                 height = position.y;
-                CalculateBounce(true);
+                
+                if (IsColliding(true)) CalculateBounce(true);
+                else UpdatePosition();
+
+                UpdatePhysicsVectors();
                 CalculateFriction(true);
             }
             else { break; }
@@ -521,9 +556,11 @@ public class Ball
 
         Reset();
         Strike(shotMode, club, 1f, 0f, true);
+
         terrainNormal = Vector3.up;
         // Set holePosition to be unreachable
         holePosition = Vector3.down;
+
         while (true)
         {
             deltaTime = 0.03f;
@@ -534,9 +571,13 @@ public class Ball
                     outputString.Append(position.x + "," + position.y  + "\n");
                     maxHeight = Math.Max(maxHeight, position.y);
                 }
-                UpdatePhysicsVectors();
+
                 height = position.y;
-                CalculateBounce(true);
+
+                if (IsColliding(true)) CalculateBounce(true);
+                else UpdatePosition();
+
+                UpdatePhysicsVectors();
                 CalculateFriction(true);
                 if (!set && hasBounced)
                 {
