@@ -69,7 +69,7 @@ public class Ball
 
         A = Mathf.PI * Mathf.Pow(radius, 2);
 
-        Reset();
+        Reset(Vector3.zero);
     }
 
     public void Reset(Vector3 v)
@@ -87,7 +87,7 @@ public class Ball
         inHole = false;
     }
 
-    public void Reset() { Reset(Vector3.zero); }
+    public void Reset() { Reset(lastPosition); }
 
     public void Strike(Mode shotMode, Club club, float power, float accuracy, bool debug = false, Flag flag = Flag.NONE)
     {
@@ -476,7 +476,7 @@ public class Ball
         Vector3 oldPosition = position;
         Vector3 oldHolePosition = holePosition;
 
-        Reset();
+        Reset(Vector3.zero);
         Strike(shotMode, club, power, accuracy, true, flag);
 
         terrainNormal = Vector3.up;
@@ -554,7 +554,7 @@ public class Ball
             maxHeight = 0;
         }
 
-        Reset();
+        Reset(Vector3.zero);
         Strike(shotMode, club, 1f, 0f, true);
 
         terrainNormal = Vector3.up;
