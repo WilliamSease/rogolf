@@ -23,10 +23,10 @@ public class MainMenu : MonoBehaviour
     
     public Text[] statText = new Text[4];
     public Text presetText;
-    private int[] powValues = new int[]{20,15,10};
-    private int[] conValues = new int[]{20,15,10};
-    private int[] impValues = new int[]{20,15,10};
-    private int[] spiValues = new int[]{20,15,10};
+    private int[] powValues = new int[]{20,15,25,30};
+    private int[] conValues = new int[]{20,25,15,20};
+    private int[] impValues = new int[]{20,15,25,20};
+    private int[] spiValues = new int[]{20,25,15,10};
 
     private int activeCharacter = 0;
 
