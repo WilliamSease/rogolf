@@ -117,6 +117,6 @@ public class MainMenu : MonoBehaviour
         statText[1].text ="" + conValues[activeCharacter]; 
         statText[2].text ="" + impValues[activeCharacter]; 
         statText[3].text ="" + spiValues[activeCharacter];
-        presetText.text ="" + "Preset " + activeCharacter;
+        presetText.text ="" + "Preset " + (activeCharacter + 1);
     }
 }
