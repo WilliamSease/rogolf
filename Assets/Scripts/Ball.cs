@@ -177,19 +177,22 @@ public class Ball
         SetDeltaTime();
         if (IsMoving() || !InHole())
         {
-            SetHeight();
-
-            if (IsColliding()) CalculateBounce();
-            else UpdatePosition();
-
             UpdatePhysicsVectors();
-            ApplyWind();
             CalculateFriction();
+            ApplyWind();
+            SetHeight();
+            UpdateBounceAndPosition();
         }
         else
         {
             Reset(position);
         }
+    }
+
+    public void UpdateBounceAndPosition(bool debug = false)
+    {
+        if (IsColliding(debug)) CalculateBounce(debug);
+        else UpdatePosition();
     }
 
     /// <summary>
@@ -198,18 +201,18 @@ public class Ball
     /// </summary>
     public bool IsColliding(bool debug = false)
     {
+        bool collided;
         if (debug)
         {
-            bool collided = (position + velocity).y < 0;
+            collided = (position + velocity).y < 0;
             collisionNormal = collided ? Vector3.up : Vector3.zero;
-            return collided;
         }
         else
         {
-            bool collided = Physics.Raycast(position, velocity, out collisionHit, velocity.magnitude);
+            collided = Physics.Raycast(position, velocity, out collisionHit, velocity.magnitude);
             collisionNormal = collisionHit.normal;
-            return collided;
         }
+        return collided;
     }
 
     private void CalculateBounce(bool debug = false)
@@ -219,23 +222,43 @@ public class Ball
         if (onCup) OnCupBounce();
         else
         {
-            float collisionVerticalOffset = 0.00001f;
-            position = debug ? new Vector3(position.x + velocity.x,                        collisionVerticalOffset, position.z + velocity.z)
-                             : new Vector3(position.x + velocity.x, collisionHit.point.y + collisionVerticalOffset, position.z + velocity.z);
-
-            if (IsRolling())
-            {
-                velocity = velocity.magnitude * GetGroundVector();
-            }
-            else
-            {
-                velocity = Vector3.Reflect(velocity, collisionNormal);
-                velocity.y *= GetBounce(debug);
-            }
-
             // Calculate spin
             velocity += spin;
             spin *= SPIN_DECAY;
+
+            // Get collision hit point
+            Vector3 hit = debug ? Vector3.Lerp(position, position + velocity, 
+                                          Mathf.InverseLerp(position.y, (position + velocity).y, 0f))
+                                : collisionHit.point;
+
+            // Calculate remaining velocity
+            float remainingVelocity = 1f - (Vector3.Distance(position, hit) / Vector3.Distance(position, position + velocity));
+
+            // Ball hits ground
+            position = hit;
+
+            // Modify velocity
+            if (IsRolling())
+            {
+                // Roll if rolling
+                velocity = velocity.magnitude * Vector3.Lerp(GetCollisionGroundVector().normalized, collisionNormal, 0.01f);
+            }
+            else
+            {
+                // Reflect if not rolling
+                velocity = Vector3.Reflect(velocity, collisionNormal);
+                Vector3 groundVector = GetCollisionGroundVector().normalized * velocity.magnitude;
+                velocity = Vector3.Lerp(groundVector, velocity, GetBounce(debug));
+            }
+
+            // Validate velocity
+            if (Vector3.Dot(collisionNormal, velocity) <= 0)
+            {
+                velocity = velocity.magnitude * Vector3.Lerp(GetCollisionGroundVector().normalized, collisionNormal, 0.01f);
+            }
+            
+            // Apply remaining velocity
+            position += velocity * (deltaTime / mass) * remainingVelocity;
 
             hasBounced = true;
         }
@@ -301,7 +324,6 @@ public class Ball
                 if (noHeightTime < NO_HEIGHT_TIME_OUT)
                 {
                     noHeightTime += deltaTime;
-                    //height = Single.PositiveInfinity;
                     height = 0;
                 }
                 else throw new OutOfBounds();
@@ -314,7 +336,9 @@ public class Ball
     /// Applies cupEffect to velocity as a side effect.
     /// </summary>
     private bool CalculateCup()
-    {   
+    {
+        return false;
+        /*
         float distanceToHole = DistanceToHole();
         // If ball is in or right above the cup
         if ((distanceToHole < cupRadius && height <= 0) || (distanceToHole < CUP_DEPTH && height <= -cupRadius))
@@ -336,6 +360,7 @@ public class Ball
             cupEffect = Vector3.zero;
             return false;
         }
+        */
     }
 
     private void OnCupBounce()
@@ -466,6 +491,7 @@ public class Ball
     public Vector3 GetFnet() { return fnet; }
     public float GetHeight() { return height; }
     public Vector3 GetCupEffect() { return cupEffect; }
+    public Vector3 GetCollisionGroundVector() { return MathUtil.GetGroundVector(collisionNormal, velocity); }
     public Vector3 GetGroundVector() { return MathUtil.GetGroundVector(terrainNormal, velocity); }
 
     #region Simulation
@@ -492,13 +518,10 @@ public class Ball
                 // TODO - no
 
                 // Update
-                height = position.y;
-                
-                if (IsColliding(true)) CalculateBounce(true);
-                else UpdatePosition();
-
                 UpdatePhysicsVectors();
-                CalculateFriction(true);
+                height = position.y;
+                UpdateBounceAndPosition(true);
+                CalculateFriction(true); // TODO - this goes before height calculation in Tick()
             }
             else { break; }
         }
@@ -572,13 +595,10 @@ public class Ball
                     maxHeight = Math.Max(maxHeight, position.y);
                 }
 
-                height = position.y;
-
-                if (IsColliding(true)) CalculateBounce(true);
-                else UpdatePosition();
-
                 UpdatePhysicsVectors();
-                CalculateFriction(true);
+                height = position.y;
+                UpdateBounceAndPosition(true);
+                CalculateFriction(true); // TODO - this goes before height calculation in Tick()
                 if (!set && hasBounced)
                 {
                     carry = position.magnitude;
