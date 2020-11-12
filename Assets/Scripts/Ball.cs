@@ -235,7 +235,7 @@ public class Ball
             float remainingVelocity = 1f - (Vector3.Distance(position, hit) / Vector3.Distance(position, position + velocity));
 
             // Ball hits ground
-            position = hit;
+            position = Vector3.Lerp(position, hit, 0.95f);
 
             // Modify velocity
             if (IsRolling())
