@@ -111,7 +111,7 @@ public class ScoreCard : MonoBehaviour
         {
             // Load next scene
             int holesPlayed = gcObject.GetComponent<Game>().GetHoleBag().GetHoleCount();
-            UnityEngine.Debug.Log(holesPlayed);
+            //UnityEngine.Debug.Log(holesPlayed);
             if (holesPlayed >= 18) SceneManager.LoadScene(LeaderBoardController.SCENE_NAME);
             else SceneManager.LoadScene(holesPlayed % 3 == 0 ? ShopController.SCENE_NAME : ItemSelector.SCENE_NAME);
         }
