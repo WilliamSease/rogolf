@@ -44,4 +44,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Terrain&Levels/a07.unity
     guid: dae86d051c0042644af1a79d0e59ae2d
+  - enabled: 1
+    path: Assets/Scenes/Terrain&Levels/a08.unity
+    guid: 929aa453a659768469fa4dcaabe5d09a
   m_configObjects: {}

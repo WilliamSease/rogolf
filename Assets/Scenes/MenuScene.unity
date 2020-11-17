@@ -1504,7 +1504,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Play golf
+  m_Text: Go to Range
 --- !u!222 &144841028
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13208,7 +13208,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Play rogolf
+  m_Text: Play Rogolf
 --- !u!222 &1720957042
 CanvasRenderer:
   m_ObjectHideFlags: 0
