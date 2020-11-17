@@ -1,9 +1,19 @@
-﻿using System.Collections;
+﻿using GameModeEnum;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using System.Diagnostics;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+namespace GameModeEnum
+{
+    public enum GameMode
+    {
+        ROGOLF = 0,
+        RANGE = 2
+    }
+}
 
 public class MainMenu : MonoBehaviour
 {
@@ -50,21 +60,29 @@ public class MainMenu : MonoBehaviour
 
     void task_1()
     {
+        StartGame(GameMode.ROGOLF);
+    }
+
+    void task_2()
+    {
+        StartGame(GameMode.RANGE);
+    }
+
+    private void StartGame(GameMode gameMode)
+    {
         BoomBox.Play(SoundEnum.Sound.CLICK);
+
         // Get GameController and start game
         GameObject gameObject = GameObject.Find(GameController.NAME);
         GameController gameController = gameObject.GetComponent<GameController>();
-        gameController.StartGame();
+        gameController.StartGame(gameMode);
+
+        // Set PlayerAttributes according to preset
         PlayerAttributes p = gameController.GetComponent<Game>().GetPlayerAttributes();
         p.SetPower((float)powValues[activeCharacter]/100f);
         p.SetControl((float)conValues[activeCharacter]/100f);
         p.SetImpact((float)impValues[activeCharacter]/100f);
         p.SetSpin((float)spiValues[activeCharacter]/100f);
-    }
-
-    void task_2()
-    {
-        BoomBox.Play(SoundEnum.Sound.CLICK);
     }
 
     void task_3()
