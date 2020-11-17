@@ -27,4 +27,8 @@
         <name>a07</name>
         <hcp>1</hcp>
     </hole>
+    <hole>
+        <name>a08</name>
+        <hcp>1</hcp>
+    </hole>
 </holes>
