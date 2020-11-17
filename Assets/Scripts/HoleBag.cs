@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using GameModeEnum;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -25,10 +26,20 @@ public class HoleBag
     private List<HoleItem> holeList;
     private List<HoleData> holesPlayed;
 
-    public HoleBag()
+    public HoleBag(GameMode gameMode)
     {
         holesPlayed = new List<HoleData>();
-        holeListPath = ROGOLF_HOLES;
+        switch (gameMode)
+        {
+            case GameMode.ROGOLF:
+                holeListPath = ROGOLF_HOLES;
+                break;
+            case GameMode.RANGE:
+                holeListPath = RANGE_HOLES;
+                break;
+            default:
+                throw new Exception("Unsupported game mode");
+        }
         NewHoleList();
     }
 

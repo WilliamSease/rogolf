@@ -1,4 +1,5 @@
-﻿using MaterialTypeEnum;
+﻿using GameModeEnum;
+using MaterialTypeEnum;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -65,12 +66,12 @@ public class GameController : MonoBehaviour
     /// Resets old game data, and initializes new data.
     /// Starts the game loop by loading the first hole.
     /// </summary>
-    public void StartGame()
+    public void StartGame(GameMode gameMode)
     {
         this.gameObject.AddComponent<Game>();
         Game game = this.gameObject.GetComponent<Game>();
         game.enabled = false;
-        game.Initialize();
+        game.Initialize(gameMode);
 
         // Initialize Material map
         materialMap = new Dictionary<MaterialType, Material>();

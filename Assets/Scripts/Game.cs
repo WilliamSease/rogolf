@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameModeEnum;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -18,6 +19,8 @@ namespace TargetEnum
 public class Game : MonoBehaviour
 {
     public GameController gc;
+
+    public GameMode gameMode;
 
     // GameObject objects
     private GameObject cameraObject;
@@ -61,13 +64,14 @@ public class Game : MonoBehaviour
     /// <summary>
     /// Performs initialization of Game object.
     /// </summary>
-    public void Initialize()
+    public void Initialize(GameMode gameMode)
     {
+        this.gameMode = gameMode;
         this.state = new NoState(this);
         gc = GameObject.Find(GameController.NAME).GetComponent<GameController>();
         
         // Initialize fields
-        this.holeBag = new HoleBag();
+        this.holeBag = new HoleBag(gameMode);
         this.itemBag = new ItemBag("good");
         this.badItemBag = new ItemBag("bad");
         this.playerAttributes = new PlayerAttributes();
@@ -163,6 +167,7 @@ public class Game : MonoBehaviour
 
     public void ToggleGraphicDebug() { graphicDebug.Toggle(); }
 
+    public GameMode GetGameMode() { return gameMode; }
     public GameController GetGameController() { return gc; }
 
     public GameObject GetCameraObject() { return cameraObject; }
@@ -170,6 +175,7 @@ public class Game : MonoBehaviour
     public List<GameObject> GetCursorList() { return cursorList; }
     public GameObject GetCursorTextObject() { return cursorTextObject; }
     public GameObject GetCursorSubtextObject() { return cursorSubtextObject; }
+
     public void SetCameraObject(GameObject cameraObject) { this.cameraObject = cameraObject; }
     public void SetBallObject(GameObject ballObject) { this.ballObject = ballObject; }
     public void SetCursorList(List<GameObject> cursorList) { this.cursorList = cursorList; }

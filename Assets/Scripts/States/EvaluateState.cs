@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameModeEnum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,6 +13,21 @@ public class EvaluateState : State
     }
 
     public override void Tick()
+    {
+        switch (game.GetGameMode())
+        {
+            case GameMode.ROGOLF:
+                TickRogolf();
+                break;
+            case GameMode.RANGE:
+                TickRange();
+                break;
+            default:
+                throw new Exception("Unsupported game mode");
+        }
+    }
+
+    public void TickRogolf()
     {
         if (ball.InHole())
         {
@@ -39,5 +55,10 @@ public class EvaluateState : State
 
             game.SetState(new PrepareState(game));
         }
+    }
+
+    public void TickRange()
+    {
+        game.SetState(new PrepareState(game));
     }
 }
