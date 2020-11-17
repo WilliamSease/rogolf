@@ -49,6 +49,7 @@ public class EvaluateState : State
 
             if (ball.InWater())
             {
+                ball.Reset();
                 game.GetHoleBag().GetCurrentHoleData().IncrementStrokes();
                 // TODO - reset the ball
             }
@@ -59,6 +60,7 @@ public class EvaluateState : State
 
     public void TickRange()
     {
+        ball.Reset();
         game.SetState(new PrepareState(game));
     }
 }

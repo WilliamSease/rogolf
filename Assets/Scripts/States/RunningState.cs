@@ -14,13 +14,26 @@ public class RunningState : State
 		this.godOfUI = GameObject.Find(GodOfUI.NAME).GetComponent<GodOfUI>();
     }
 
+    public override void OnStateEnter()
+    {
+        godOfUI.renderPowerbar = false;
+    }
+
     public override void Tick()
     {
-		godOfUI.renderPowerbar = false;
         if (ball.IsRunning())
         {
-            ball.Tick();
-            currentDistance.Tick();
+            try
+            {
+                ball.Tick();
+                currentDistance.Tick();
+            }
+            catch (OutOfBounds e)
+            {
+                // Reset ball and add penalty stroke
+                ball.Reset();
+                game.GetHoleBag().GetCurrentHoleData().IncrementStrokes();
+            }
         }
         else
         {
