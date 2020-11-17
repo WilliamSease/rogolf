@@ -44,9 +44,9 @@ public class ScoreCard : MonoBehaviour
                 Front[i].text = MathUtil.ToYardsRounded(h.GetLengthFront()).ToString();
                 if (h.GetTee() == Tee.BACK) { Back[i].fontStyle = FontStyle.Bold; }
                 else { Front[i].fontStyle = FontStyle.Bold; }
-                Par[i].text = h.GetPar().ToString();
-                Par[i].fontStyle = FontStyle.Bold;
-                Hcp[i].text = h.GetHandicap().ToString("F1");
+                Hcp[i].text = h.GetPar().ToString();
+                Hcp[i].fontStyle = FontStyle.Bold;
+                Par[i].text = h.GetHandicap().ToString("F1");
                 Strokes[i].text = h.GetStrokes().ToString();
                 Putts[i].text = h.GetPutts().ToString();
                 Fir[i].text = h.GetFir() ? "X" : "";
@@ -56,8 +56,8 @@ public class ScoreCard : MonoBehaviour
             {
                 Back[i].text = "";
                 Front[i].text = "";
-                Par[i].text = "";
                 Hcp[i].text = "";
+                Par[i].text = "";
                 Strokes[i].text = "";
                 Putts[i].text = "";
                 Fir[i].text = "";
@@ -73,8 +73,8 @@ public class ScoreCard : MonoBehaviour
         tot[0].text = "OUT";
         tot[1].text = (front.Sum(h => MathUtil.ToYardsRounded(h.GetLengthBack()))).ToString();
         tot[2].text = (front.Sum(h => MathUtil.ToYardsRounded(h.GetLengthFront()))).ToString();
-        tot[3].text = (front.Sum(h => h.GetPar())).ToString();
-        tot[4].text = front.Count > 0 ? (front.Average(h => h.GetHandicap())).ToString("F1") : "";
+        tot[3].text = front.Count > 0 ? (front.Average(h => h.GetHandicap())).ToString("F1") : "";
+        tot[4].text = (front.Sum(h => h.GetPar())).ToString();
         tot[5].text = (front.Sum(h => h.GetStrokes())).ToString();
         tot[6].text = (front.Sum(h => h.GetPutts())).ToString();
         tot[7].text = (front.Sum(h => h.GetFir() ? 1 : 0)).ToString();
@@ -84,8 +84,8 @@ public class ScoreCard : MonoBehaviour
         tot[9].text = "IN";
         tot[10].text = (back.Sum(h => MathUtil.ToYardsRounded(h.GetLengthBack()))).ToString();
         tot[11].text = (back.Sum(h => MathUtil.ToYardsRounded(h.GetLengthFront()))).ToString();
-        tot[12].text = (back.Sum(h => h.GetPar())).ToString();
-        tot[13].text = back.Count > 0 ? (back.Average(h => h.GetHandicap())).ToString("F1") : "";
+        tot[12].text = back.Count > 0 ? (back.Average(h => h.GetHandicap())).ToString("F1") : "";
+        tot[13].text = (back.Sum(h => h.GetPar())).ToString();
         tot[14].text = (back.Sum(h => h.GetStrokes())).ToString();
         tot[15].text = (back.Sum(h => h.GetPutts())).ToString();
         tot[16].text = (back.Sum(h => h.GetFir() ? 1 : 0)).ToString();
@@ -97,8 +97,8 @@ public class ScoreCard : MonoBehaviour
         grndTot[0].text = "TOT";
         grndTot[1].text = (holesPlayed.Sum(h => MathUtil.ToYardsRounded(h.GetLengthBack()))).ToString();
         grndTot[2].text = (holesPlayed.Sum(h => MathUtil.ToYardsRounded(h.GetLengthFront()))).ToString();
-        grndTot[3].text = (holesPlayed.Sum(h => h.GetPar())).ToString();
-        grndTot[4].text = holesPlayed.Count > 0 ? (holesPlayed.Average(h => h.GetHandicap())).ToString("F1") : "";
+        grndTot[3].text = holesPlayed.Count > 0 ? (holesPlayed.Average(h => h.GetHandicap())).ToString("F1") : "";
+        grndTot[4].text = (holesPlayed.Sum(h => h.GetPar())).ToString();
         grndTot[5].text = (holesPlayed.Sum(h => h.GetStrokes())).ToString();
         grndTot[6].text = (holesPlayed.Sum(h => h.GetPutts())).ToString();
         grndTot[7].text = (holesPlayed.Sum(h => h.GetFir() ? 1 : 0)).ToString();
