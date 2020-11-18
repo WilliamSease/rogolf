@@ -13,6 +13,6 @@ public class FlashFlood : Item
 
     public override void Apply(PlayerAttributes playerAttributes, TerrainAttributes terrainAttributes)
     {
-        terrainAttributes.SetSwap(MaterialType.BUNKER, MaterialType.WATER);
+        terrainAttributes.SetMaterial(MaterialType.BUNKER, MaterialType.WATER);
     }
 }

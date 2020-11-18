@@ -4,16 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Drought : Item
+public class Sanity : Item
 {
-    public Drought() {
-        this.name = "Drought";
-        this.description = "Water becomes sand";
+    public Sanity() {
+        this.name = "Sanity";
+        this.description = "Reset terrain swaps";
     }
 
     public override void Apply(PlayerAttributes playerAttributes, TerrainAttributes terrainAttributes)
     {
-        terrainAttributes.SetMaterial(MaterialType.WATER, MaterialType.BUNKER);
+        terrainAttributes.ResetSwapMap();
     }
 }
-

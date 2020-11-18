@@ -13,6 +13,6 @@ public class HundredYearFlood : Item
 
     public override void Apply(PlayerAttributes playerAttributes, TerrainAttributes terrainAttributes)
     {
-        terrainAttributes.SetSwap(MaterialType.ROUGH, MaterialType.WATER);
+        terrainAttributes.SetMaterial(MaterialType.ROUGH, MaterialType.WATER);
     }
 }

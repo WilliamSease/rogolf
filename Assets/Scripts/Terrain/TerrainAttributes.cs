@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace MaterialTypeEnum
@@ -34,13 +35,7 @@ public class TerrainAttributes
         bunker = new TerrainType( 0.75f, 0.10f, 0.70f, 0.20f);
         water = new TerrainType(  0.99f, 0.00f, 0.20f, 0.10f); 
 
-        // Initialize swap map
-        swapMap = new Dictionary<MaterialType, MaterialType>();
-        swapMap.Add(MaterialType.GREEN, MaterialType.GREEN);
-        swapMap.Add(MaterialType.FAIRWAY, MaterialType.FAIRWAY);
-        swapMap.Add(MaterialType.ROUGH, MaterialType.ROUGH);
-        swapMap.Add(MaterialType.BUNKER, MaterialType.BUNKER);
-        swapMap.Add(MaterialType.WATER, MaterialType.WATER);
+        ResetSwapMap();
 
         // Initialize terrain map
         terrainMap = new Dictionary<MaterialType, TerrainType>();
@@ -116,6 +111,51 @@ public class TerrainAttributes
     public TerrainType GetBunkerTerrain() { return bunker; }
     public TerrainType GetWaterTerrain() { return water; }
 
+    public void ResetSwapMap()
+    {
+        // Initialize swap map
+        swapMap = new Dictionary<MaterialType, MaterialType>();
+        swapMap.Add(MaterialType.GREEN, MaterialType.GREEN);
+        swapMap.Add(MaterialType.FAIRWAY, MaterialType.FAIRWAY);
+        swapMap.Add(MaterialType.ROUGH, MaterialType.ROUGH);
+        swapMap.Add(MaterialType.BUNKER, MaterialType.BUNKER);
+        swapMap.Add(MaterialType.WATER, MaterialType.WATER);
+    }
+
+    public void RandomizeSwapMap()
+    {
+        ResetSwapMap();
+        List<MaterialType> shuffled = swapMap.Keys.OrderBy(a => Guid.NewGuid()).ToList();
+        Dictionary<MaterialType, MaterialType> copy = new Dictionary<MaterialType, MaterialType>(swapMap);
+        int i = 0;
+        foreach (KeyValuePair<MaterialType, MaterialType> entry in copy)
+        {
+            swapMap[entry.Key] = shuffled[i];
+            i++;
+        }
+
+        // Don't randomize green
+        swapMap[MaterialType.GREEN] = MaterialType.GREEN;
+    }
+
     public MaterialType GetSwap(MaterialType materialType) { return swapMap[materialType]; }
-    public void SetSwap(MaterialType keyType, MaterialType valueType) { swapMap[keyType] = valueType; }
+
+    public void SetSwap(MaterialType keyType, MaterialType valueType)
+    {
+        Dictionary<MaterialType, MaterialType> copy = new Dictionary<MaterialType, MaterialType>(swapMap);
+        foreach (KeyValuePair<MaterialType, MaterialType> entry in copy)
+        {
+            if (entry.Value == keyType) swapMap[entry.Key] = valueType;
+            else if (entry.Value == valueType) swapMap[entry.Key] = keyType;
+        }
+    }
+
+    public void SetMaterial(MaterialType keyType, MaterialType valueType)
+    {
+        Dictionary<MaterialType, MaterialType> copy = new Dictionary<MaterialType, MaterialType>(swapMap);
+        foreach (KeyValuePair<MaterialType, MaterialType> entry in copy)
+        {
+            if (entry.Value == keyType) swapMap[entry.Key] = valueType;
+        }
+    }
 }

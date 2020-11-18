@@ -30,6 +30,8 @@ public static class ItemFactory
             case "ImpactDown": return new ImpactDown();
             case "SpinDown": return new SpinDown();
             case "HundredYearFlood": return new HundredYearFlood();
+            case "Sanity": return new Sanity();
+            case "Insanity": return new Insanity();
             default: throw new Exception(String.Format("Item {0} does not exist in the lookup", name)); 
         }
     }
