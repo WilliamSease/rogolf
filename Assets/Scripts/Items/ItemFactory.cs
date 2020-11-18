@@ -26,6 +26,10 @@ public static class ItemFactory
             case "BlueDice": return new BlueDice();
             case "GreenDice": return new GreenDice();
             case "PowerDown": return new PowerDown();
+            case "ControlDown": return new ControlDown();
+            case "ImpactDown": return new ImpactDown();
+            case "SpinDown": return new SpinDown();
+            case "HundredYearFlood": return new HundredYearFlood();
             default: throw new Exception(String.Format("Item {0} does not exist in the lookup", name)); 
         }
     }
