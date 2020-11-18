@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialTypeEnum;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TargetEnum;
@@ -61,6 +62,13 @@ public class GodOfUI : MonoBehaviour
     public Text lieText;
     public Text aAngle;
     public Text bAngle;
+    public RawImage lieImage;
+    public Texture lieImageGreen;
+    public Texture lieImageFairway;
+    public Texture lieImageRough;
+    public Texture lieImageBunker;
+    public Texture lieImageWater;
+    public Texture lieImageNone;
 
     // Bonusinfo elements
     public Text bonusText;
@@ -179,6 +187,34 @@ public class GodOfUI : MonoBehaviour
         camAngles[0] = 0;
         arrowParent.transform.eulerAngles = camAngles; 
         windText.text = String.Format("{0}m", tWind.GetVisualSpeed().ToString("F0"));
+
+        // Lie image update
+        if (gameRef.GetState() is PrepareState)
+        {
+            switch (gameRef.GetBall().GetMaterialType())
+            {
+                case MaterialType.GREEN:
+                    lieImage.texture = lieImageGreen;
+                    break;
+                case MaterialType.FAIRWAY:
+                    lieImage.texture = lieImageFairway;
+                    break;
+                case MaterialType.ROUGH:
+                    lieImage.texture = lieImageRough;
+                    break;
+                case MaterialType.BUNKER:
+                    lieImage.texture = lieImageBunker;
+                    break;
+                case MaterialType.WATER:
+                    lieImage.texture = lieImageWater;
+                    break;
+                case MaterialType.NONE:
+                    lieImage.texture = lieImageNone;
+                    break;
+                default:
+                    throw new Exception(String.Format("Unsupported MaterialType: {0}", gameRef.GetBall().GetMaterialType()));
+            } 
+        }
         
         // Lie percentage update
         if (gameRef.GetState() is RunningState)
