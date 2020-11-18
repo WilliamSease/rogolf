@@ -1,31 +1,27 @@
 <holes>
     <hole>
         <name>a01</name>
-        <hcp>3</hcp>
+        <hcp>8</hcp>
     </hole>
     <hole>
         <name>a02</name>
-        <hcp>2</hcp>
+        <hcp>13</hcp>
     </hole>
     <hole>
         <name>a03</name>
-        <hcp>2</hcp>
+        <hcp>17</hcp>
     </hole>
     <hole>
         <name>a04</name>
-        <hcp>1</hcp>
+        <hcp>18</hcp>
     </hole>
     <hole>
         <name>a05</name>
-        <hcp>2</hcp>
-    </hole>
-    <hole>
-        <name>a10</name>
-        <hcp>1</hcp>
+        <hcp>16</hcp>
     </hole>
     <hole>
         <name>a07</name>
-        <hcp>1</hcp>
+        <hcp>11</hcp>
     </hole>
     <hole>
         <name>a08</name>
@@ -33,10 +29,14 @@
     </hole>
     <hole>
         <name>a09</name>
-        <hcp>1</hcp>
+        <hcp>6</hcp>
+    </hole>
+    <hole>
+        <name>a10</name>
+        <hcp>14</hcp>
     </hole>
     <hole>
         <name>b01</name>
-        <hcp>1</hcp>
+        <hcp>3</hcp>
     </hole>
 </holes>
