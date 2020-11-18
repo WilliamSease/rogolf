@@ -33,10 +33,11 @@ public class MainMenu : MonoBehaviour
     
     public Text[] statText = new Text[4];
     public Text presetText;
-    private int[] powValues = new int[]{20,15,25,30};
-    private int[] conValues = new int[]{20,25,15,20};
-    private int[] impValues = new int[]{20,15,25,20};
-    private int[] spiValues = new int[]{20,25,15,10};
+    private readonly string[] presetNames = new string[]{"Balanced", "Beginner", "Power", "Skill"};
+    private readonly int[] powValues = new int[]{20,10,40,20};
+    private readonly int[] conValues = new int[]{20,20,10,25};
+    private readonly int[] impValues = new int[]{20,30,10, 5};
+    private readonly int[] spiValues = new int[]{20,10,10,30};
 
     private int activeCharacter = 0;
 
@@ -131,10 +132,10 @@ public class MainMenu : MonoBehaviour
     
     void updateCharacterText()
     {
-        statText[0].text ="" + powValues[activeCharacter];
-        statText[1].text ="" + conValues[activeCharacter]; 
-        statText[2].text ="" + impValues[activeCharacter]; 
-        statText[3].text ="" + spiValues[activeCharacter];
-        presetText.text ="" + "Preset " + (activeCharacter + 1);
+        statText[0].text = powValues[activeCharacter].ToString();
+        statText[1].text = conValues[activeCharacter].ToString(); 
+        statText[2].text = impValues[activeCharacter].ToString(); 
+        statText[3].text = spiValues[activeCharacter].ToString();
+        presetText.text = presetNames[activeCharacter];
     }
 }
