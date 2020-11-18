@@ -98,7 +98,7 @@ public class Ball
 
         // Set power
         lie = !debug ? GetTerrainType().GetLie() : 1f;
-        float clubPower = club.GetPower() * club.GetClubType().GetForce(power) * Mathf.Lerp(0.5f, 1.0f, playerAttributes.GetPower() * lie);
+        float clubPower = club.GetPower() * club.GetClubType().GetForce(power * lie * Mathf.Lerp(0.3f, 1f, playerAttributes.GetPower()));
         float clubLoft = club.GetLoft();
 
         // Adjust for shot mode
