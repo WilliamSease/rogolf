@@ -12,7 +12,7 @@ Calling Syntax : Play(SoundEnum.Sound.[SomeSound]);
 **/
 namespace SoundEnum
 {
-    public enum Sound { TEST, APPLAUSE, PURCHASE, CLICK };
+    public enum Sound { TEST, APPLAUSE, PURCHASE, CLICK, PUTTHIT, IRONHIT, WEDGEHIT, SINK, SPLASH };
 }
 
 public class BoomBox : MonoBehaviour
