@@ -15796,7 +15796,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Restart Rogolf
+  m_Text: Exit to Menu
 --- !u!222 &1927483107
 CanvasRenderer:
   m_ObjectHideFlags: 0

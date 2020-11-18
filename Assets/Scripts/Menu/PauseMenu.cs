@@ -65,8 +65,8 @@ public class PauseMenu : MonoBehaviour
     void task_3()
     {
         BoomBox.Play(SoundEnum.Sound.CLICK);
-		 button_3.GetComponentInChildren<Text>().text = "Maybe someday...";
-		 button_3.interactable = false;
+        ToggleThisMenu();
+        GameObject.Find(GameController.NAME).GetComponent<GameController>().ExitToMenu();
     }
 
     void task_4()

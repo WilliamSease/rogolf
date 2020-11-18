@@ -470,10 +470,22 @@ public class GameController : MonoBehaviour
         // Load scoreboard
         SceneManager.LoadScene(ScoreCard.SCENE_NAME);
     }
+
+    public void ExitToMenu()
+    {
+        Game game = this.gameObject.GetComponent<Game>();
+        game.enabled = false;
+        gameUI.enabled = false;
+
+        SceneManager.LoadScene("MenuScene");
+        Destroy(game);
+    }
     
-    //Call any sound which is a child element of BoomBox.
-    //str is name, forget capitalization
-    //Returns if boombox had that sound.
+    /// <summary>
+    /// Call any sound which is a child element of BoomBox.
+    /// str is name, forget capitalization
+    /// Returns true if boombox had that sound.
+    /// </summary>
     public bool PlaySound(string str)
     {
         return boomBox.GCPlay(str);
