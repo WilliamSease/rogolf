@@ -11843,6 +11843,13 @@ MonoBehaviour:
   lieText: {fileID: 40919616}
   aAngle: {fileID: 617575553}
   bAngle: {fileID: 1016479736}
+  lieImage: {fileID: 223974228}
+  lieImageGreen: {fileID: 2800000, guid: 581dce34da0f3464796ffda70bbd8ed4, type: 3}
+  lieImageFairway: {fileID: 2800000, guid: 61d3a796344ca3d4c8d6c88d79a1cb49, type: 3}
+  lieImageRough: {fileID: 2800000, guid: 878b79814fcc335458a8be905815c799, type: 3}
+  lieImageBunker: {fileID: 2800000, guid: 57c84ab25ad48d14691a8ac7fab955a4, type: 3}
+  lieImageWater: {fileID: 2800000, guid: a60c10422a211fe4f99ea92281914552, type: 3}
+  lieImageNone: {fileID: 2800000, guid: 61d3a796344ca3d4c8d6c88d79a1cb49, type: 3}
   bonusText: {fileID: 1420895658}
   playerinfoText:
   - {fileID: 1826008795}
