@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TargetEnum;
 using UnityEngine;
 using UnityEngine.UI;
@@ -249,10 +250,21 @@ public class GodOfUI : MonoBehaviour
 
         // BonusText update
         List<Item> heldItems = gameRef.GetPlayerAttributes().GetHeldItems();
-        bonusText.text = "";
-        foreach (Item i in heldItems)
+        if (heldItems.Count <= 20)
         {
-            bonusText.text = bonusText.text + i.GetName() + "\n";
+            bonusText.text = "";
+            foreach (Item i in heldItems)
+            {
+                bonusText.text += i.GetName() + "\n";
+            }
+        }
+        else
+        {
+            bonusText.text = "...\n";
+            foreach (Item i in heldItems.Skip(Math.Max(0, heldItems.Count() - 19)))
+            {
+                bonusText.text += i.GetName() + "\n";
+            }
         }
         
         // Player attributes update
