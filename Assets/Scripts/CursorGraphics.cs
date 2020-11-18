@@ -63,7 +63,7 @@ public class CursorGraphics
         TextMeshPro cursorSubtext = cursorSubtextObject.GetComponent<TextMeshPro>();
         float relativeHeight = cursor.GetRelativeHeight();
         cursorSubtext.text = relativeHeight.ToString("F1") + "y";
-        cursorSubtext.color = relativeHeight == 0f ? WHITE : relativeHeight < 0f ? BLUE : RED;
+        cursorSubtext.color = Mathf.Abs(relativeHeight) < 0.05f ? WHITE : relativeHeight < 0f ? BLUE : RED;
         cursorSubtextObject.transform.localPosition = new Vector3(cursorPosition.x, cursorPosition.y + (3.75f * CURSOR_SEGMENT_HEIGHT), cursorPosition.z);
         cursorSubtextObject.transform.LookAt(game.GetCameraObject().transform);
     }

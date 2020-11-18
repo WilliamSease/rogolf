@@ -11,6 +11,10 @@ public class GodOfUI : MonoBehaviour
 {
     public const string NAME = "UICanvas";
 
+    private readonly Color32 WHITE = new Color32(255, 255, 255, 255);
+    private readonly Color32 BLUE = new Color32(192, 192, 255, 255);
+    private readonly Color32 RED = new Color32(255, 192, 192, 255);
+
     public Game gameRef;
     public GameController gc;
 
@@ -105,6 +109,9 @@ public class GodOfUI : MonoBehaviour
     {
         // Return if game is not active
         if (gameRef == null || !gameRef.enabled) return;
+
+        State state = gameRef.GetState();
+
         if (!renderPowerbar)
         {
             powerbarParent.SetActive(false);
@@ -189,7 +196,7 @@ public class GodOfUI : MonoBehaviour
         windText.text = String.Format("{0}m", tWind.GetVisualSpeed().ToString("F0"));
 
         // Lie image update
-        if (gameRef.GetState() is PrepareState)
+        if (state is PrepareState)
         {
             switch (gameRef.GetBall().GetMaterialType())
             {
@@ -217,7 +224,7 @@ public class GodOfUI : MonoBehaviour
         }
         
         // Lie percentage update
-        if (gameRef.GetState() is RunningState)
+        if (state is RunningState)
         {
             float lie = gameRef.GetBall().GetLie();
             lieText.text = String.Format("{0}%", (lie * 100).ToString("F0"));
@@ -230,10 +237,15 @@ public class GodOfUI : MonoBehaviour
                     String.Format("{0}%-{1}%", (lieBounds.Item1 * 100).ToString("F0"), (lieBounds.Item2 * 100).ToString("F0"));
         }
 
-        // Lie angle update 
-        Tuple<float, float> terrainAngle = gameRef.GetBall().GetTerrainAngle();
-        aAngle.text = terrainAngle.Item1.ToString("F0")+"°";
-        bAngle.text = terrainAngle.Item2.ToString("F0")+"°";
+        // Lie angle update
+        if (state is PrepareState || state is IdleState)
+        {
+            Tuple<float, float> terrainAngle = gameRef.GetBall().GetTerrainAngle();
+            aAngle.text = terrainAngle.Item1.ToString("F0") + "°";
+            aAngle.color = Mathf.Abs(terrainAngle.Item1) < 0.5f ? WHITE : terrainAngle.Item1 < 0f ? BLUE : RED;
+            bAngle.text = terrainAngle.Item2.ToString("F0") + "°";
+            bAngle.color = Mathf.Abs(terrainAngle.Item2) < 0.5f ? WHITE : terrainAngle.Item2 < 0f ? BLUE : RED;
+        }
 
         // BonusText update
         List<Item> heldItems = gameRef.GetPlayerAttributes().GetHeldItems();
