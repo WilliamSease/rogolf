@@ -611,6 +611,7 @@ public class DevConsole : MonoBehaviour
                     break;
             }
             game.GetBag().UpdateDistances();
+            game.GetBall().AngleToHole();
             return true;
         }
         Reply(errorMessage);
