@@ -282,21 +282,31 @@ public class Ball
         if (onCup && !debug) { OnCupBounce(); }
         else if (height <= 0)
         {
-            if (IsRolling())
+            // Check if water
+            if (!debug && InWater())
             {
-                position.y -= height;
-                velocity = velocity.magnitude * GetGroundVector();
+                velocity = Vector3.zero;
+                position.y -= 1f;
             }
+            // If not in water
             else
             {
-                position.y -= height;
-                velocity = Vector3.Reflect(velocity, terrainNormal);
-                velocity.y *= GetBounce(debug);
-            }
+                if (IsRolling())
+                {
+                    position.y -= height;
+                    velocity = velocity.magnitude * GetGroundVector();
+                }
+                else
+                {
+                    position.y -= height;
+                    velocity = Vector3.Reflect(velocity, terrainNormal);
+                    velocity.y *= GetBounce(debug);
+                }
 
-            // Calculate spin
-            velocity += spin;
-            spin *= SPIN_DECAY;
+                // Calculate spin
+                velocity += spin;
+                spin *= SPIN_DECAY;
+            }
 
             hasBounced = true;
         }

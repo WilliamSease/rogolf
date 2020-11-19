@@ -67,9 +67,8 @@ public class OptionsMenu : MonoBehaviour
 
     void task_3()
     {
-        BoomBox.Play(SoundEnum.Sound.CLICK);
-		//Volume Test...
-		BoomBox.Play(SoundEnum.Sound.TEST);
+        // Volume test
+		BoomBox.Play(SoundEnum.Sound.CLICK);
     }
 
     void task_4()

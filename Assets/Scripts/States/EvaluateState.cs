@@ -1,4 +1,5 @@
 ﻿using GameModeEnum;
+using SoundEnum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,7 @@ public class EvaluateState : State
     {
         if (ball.InHole())
         {
+            BoomBox.Play(Sound.SINK);
             game.SetState(new PostHoleState(game));
         }
         else
@@ -41,8 +43,7 @@ public class EvaluateState : State
                     (from item in scoreInfo select String.Format("{0}: {1}", item.Item1, item.Item2.ToString())));
             GodOfUI gui = GameObject.Find("UICanvas").GetComponent<GodOfUI>();
             gui.WriteBonus(s);
-            gui.InvokeBonus(1f);//this is in seconds
-            //UnityEngine.Debug.Log(s);
+            gui.InvokeBonus(2f);
 
             int shotScore = (from item in scoreInfo select item.Item2).Sum();
             game.GetScore().AddCredit(shotScore);
@@ -51,7 +52,7 @@ public class EvaluateState : State
             {
                 ball.Reset();
                 game.GetHoleBag().GetCurrentHoleData().IncrementStrokes();
-                // TODO - reset the ball
+                BoomBox.Play(Sound.SPLASH);
             }
 
             game.SetState(new PrepareState(game));
