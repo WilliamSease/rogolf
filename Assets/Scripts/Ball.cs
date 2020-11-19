@@ -15,8 +15,8 @@ public class Ball
     private const float SPIN_RATE = 4.5f;
     private const float SPIN_DECAY = 0.5f;
     private const float NO_HEIGHT_TIME_OUT = 5f;
-    private const float INITIAL_MINIMUM_VELOCITY_THRESHOLD = 0.03f;
-    private const float FINAL_MINIMUM_VELOCITY_THRESHOLD = 0.001f;
+    private const float INITIAL_MINIMUM_VELOCITY_THRESHOLD = 0.05f;
+    private const float FINAL_MINIMUM_VELOCITY_THRESHOLD = 0.005f;
     private const float GRAVITATIONAL_ACCELERATION = 9.8f;
     private const float CUP_DEPTH = 0.14f;
     private const float CUP_BOUNCE = 0.5f;
@@ -55,7 +55,7 @@ public class Ball
     // Cup parameters
     private bool onCup = false;
     private bool inHole = false;
-    private float cupEffectMagnitude = 1E-5f;
+    //private float cupEffectMagnitude = 1E-5f;
     private float cupEffectRadius = 0.2f;
     private Vector3 cupEffect;
     private float cupLipRadius;
@@ -142,7 +142,7 @@ public class Ball
                 default:
                     throw new Exception("Unsupported club class");
             }
-            float angleRange = Mathf.Lerp(0f, angleRangeCoefficient * Mathf.PI / 24f, playerAttributes.GetControl());
+            float angleRange = Mathf.Lerp(0f, angleRangeCoefficient * Mathf.PI / 16f, playerAttributes.GetControl());
             angle += UnityEngine.Random.Range(-angleRange, angleRange);
         }
 
@@ -164,7 +164,7 @@ public class Ball
         spin = MathUtil.FromPolar(-clubVector.z / clubVector.x * SPIN_RATE * Mathf.Lerp(0.5f, 2.0f, playerAttributes.GetSpin()), angle);
 
         // Set inaccuracy
-        dtheta = accuracy * inaccuracyRate * Mathf.Lerp(1.5f, 0.5f, playerAttributes.GetImpact());
+        dtheta = accuracy * inaccuracyRate * Mathf.Lerp(3f, 1f, playerAttributes.GetImpact());
 
         // Set other
         hasBounced = false;

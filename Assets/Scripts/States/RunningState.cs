@@ -28,7 +28,7 @@ public class RunningState : State
                 ball.Tick();
                 currentDistance.Tick();
             }
-            catch (OutOfBounds e)
+            catch (OutOfBounds)
             {
                 // Reset ball and add penalty stroke
                 ball.Reset();
