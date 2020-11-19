@@ -32,6 +32,14 @@ public static class ItemFactory
             case "HundredYearFlood": return new HundredYearFlood();
             case "Sanity": return new Sanity();
             case "Insanity": return new Insanity();
+            case "Accuracy": return new Accuracy();
+            case "Blades": return new Blades();
+            case "CavityBacks": return new CavityBacks();
+            case "Desertification": return new Desertification();
+            case "Finesse": return new Finesse();
+            case "Precision": return new Precision();
+            case "StrengthTraining": return new StrengthTraining();
+            case "Zen": return new Zen();
             default: throw new Exception(String.Format("Item {0} does not exist in the lookup", name)); 
         }
     }
