@@ -12,7 +12,7 @@ namespace ShotModeEnum
 
 public class ShotMode
 {
-    private const int DEFAULT_POWER_SHOTS = 2;
+    private const int DEFAULT_POWER_SHOTS = 9;
 
     private Game game;
 
