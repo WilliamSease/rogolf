@@ -13,7 +13,13 @@ public class NetworkingUtil
             return XDocument.Load(path);
         //This code is executed for WEBGL.
         UnityWebRequest uwr = UnityWebRequest.Get(path);
-        UnityEngine.Debug.Log(uwr.downloadHandler.text);
         return XDocument.Load(uwr.downloadHandler.text);
+    }
+    
+    public static XmlWriter NetworkWrite(string path)
+    {
+        if (Application.platform != RuntimePlatform.WebGLPlayer)
+            return XmlWriter.Create(path);
+        return null;
     }
 }

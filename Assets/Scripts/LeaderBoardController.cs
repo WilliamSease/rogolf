@@ -81,7 +81,7 @@ public class LeaderBoardController : MonoBehaviour
         List<Record> current = ReadXMLFromDisk();
         current.Add(newRecord);
         current = SortByScores(current);
-        XmlWriter xmlWriter = XmlWriter.Create(Application.streamingAssetsPath + "\\" + LEADERBOARD);
+        XmlWriter xmlWriter = NetworkingUtil.NetworkWrite(Application.streamingAssetsPath + "\\" + LEADERBOARD);
         
         xmlWriter.WriteStartDocument();
             xmlWriter.WriteStartElement("records");
@@ -162,6 +162,8 @@ public class LeaderBoardController : MonoBehaviour
     
     public static bool WriteDummies()
     {
+        if (Application.platform == RuntimePlatform.WebGLPlayer) //Can't have people resetting the board :^>
+            return false;
         string sourceFile = Application.streamingAssetsPath + "\\"  + LEADERBOARD_BACKUP;  
         string destinationFile = Application.streamingAssetsPath + "\\"  + LEADERBOARD;
         try { File.Copy(sourceFile, destinationFile, true); }
