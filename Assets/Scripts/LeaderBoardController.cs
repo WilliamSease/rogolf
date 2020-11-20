@@ -118,7 +118,7 @@ public class LeaderBoardController : MonoBehaviour
     {
         try
         {
-            XDocument xml = XDocument.Load(Application.streamingAssetsPath + "\\" + LEADERBOARD);
+            XDocument xml = NetworkingUtil.NetworkLoad(Application.streamingAssetsPath + "\\" + LEADERBOARD);
             return (from Record in xml.Root.Elements("record")
                         select new Record()
                         {

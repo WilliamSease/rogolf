@@ -86,7 +86,7 @@ public class HoleBag
     {
         try
         {
-            XDocument xml = XDocument.Load(Application.streamingAssetsPath + "\\" + holeListPath);
+            XDocument xml = NetworkingUtil.NetworkLoad(Application.streamingAssetsPath + "\\" + holeListPath);
             return (from holeItem in xml.Root.Elements("hole")
                         select new HoleItem()
                         {

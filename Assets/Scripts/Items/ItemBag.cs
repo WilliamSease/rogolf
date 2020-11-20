@@ -47,7 +47,7 @@ public class ItemBag
     {
         try
         {
-            XDocument xml = XDocument.Load(itemListPath);
+            XDocument xml = NetworkingUtil.NetworkLoad(itemListPath);
             List<string> stringList = (from itemName in xml.Root.Elements("item") select (string) itemName).ToList();
             itemList = (from itemName in stringList select ItemFactory.Create(itemName)).ToList();
         }
