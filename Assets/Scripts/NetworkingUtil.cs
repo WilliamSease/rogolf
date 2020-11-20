@@ -13,13 +13,15 @@ public class NetworkingUtil
             return XDocument.Load(path);
         //This code is executed for WEBGL.
         UnityWebRequest uwr = UnityWebRequest.Get(path);
-        return XDocument.Load(uwr.downloadHandler.text);
+        return XDocument.Parse(uwr.downloadHandler.text);
     }
     
     public static XmlWriter NetworkWrite(string path)
     {
         if (Application.platform != RuntimePlatform.WebGLPlayer)
             return XmlWriter.Create(path);
-        return null;
+        //This code is executed for WEBGL.
+        UnityWebRequest uwr = UnityWebRequest.Get(path);
+        return XmlWriter.Create(uwr.downloadHandler.text); //This dosen't really make sense. It compiles but it can't be right
     }
 }
