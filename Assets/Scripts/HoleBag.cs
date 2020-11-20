@@ -10,7 +10,7 @@ using UnityEngine;
 [System.Serializable]
 public class HoleBag
 {
-    public const string PREFIX = ".\\Assets\\Data\\";
+    //public const string PREFIX = ".\\Assets\\Data\\";
 
     public const string ROGOLF_HOLES = "rogolf_holes.xml";
     public const string TEST_HOLES = "test_holes.xml";
@@ -86,7 +86,7 @@ public class HoleBag
     {
         try
         {
-            XDocument xml = XDocument.Load(PREFIX + holeListPath);
+            XDocument xml = XDocument.Load(Application.streamingAssetsPath + "\\" + holeListPath);
             return (from holeItem in xml.Root.Elements("hole")
                         select new HoleItem()
                         {

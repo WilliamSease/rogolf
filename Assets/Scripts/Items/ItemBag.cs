@@ -8,8 +8,6 @@ using UnityEngine;
 [System.Serializable]
 public class ItemBag
 {
-    public const string PREFIX = ".\\Assets\\Data\\";
-
     public const string ITEMS = "items.xml";
 
     private string itemListPath;
@@ -17,7 +15,7 @@ public class ItemBag
 
     public ItemBag(string prefix)
     {
-        itemListPath = prefix + ITEMS;
+        itemListPath = Application.streamingAssetsPath + "\\" + prefix + ITEMS;
         NewItemList();
     }
 
@@ -49,7 +47,7 @@ public class ItemBag
     {
         try
         {
-            XDocument xml = XDocument.Load(PREFIX + itemListPath);
+            XDocument xml = XDocument.Load(itemListPath);
             List<string> stringList = (from itemName in xml.Root.Elements("item") select (string) itemName).ToList();
             itemList = (from itemName in stringList select ItemFactory.Create(itemName)).ToList();
         }

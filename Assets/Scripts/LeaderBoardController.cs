@@ -11,7 +11,6 @@ using UnityEngine.UI;
 [System.Serializable]
 public class LeaderBoardController : MonoBehaviour
 {
-    public const string PREFIX = ".\\Assets\\Data\\";
     public const string LEADERBOARD = "leaderboard.xml";
     public const string LEADERBOARD_BACKUP = "leaderboard_backup.xml";
     public const string SCENE_NAME = "ResultsScene";
@@ -82,7 +81,7 @@ public class LeaderBoardController : MonoBehaviour
         List<Record> current = ReadXMLFromDisk();
         current.Add(newRecord);
         current = SortByScores(current);
-        XmlWriter xmlWriter = XmlWriter.Create(PREFIX + LEADERBOARD);
+        XmlWriter xmlWriter = XmlWriter.Create(Application.streamingAssetsPath + "\\" + LEADERBOARD);
         
         xmlWriter.WriteStartDocument();
             xmlWriter.WriteStartElement("records");
@@ -119,7 +118,7 @@ public class LeaderBoardController : MonoBehaviour
     {
         try
         {
-            XDocument xml = XDocument.Load(PREFIX + LEADERBOARD);
+            XDocument xml = XDocument.Load(Application.streamingAssetsPath + "\\" + LEADERBOARD);
             return (from Record in xml.Root.Elements("record")
                         select new Record()
                         {
@@ -163,8 +162,8 @@ public class LeaderBoardController : MonoBehaviour
     
     public static bool WriteDummies()
     {
-        string sourceFile = PREFIX + LEADERBOARD_BACKUP;  
-        string destinationFile = PREFIX + LEADERBOARD;
+        string sourceFile = Application.streamingAssetsPath + "\\"  + LEADERBOARD_BACKUP;  
+        string destinationFile = Application.streamingAssetsPath + "\\"  + LEADERBOARD;
         try { File.Copy(sourceFile, destinationFile, true); }
         catch (IOException iox) { Console.WriteLine(iox.Message); return false;}
         return true;
