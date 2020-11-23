@@ -81,7 +81,7 @@ public class LeaderBoardController : MonoBehaviour
         List<Record> current = ReadXMLFromDisk();
         current.Add(newRecord);
         current = SortByScores(current);
-        XmlWriter xmlWriter = NetworkingUtil.NetworkWrite(Application.streamingAssetsPath + "\\" + LEADERBOARD);
+        XmlWriter xmlWriter = NetworkingUtil.NetworkWrite(Application.streamingAssetsPath + "/" + LEADERBOARD);
         
         xmlWriter.WriteStartDocument();
             xmlWriter.WriteStartElement("records");
@@ -118,7 +118,7 @@ public class LeaderBoardController : MonoBehaviour
     {
         try
         {
-            XDocument xml = NetworkingUtil.NetworkLoad(Application.streamingAssetsPath + "\\" + LEADERBOARD);
+            XDocument xml = NetworkingUtil.NetworkLoad(Application.streamingAssetsPath + "/" + LEADERBOARD);
             return (from Record in xml.Root.Elements("record")
                         select new Record()
                         {
@@ -164,8 +164,8 @@ public class LeaderBoardController : MonoBehaviour
     {
         if (Application.platform == RuntimePlatform.WebGLPlayer) //Can't have people resetting the board :^>
             return false;
-        string sourceFile = Application.streamingAssetsPath + "\\"  + LEADERBOARD_BACKUP;  
-        string destinationFile = Application.streamingAssetsPath + "\\"  + LEADERBOARD;
+        string sourceFile = Application.streamingAssetsPath + "/"  + LEADERBOARD_BACKUP;  
+        string destinationFile = Application.streamingAssetsPath + "/"  + LEADERBOARD;
         try { File.Copy(sourceFile, destinationFile, true); }
         catch (IOException iox) { Console.WriteLine(iox.Message); return false;}
         return true;

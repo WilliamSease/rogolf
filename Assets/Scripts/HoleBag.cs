@@ -86,7 +86,7 @@ public class HoleBag
     {
         try
         {
-            XDocument xml = NetworkingUtil.NetworkLoad(Application.streamingAssetsPath + "\\" + holeListPath);
+            XDocument xml = NetworkingUtil.NetworkLoad(Application.streamingAssetsPath + "/" + holeListPath);
             return (from holeItem in xml.Root.Elements("hole")
                         select new HoleItem()
                         {
@@ -96,7 +96,7 @@ public class HoleBag
         }
         catch
         {
-            throw new Exception(String.Format("Hole list parse error ({0})", holeListPath));
+            throw new Exception(String.Format("Hole list parse error ({0})", Application.streamingAssetsPath + "/" + holeListPath));
         }
     }
 

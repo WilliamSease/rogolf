@@ -1,19 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using System.Xml.Linq;
 using System.Xml;
 using UnityEngine.Networking;
+using System.IO;
+using System;
 
-public class NetworkingUtil
+public class NetworkingUtil : MonoBehaviour
 {
+    public NetworkingUtil nu;
+    public Canvas wait;
+    public static string toParse;
+    
+    public void Start()
+    {
+        wait.enabled = false;
+    }
+    
     public static XDocument NetworkLoad(string path)
     {
+        
         if (Application.platform != RuntimePlatform.WebGLPlayer)
             return XDocument.Load(path);
-        //This code is executed for WEBGL.
-        UnityWebRequest uwr = UnityWebRequest.Get(path);
-        return XDocument.Parse(uwr.downloadHandler.text);
+        return GameObject.Find("GameController").GetComponent<NetworkStaticRead>().Get(path); 
     }
     
     public static XmlWriter NetworkWrite(string path)
@@ -22,6 +33,6 @@ public class NetworkingUtil
             return XmlWriter.Create(path);
         //This code is executed for WEBGL.
         UnityWebRequest uwr = UnityWebRequest.Get(path);
-        return XmlWriter.Create(uwr.downloadHandler.text); //This dosen't really make sense. It compiles but it can't be right
+        return XmlWriter.Create(uwr.downloadHandler.text);
     }
 }

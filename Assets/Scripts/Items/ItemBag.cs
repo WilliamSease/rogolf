@@ -15,7 +15,7 @@ public class ItemBag
 
     public ItemBag(string prefix)
     {
-        itemListPath = Application.streamingAssetsPath + "\\" + prefix + ITEMS;
+        itemListPath = Application.streamingAssetsPath + "/" + prefix + ITEMS;
         NewItemList();
     }
 
